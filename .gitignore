@@ -1,0 +1,9 @@
+*.[oad]
+a.out
+*.swp
+*.SKEL
+*.ans
+*.img
+*.txt
+/boot/bootblock
+/kernel
