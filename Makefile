@@ -23,7 +23,7 @@ disk.img: kernel
 kernel: $(OBJS)
 	$(LD) $(LDFLAGS) -e os_init -Ttext 0xC0100000 -o kernel $(OBJS)
 	objdump -D kernel > code.txt	# disassemble result
-	readelf -a kernel > elf.txt		# obtain more information about the executable
+	readelf -a kernel > elf.txt		# obtain more information about the executabl
 
 -include $(OBJS:.o=.d)
 
