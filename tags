@@ -4,7 +4,10 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+A	src/kernel/process/util.c	/^void A () { $/;"	f
 ASFLAGS	Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
+B	src/kernel/process/util.c	/^void B () { $/;"	f
+C	src/kernel/process/util.c	/^void C () { $/;"	f
 CC	Makefile	/^CC      = gcc$/;"	m
 CFILES	Makefile	/^CFILES  = $(shell find src\/ -name "*.c")$/;"	m
 CFLAGS	Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
@@ -12,6 +15,7 @@ CR0	include/x86/cpu.h	/^typedef union CR0 {$/;"	u
 CR0	include/x86/cpu.h	/^} CR0;$/;"	t	typeref:union:CR0
 CR3	include/x86/cpu.h	/^typedef union CR3 {$/;"	u
 CR3	include/x86/cpu.h	/^} CR3;$/;"	t	typeref:union:CR3
+D	src/kernel/process/util.c	/^void D () { $/;"	f
 DPL_KERNEL	include/x86/memory.h	9;"	d
 DPL_USER	include/x86/memory.h	10;"	d
 ELFHeader	boot/boot.h	/^struct ELFHeader {$/;"	s
@@ -24,6 +28,7 @@ IRQ_t	src/kernel/irq/irq_handle.c	/^struct IRQ_t {$/;"	s	file:
 KMEM	include/memory.h	24;"	d
 KOFFSET	boot/main.c	13;"	d	file:
 KOFFSET	include/memory.h	6;"	d
+KSTACK_SIZE	include/process.h	4;"	d
 LD	Makefile	/^LD      = ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS = -melf_i386$/;"	m
 ListHead	include/adt/list.h	/^struct ListHead {$/;"	s
@@ -97,18 +102,20 @@ align_to_page	include/x86/memory.h	35;"	d
 align_to_page	src/kernel/memory/kvm.c	/^static PDE kpdir[NR_PDE] align_to_page;						\/\/ kernel page directory$/;"	v	file:
 align_to_page	src/kernel/memory/kvm.c	/^static PTE kptable[PHY_MEM \/ PAGE_SIZE] align_to_page;		\/\/ kernel page tables$/;"	v	file:
 alignment_mask	include/x86/cpu.h	/^		uint32_t alignment_mask      : 1;$/;"	m	struct:CR0::__anon3
+args	include/x86/memory.h	/^	uint32_t ret, args;$/;"	m	struct:TrapFrame
 asm_do_irq	src/kernel/irq/do_irq.S	/^asm_do_irq:$/;"	l
 assert	include/assert.h	17;"	d
 base_15_0	include/x86/memory.h	/^	uint32_t base_15_0           : 16;$/;"	m	struct:SegmentDescriptor
 base_23_16	include/x86/memory.h	/^	uint32_t base_23_16          : 8;$/;"	m	struct:SegmentDescriptor
 base_31_24	include/x86/memory.h	/^	uint32_t base_31_24          : 8;$/;"	m	struct:SegmentDescriptor
+block	src/kernel/process/schedule.c	/^ListHead ready, block, free;$/;"	v
 bool	include/types.h	/^typedef unsigned char  bool;$/;"	t
 bootmain	boot/main.c	/^bootmain(void) {$/;"	f
 cache_disable	include/x86/cpu.h	/^		uint32_t cache_disable       : 1;$/;"	m	struct:CR0::__anon3
 cli	include/x86/cpu.h	/^cli(void) {$/;"	f
-create_kthread	src/kernel/process/util.c	/^create_kthread(void *fun) {$/;"	f
+create_kthread	src/kernel/process/util.c	/^create_kthread(void *fun, PCB *pcb) {$/;"	f
 cs	include/x86/memory.h	/^	uint32_t eip, cs, eflags;							\/\/ execution state saved by hardware$/;"	m	struct:TrapFrame
-current	src/kernel/process/schedule.c	/^PCB idle, *current = &idle;$/;"	v
+current	src/kernel/process/schedule.c	/^PCB idle, pcb[3], *current = &idle;$/;"	v
 dirty	include/x86/memory.h	/^		uint32_t dirty               : 1;$/;"	m	struct:PageTableEntry::__anon2
 dont_care	include/x86/memory.h	/^	uint8_t dont_care[88];$/;"	m	struct:TSS
 ds	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment registers$/;"	m	struct:TrapFrame
@@ -134,6 +141,7 @@ false	include/const.h	5;"	d
 filesz	boot/boot.h	/^	unsigned int filesz;$/;"	m	struct:ProgramHeader
 flags	boot/boot.h	/^	unsigned int   flags;$/;"	m	struct:ELFHeader
 flags	boot/boot.h	/^	unsigned int flags;$/;"	m	struct:ProgramHeader
+free	src/kernel/process/schedule.c	/^ListHead ready, block, free;$/;"	v
 fs	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment registers$/;"	m	struct:TrapFrame
 gdt	boot/start.S	/^gdt:$/;"	l
 gdt	src/kernel/memory/kvm.c	/^static SegDesc gdt[NR_SEGMENTS];$/;"	v	file:
@@ -147,7 +155,8 @@ gs	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment regi
 handle_count	src/kernel/irq/irq_handle.c	/^static int handle_count = 0;$/;"	v	file:
 handle_pool	src/kernel/irq/irq_handle.c	/^static struct IRQ_t handle_pool[NR_IRQ_HANDLE];$/;"	v	typeref:struct:IRQ_t	file:
 handles	src/kernel/irq/irq_handle.c	/^static struct IRQ_t *handles[NR_HARD_INTR];$/;"	v	typeref:struct:IRQ_t	file:
-idle	src/kernel/process/schedule.c	/^PCB idle, *current = &idle;$/;"	v
+hexBoard	src/lib/printk.c	/^char hexBoard[] = "0123456789abcdef";$/;"	v
+idle	src/kernel/process/schedule.c	/^PCB idle, pcb[3], *current = &idle;$/;"	v
 idt	src/kernel/irq/idt.c	/^static GateDesc idt[NR_IRQ];$/;"	v	file:
 in_byte	boot/boot.h	/^in_byte(short port) {$/;"	f
 in_byte	include/x86/io.h	/^in_byte(uint16_t port) {$/;"	f
@@ -166,8 +175,10 @@ irq	include/x86/memory.h	/^	int32_t irq;										\/\/ #irq$/;"	m	struct:TrapFra
 irq_handle	src/kernel/irq/irq_handle.c	/^void irq_handle(TrapFrame *tf) {$/;"	f
 itoa	src/lib/string.c	/^char *itoa(int a) {$/;"	f
 kcr3	src/kernel/memory/kvm.c	/^static CR3 kcr3;											\/\/ kernel CR3$/;"	v	file:
+kstack	include/process.h	/^	uint8_t kstack[KSTACK_SIZE];$/;"	m	struct:PCB
 limit_15_0	include/x86/memory.h	/^	uint32_t limit_15_0          : 16;$/;"	m	struct:SegmentDescriptor
 limit_19_16	include/x86/memory.h	/^	uint32_t limit_19_16         : 4;$/;"	m	struct:SegmentDescriptor
+list	include/process.h	/^	ListHead list;$/;"	m	struct:PCB
 list_add	include/adt/list.h	/^list_add(ListHead *prev, ListHead *next, ListHead *data) {$/;"	f
 list_add_after	include/adt/list.h	/^list_add_after(ListHead *list, ListHead *data) {$/;"	f
 list_add_before	include/adt/list.h	/^list_add_before(ListHead *list, ListHead *data) {$/;"	f
@@ -224,6 +235,7 @@ page_write_through	include/x86/memory.h	/^		uint32_t page_write_through  : 1;$/;
 page_write_through	include/x86/memory.h	/^		uint32_t page_write_through  : 1;$/;"	m	struct:PageTableEntry::__anon2
 paging	include/x86/cpu.h	/^		uint32_t paging              : 1;$/;"	m	struct:CR0::__anon3
 panic	include/assert.h	8;"	d
+pcb	src/kernel/process/schedule.c	/^PCB idle, pcb[3], *current = &idle;$/;"	v
 phentsize	boot/boot.h	/^	unsigned short phentsize;$/;"	m	struct:ELFHeader
 phnum	boot/boot.h	/^	unsigned short phnum;$/;"	m	struct:ELFHeader
 phoff	boot/boot.h	/^	unsigned int   phoff;$/;"	m	struct:ELFHeader
@@ -234,6 +246,7 @@ present	include/x86/memory.h	/^	uint32_t present             : 1;$/;"	m	struct:S
 present	include/x86/memory.h	/^	uint32_t present          : 1;$/;"	m	struct:GateDescriptor
 prev	include/adt/list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::ListHead
 prev	include/x86/memory.h	/^	uint32_t prev;			\/\/ don't care$/;"	m	struct:TSS
+printInterger	src/lib/printk.c	/^void printInterger(void (*printer)(char), const int num, const int base){$/;"	f
 printk	src/lib/printk.c	/^printk(const char *ctl, ...) {$/;"	f
 privilege_level	include/x86/memory.h	/^	uint32_t privilege_level     : 2;$/;"	m	struct:SegmentDescriptor
 privilege_level	include/x86/memory.h	/^	uint32_t privilege_level  : 2;$/;"	m	struct:GateDescriptor
@@ -244,6 +257,8 @@ read_write	include/x86/memory.h	/^		uint32_t read_write          : 1; $/;"	m	str
 read_write	include/x86/memory.h	/^		uint32_t read_write          : 1;$/;"	m	struct:PageTableEntry::__anon2
 readsect	boot/main.c	/^readsect(void *dst, int offset) {$/;"	f
 readseg	boot/main.c	/^readseg(unsigned char *pa, int count, int offset) {$/;"	f
+ready	src/kernel/process/schedule.c	/^ListHead ready, block, free;$/;"	v
+ret	include/x86/memory.h	/^	uint32_t ret, args;$/;"	m	struct:TrapFrame
 routine	src/kernel/irq/irq_handle.c	/^	void (*routine)(void);$/;"	m	struct:IRQ_t	file:
 schedule	src/kernel/process/schedule.c	/^schedule(void) {$/;"	f
 segment	include/x86/memory.h	/^	uint32_t segment          : 16;$/;"	m	struct:GateDescriptor

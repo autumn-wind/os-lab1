@@ -6,6 +6,7 @@
 typedef struct PCB {
 	void *tf;
 	uint8_t kstack[KSTACK_SIZE];
+	ListHead list;
 } PCB;
 
 extern PCB *current;
