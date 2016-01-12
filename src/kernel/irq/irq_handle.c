@@ -44,7 +44,7 @@ void irq_handle(TrapFrame *tf) {
 		panic("Unhandled exception!");
 	}
 
-	if (irq < 1000) {
+	if (irq < 1000 && irq != 0x80) {
 		extern uint8_t logo[];
 		panic("Unexpected exception #%d\n\33[1;31mHint: The machine is always right! For more details about exception #%d, see\n%s\n\33[0m", irq, irq, logo);
 	} else if (irq >= 1000) {

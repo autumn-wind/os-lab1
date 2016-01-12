@@ -1,6 +1,10 @@
 #include "kernel.h"
-extern PCB pcb[3];
-//extern TrapFrame;
+extern PCB pcb[4], idle;
+extern ListHead ready, block, free;
+
+void sleep(void);
+void wakeup(PCB *p);
+
 PCB*
 create_kthread(void *fun, PCB *pcb) {
 	TrapFrame *frame = (TrapFrame *)(pcb->kstack + KSTACK_SIZE) - 1; 
@@ -14,9 +18,6 @@ create_kthread(void *fun, PCB *pcb) {
 	pcb->tf = frame;
 	return NULL;
 }
-
-void sleep(void);
-void wakeup(PCB *p);
 
 void A () { 
     int x = 0;
@@ -56,18 +57,37 @@ void D () {
     while(1) {
         if(x % 100000 == 0) {
             printk("d");
-            wakeup(&ocb[0]);
+            wakeup(&pcb[0]);
             sleep();
         }
         x ++;
     }
 }
 
+void sleep(){
+	list_del(&current->list);
+	list_add_after(&block, &current->list);
+	asm volatile("int $0x80");
+}
+
+void wakeup(PCB *p){
+	list_del(&p->list);
+	list_add_after(&ready, &p->list);
+}
+
 void
 init_proc() {
     create_kthread(A, &pcb[0]);
-    create_kthread(A, &pcb[1]);
-    create_kthread(A, &pcb[2]);
-    create_kthread(A, &pcb[3]);
+    create_kthread(B, &pcb[1]);
+    create_kthread(C, &pcb[2]);
+    create_kthread(D, &pcb[3]);
+	list_init(&ready);
+	list_init(&block);
+	list_init(&free);
+	list_add_after(&ready, &idle.list);
+	list_add_after(&ready, &pcb[0].list);
+	list_add_after(&block, &pcb[1].list);
+	list_add_after(&block, &pcb[2].list);
+	list_add_after(&block, &pcb[3].list);
 }
 

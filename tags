@@ -28,7 +28,7 @@ IRQ_t	src/kernel/irq/irq_handle.c	/^struct IRQ_t {$/;"	s	file:
 KMEM	include/memory.h	24;"	d
 KOFFSET	boot/main.c	13;"	d	file:
 KOFFSET	include/memory.h	6;"	d
-KSTACK_SIZE	include/process.h	4;"	d
+KSTACK_SIZE	include/process.h	6;"	d
 LD	Makefile	/^LD      = ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS = -melf_i386$/;"	m
 ListHead	include/adt/list.h	/^struct ListHead {$/;"	s
@@ -275,6 +275,7 @@ shnum	boot/boot.h	/^	unsigned short shnum;$/;"	m	struct:ELFHeader
 shoff	boot/boot.h	/^	unsigned int   shoff;$/;"	m	struct:ELFHeader
 shstrndx	boot/boot.h	/^	unsigned short shstrndx;$/;"	m	struct:ELFHeader
 size_t	include/types.h	/^typedef          int   size_t;$/;"	t
+sleep	src/kernel/process/util.c	/^void sleep(){$/;"	f
 soft_use	include/x86/memory.h	/^	uint32_t soft_use            : 1;$/;"	m	struct:SegmentDescriptor
 ss	include/x86/memory.h	/^	uint32_t esp, ss;									\/\/ only uses when DPL = 3$/;"	m	struct:TrapFrame
 ss0	include/x86/memory.h	/^	uint32_t ss0;$/;"	m	struct:TSS
@@ -307,6 +308,7 @@ version	boot/boot.h	/^	unsigned int   version;$/;"	m	struct:ELFHeader
 vfprintf	src/lib/printk.c	/^void vfprintf(void (*printer)(char), const char *ctl, void **args) {$/;"	f
 wait_intr	include/x86/cpu.h	/^wait_intr() {$/;"	f
 waitdisk	boot/main.c	/^waitdisk(void) {$/;"	f
+wakeup	src/kernel/process/util.c	/^void wakeup(PCB *p){$/;"	f
 welcome	src/kernel/main.c	/^welcome(void) {$/;"	f
 write_cr0	include/x86/cpu.h	/^write_cr0(CR0 *cr0) {$/;"	f
 write_cr3	include/x86/cpu.h	/^write_cr3(CR3 *cr3) {$/;"	f

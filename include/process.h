@@ -1,6 +1,8 @@
 #ifndef __PROCESS_H__
 #define __PROCESS_H__
 
+#include "adt/list.h"
+
 #define KSTACK_SIZE 4096
 
 typedef struct PCB {
