@@ -27,13 +27,13 @@ kernel: $(OBJS)
 
 -include $(OBJS:.o=.d)
 
-clean:
-	@cd boot; make clean
-	rm -f kernel disk.img $(OBJS) $(OBJS:.o=.d)
-
 count:
 	@echo all lines including ^$$:
 	@find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep ".*" | wc -l
 	@echo all lines without ^$$:
 	@find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep "." | wc -l
+
+clean:
+	@cd boot; make clean
+	rm -f kernel disk.img $(OBJS) $(OBJS:.o=.d)
 
