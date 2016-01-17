@@ -1,0 +1,110 @@
+1.答：
+1440（含空行）
+find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep ".*" | wc -l
+
+1221（不含空行）
+find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep "." | wc -l
+或
+find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep -v "^$" | wc -l
+
+框架代码中，含空行一共有1275行，不含空行的一共有1061行，相当于我只写了160行代码。
+
+2.答：
+（1）
+a）现象：
+去掉static，链接时产生multiple definition的错误。因为编译时加了-fgnu89-inline选项，所以gcc选用的是gnu89的语义。对于inline，gnu89会认为其他的源文件也可能会调用这个函数，所以会生成这段函数的汇编代码和函数地址，它对外部源文件是可见的。由于一个全局符号在程序中只能定义一次，所以如果将它放在头文件里，包含这个头文件的源文件会多次定义这个函数。因此产生“multiple definition”错误。
+
+b）解释：
+参考gcc 4.3手册：https://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Inline.html#Inline
+	When an inline function is not static, then the compiler must assume that there may be calls from other source files; since a global symbol can be defined only once in any program, the function must not be defined in the other source files, so the calls therein cannot be integrated. Therefore, a non-static inline function is always compiled on its own in the usual fashion.
+
+参考：http://stackoverflow.com/questions/216510/extern-inline/216546#216546
+	in K&R C or C89, inline was not part of the language. Many compilers implemented it as an extension, but there were no defined semantics regarding how it worked. GCC was among the first to implement inlining, and introduced the "inline", "static inline", and "extern inline" constructs; most pre-C99 compiler generally follow its lead.
+
+GNU89:
+"inline": the function may be inlined (it's just a hint though). An out-of-line version is always emitted and externally visible. Hence you can only have such an inline defined in one compilation unit, and every other one needs to see it as an out-of-line function (or you'll get duplicate symbols at link time).
+"static inline" will not generate a externally visible out-of-line version, though it might generate a file static one. The one-definition rule does not apply, since there is never an emitted external symbol nor a call to one.
+"extern inline" will not generate an out-of-line version, but might call one (which you therefore must define in some other compilation unit. The one-definition rule applies, though; the out-of-line version must have the same code as the inline offered here, in case the compiler calls that instead.
+C99 (or GNU99):
+"inline": like GNU "extern inline"; no externally visible function is emitted, but one might be called and so must exist
+"extern inline": like GNU "inline": externally visible code is emitted, so at most one translation unit can use this.
+"static inline": like GNU "static inline". This is the only portable one between gnu89 and c99
+
+c）证明：
+如果改用gnu99或gnu11，则这个错误消失，因为gnu11将inline函数认为是对外部源文件不可见的，不会有多重定义冲突。但是由于外部源文件仍然可能会调用这个函数，故依然会生成汇编代码和函数地址。
+
+综上，只有static inline在两个语义标准里是兼容的，故若在头文件里定义inline函数，最好使用static inline。
+
+(2)
+a）现象：去掉static，会报'XXX' defined but not used的警告。
+b）解释：static声明这个函数只会在当前这个编译单元内部被引用，所以编译器当然知道这个单元内部引用了这个函数没有，如果没有，就会抛出警告。
+c）证明：去掉-Werrot编译选项，查看编译期间所有的warning，发现有的源文件编译时会报4个函数都没被使用的警告，有的只会报2个函数没有被使用的警告，说明确实是因为在某个编译单元内，声明的函数使用情况不同造成的。
+
+(3)
+a）现象：去掉inline和static，链接时产生multiple definition的错误。
+b）解释：变成普通函数，在头文件中定义，明显违反了“外部符号只能定义一次”的规定。
+c）证明：这一点无需证明吧。
+
+3.答：11个。
+readelf -s kernel | grep dummy
+如果只有static，则因为dummy未被任何源文件引用，而被编译器优化掉，导致kernel中没有dummy的实体。而如果是volatile static，则表示其他程序有可能会修改内存中这个变量（volatile变量不会被编译器优化，常用于并行编程），故每个包含该头文件的源文件都会把dummy变量定义一遍，故有11个，并且全部都是局部符号（LOCAL）。
+疑问：
+1.我通过vim的cscope插件查看了一下，只找到了10个这样的源文件，而不是11个。
+2.如果只保留volatile，用readelf查看发现kernel中只有一个dummy实体，并且为全局符号（GLOBAL），可是并没有出现“multiple definition”错误，这种情况有点类似于gnu99对inline函数的处理。
+
+4.答：
+-MD:用于生成一套适用于make的规则，这套规则描述了源文件的依赖关系。并把这套规则放在和源文件同名，但是后缀为.d的文件中，然后make时Makefile会读取这些.d文件，通过include命令将其中的规则加到自己里面，这种自动生成规则并通过命令加入到Makefile中的方式显然比手工去维护Makefile中的规则要方便得多。
+-Wall:打开所有用户认为可能有问题的warning flags，简单说来就是尽可能的对代码可能有问题的地方报warning。
+-Werror:将所有的warning都视为error。
+使用-Wall和-Werror能帮助我们尽可能及时的发现代码的bug，因为很多warning可能是潜在的error。
+
+5.答：这个命令是将工程目录下所有的.d文件（所有.o文件，将后缀换成.d）中规则加入到Makefile里面，"include"的前面的"-"意思是即使找不到需要的文件也不报错继续读取Makefile。
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+	不过我认为这儿有一个问题，我去掉"-"后，make时报出找不到各种.d文件的错误。根据“GNU make manuals”中“3.3 Including Other Makefiles”的倒数第四段：
+	If an included make file cannot be found in any of these directories, a warning message is generated, but it is not an immediately fatal error; processing of the make file containing the include continues. Once it has finished reading make files, make will try to remake any that are out of date or don’t exist. Only after it has tried to find a way to remake a makefile and failed, will make diagnose the missing makefile as a fatal error.
+	说明Makefile是在remake这些.d文件时依然找不到，才会报错的。如果加了"-"选项，虽然不会报错了，但Makefile里最终为.o文件生成的依赖是通过隐式规则生成的，即依赖里只有相应的.c文件，而不包含.h文件。
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+	不过这样并不碍事，因为上面这种情况只会出现在make clean后工程目录里开始没有.d文件的情况下。然而因为make clean了，所有的目标文件也是没有的，所以不管header有没有修改过，都会全部重新编译生成新的目标文件。
+	而如果之前已经make过一次，那么再make的时候，.d文件由于之前那次make是已经存在的，所以一定可以加入到Makefile里，所以规则里的依赖是既包括.c也包括.h文件的，这样不管是相应的.c还是.h文件只要更新过，相应的.o文件都要重新编译生成。
+
+6.答：Makefile前面部分的变量声明中，通过shell函数分别将工程目录中所有的.c文件和.S文件
+赋值给CFILES和SFILES变量。然后再将CFILES和SFILES中的.c和.S文件后缀替换为.o赋值给OBJS变量。然后Makefile读取规则，发现终极目标run需要disk.img，然后又发现disk.img需要kernel，然后又发现kernel需要OBJS变量表示的所有.o文件，然后根据.o文件的依赖（由"-include $(OBJS:.o=.d)"命令加入到Makefile里）与CFLAGS编译生成各个.o文件，然后由所有.o文件与LDFLAGS链接生成kernel，最后再把bootblock和kernel拼接生成终极目标disk.img。
+
+7.答：并没有发现任何不一样的地方。（GCC版本：5.3.0）
+
+8.答：0x00100f80
+objdump -d kernel| grep os_init
+readelf -s kernel | grep os_init
+readelf -l kernel
+
+9.答：程序运行时出现错误。
+qemu: fatal: Trying to execute code outside RAM or ROM at 0xc0100f80
+...（各种寄存器信息）
+Makefile:14: recipe for target 'run' failed
+make: *** [run] Aborted (core dumped)
+
+因为boot/main.c会从磁盘读取ELF header到内存到0x8000，然后根据ELF header中的信息找到kernel的programe header，根据programe header中的信息加载二进制数据到指定的物理内存中。根据readelf -l kernel输出的结果看：
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  LOAD           0x001000 0xc0100000 0xc0100000 0x01adc 0x01adc R E 0x1000
+  LOAD           0x003000 0xc0102000 0xc0102000 0x00170 0x290a0 RW  0x1000
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x10
+
+kernel有两个segement会被load到内存中，而其PhysAddr一项的地址分别为0xc0100000和0xc0102000，当然这两个值是在Makefile中根据链接时选项"-Ttext 0xC0100000"确定的。（Lab0中的选项是"-Ttext 0x00100000"）
+
+根据boot/main.c中的代码，它会根据programe hearder中每个segment的PhysAddr项将每个segment加载到虚拟机的物理内存的相应地址处。但是由于我们的虚拟机现在只有128M物理内存，并不能把程序加载到3G以上的物理内存空间，所以必须减去3G这个偏移，把程序加载到物理内存的低地址处。
+
+10.答：见笔记本第一页。虚拟地址的0～128M和3G～3G＋128M对应物理地址的0～128M。
+
+11.答：x并没有被修改为10000，依然是初始值0。对x的引用是直接使用符号表中的地址0xc01xxxxx。开启分页前，这是一个物理地址，然而x的内存单元在boot/main.c随着所在的segment被加载到物理内存的低地址0x001xxxxx处，所以开启分页前并不能访问到x所在的内存单元。
+	相对应的，局部变量是压在栈上的，由于esp一直都是有效的，在开启分页前它指向物理内存低地址的有效范围（esp <= 0x8000），故总能找到压栈过的局部变量。
+	init_page()中虽然使用了3个全部变量kcr3, kpdir, kptable，但是kcr3是在分页开启后才使用的，而kpdir和kptable在使用的时候，先将它们的地址减去了KOFFSET的偏移才使用的，故也是没有问题的。
+
+
+目前自己的问题：
+1.os_init()中，程序是怎么跳转到init_page()函数的？(分页并未打开，而init_page这个符号对应的是高地址，然而代码段实际在物理内存低地址)
+2.最后一个问题中，"x = 10000"，把10000赋给了哪个内存单元，为什么没有报段错误？(qemu默认客户机内存为128MB，访问一个超过128MB物理内存地址，会产生什么效果)
+
+ 
+
+

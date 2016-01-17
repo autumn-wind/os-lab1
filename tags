@@ -115,7 +115,7 @@ cache_disable	include/x86/cpu.h	/^		uint32_t cache_disable       : 1;$/;"	m	stru
 cli	include/x86/cpu.h	/^cli(void) {$/;"	f
 create_kthread	src/kernel/process/util.c	/^create_kthread(void *fun, PCB *pcb) {$/;"	f
 cs	include/x86/memory.h	/^	uint32_t eip, cs, eflags;							\/\/ execution state saved by hardware$/;"	m	struct:TrapFrame
-current	src/kernel/process/schedule.c	/^PCB idle, pcb[3], *current = &idle;$/;"	v
+current	src/kernel/process/schedule.c	/^PCB idle, pcb[4], *current = &idle;$/;"	v
 dirty	include/x86/memory.h	/^		uint32_t dirty               : 1;$/;"	m	struct:PageTableEntry::__anon2
 dont_care	include/x86/memory.h	/^	uint8_t dont_care[88];$/;"	m	struct:TSS
 ds	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment registers$/;"	m	struct:TrapFrame
@@ -156,7 +156,7 @@ handle_count	src/kernel/irq/irq_handle.c	/^static int handle_count = 0;$/;"	v	fi
 handle_pool	src/kernel/irq/irq_handle.c	/^static struct IRQ_t handle_pool[NR_IRQ_HANDLE];$/;"	v	typeref:struct:IRQ_t	file:
 handles	src/kernel/irq/irq_handle.c	/^static struct IRQ_t *handles[NR_HARD_INTR];$/;"	v	typeref:struct:IRQ_t	file:
 hexBoard	src/lib/printk.c	/^char hexBoard[] = "0123456789abcdef";$/;"	v
-idle	src/kernel/process/schedule.c	/^PCB idle, pcb[3], *current = &idle;$/;"	v
+idle	src/kernel/process/schedule.c	/^PCB idle, pcb[4], *current = &idle;$/;"	v
 idt	src/kernel/irq/idt.c	/^static GateDesc idt[NR_IRQ];$/;"	v	file:
 in_byte	boot/boot.h	/^in_byte(short port) {$/;"	f
 in_byte	include/x86/io.h	/^in_byte(uint16_t port) {$/;"	f
@@ -235,7 +235,7 @@ page_write_through	include/x86/memory.h	/^		uint32_t page_write_through  : 1;$/;
 page_write_through	include/x86/memory.h	/^		uint32_t page_write_through  : 1;$/;"	m	struct:PageTableEntry::__anon2
 paging	include/x86/cpu.h	/^		uint32_t paging              : 1;$/;"	m	struct:CR0::__anon3
 panic	include/assert.h	8;"	d
-pcb	src/kernel/process/schedule.c	/^PCB idle, pcb[3], *current = &idle;$/;"	v
+pcb	src/kernel/process/schedule.c	/^PCB idle, pcb[4], *current = &idle;$/;"	v
 phentsize	boot/boot.h	/^	unsigned short phentsize;$/;"	m	struct:ELFHeader
 phnum	boot/boot.h	/^	unsigned short phnum;$/;"	m	struct:ELFHeader
 phoff	boot/boot.h	/^	unsigned int   phoff;$/;"	m	struct:ELFHeader
