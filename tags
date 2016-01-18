@@ -113,6 +113,7 @@ bool	include/types.h	/^typedef unsigned char  bool;$/;"	t
 bootmain	boot/main.c	/^bootmain(void) {$/;"	f
 cache_disable	include/x86/cpu.h	/^		uint32_t cache_disable       : 1;$/;"	m	struct:CR0::__anon3
 cli	include/x86/cpu.h	/^cli(void) {$/;"	f
+cli	main.S	/^cli:$/;"	l
 create_kthread	src/kernel/process/util.c	/^create_kthread(void *fun, PCB *pcb) {$/;"	f
 cs	include/x86/memory.h	/^	uint32_t eip, cs, eflags;							\/\/ execution state saved by hardware$/;"	m	struct:TrapFrame
 current	src/kernel/process/schedule.c	/^PCB idle, pcb[4], *current = &idle;$/;"	v
@@ -207,7 +208,9 @@ off_t	include/types.h	/^typedef          int   off_t;$/;"	t
 offset_15_0	include/x86/memory.h	/^	uint32_t offset_15_0      : 16;$/;"	m	struct:GateDescriptor
 offset_31_16	include/x86/memory.h	/^	uint32_t offset_31_16     : 16;$/;"	m	struct:GateDescriptor
 operation_size	include/x86/memory.h	/^	uint32_t operation_size      : 1;$/;"	m	struct:SegmentDescriptor
+os_init	main.S	/^os_init:$/;"	l
 os_init	src/kernel/main.c	/^os_init(void) {$/;"	f
+os_init_cont	main.S	/^os_init_cont:$/;"	l
 os_init_cont	src/kernel/main.c	/^os_init_cont(void) {$/;"	f
 out_byte	boot/boot.h	/^out_byte(short port, char data) {$/;"	f
 out_byte	include/x86/io.h	/^out_byte(uint16_t port, uint8_t data) {$/;"	f
@@ -282,6 +285,7 @@ ss0	include/x86/memory.h	/^	uint32_t ss0;$/;"	m	struct:TSS
 start	boot/start.S	/^start:$/;"	l
 start32	boot/start.S	/^start32:$/;"	l
 sti	include/x86/cpu.h	/^sti(void) {$/;"	f
+sti	main.S	/^sti:$/;"	l
 strcpy	src/lib/string.c	/^void strcpy(char *d, const char *s) {$/;"	f
 strlen	src/lib/string.c	/^size_t strlen(const char *str) {$/;"	f
 system	include/x86/memory.h	/^	uint32_t system           : 1;$/;"	m	struct:GateDescriptor
@@ -307,8 +311,10 @@ val	include/x86/memory.h	/^	uint32_t val;$/;"	m	union:PageTableEntry
 version	boot/boot.h	/^	unsigned int   version;$/;"	m	struct:ELFHeader
 vfprintf	src/lib/printk.c	/^void vfprintf(void (*printer)(char), const char *ctl, void **args) {$/;"	f
 wait_intr	include/x86/cpu.h	/^wait_intr() {$/;"	f
+wait_intr	main.S	/^wait_intr:$/;"	l
 waitdisk	boot/main.c	/^waitdisk(void) {$/;"	f
 wakeup	src/kernel/process/util.c	/^void wakeup(PCB *p){$/;"	f
+welcome	main.S	/^welcome:$/;"	l
 welcome	src/kernel/main.c	/^welcome(void) {$/;"	f
 write_cr0	include/x86/cpu.h	/^write_cr0(CR0 *cr0) {$/;"	f
 write_cr3	include/x86/cpu.h	/^write_cr3(CR3 *cr3) {$/;"	f
@@ -317,3 +323,5 @@ write_idtr	include/x86/cpu.h	/^write_idtr(void *addr, uint32_t size) {$/;"	f
 write_protect	include/x86/cpu.h	/^		uint32_t write_protect       : 1; $/;"	m	struct:CR0::__anon3
 write_tr	include/x86/cpu.h	/^write_tr(uint16_t selector) {$/;"	f
 xxx	include/x86/memory.h	/^	uint32_t edi, esi, ebp, xxx, ebx, edx, ecx, eax;	\/\/ GPRs$/;"	m	struct:TrapFrame
+xxx	main.S	/^xxx:$/;"	l
+xxx	src/kernel/main.c	/^int xxx = 2;$/;"	v

@@ -53,16 +53,11 @@ readelf -s kernel | grep dummy
 2.如果只保留volatile，用readelf查看发现kernel中只有一个dummy实体，并且为全局符号（GLOBAL），可是并没有出现“multiple definition”错误，这种情况有点类似于gnu99对inline函数的处理。
 
 4.答：
-<<<<<<< HEAD
 -MD:用于生成一套适用于make的规则，这套规则描述了源文件的依赖关系。并把这套规则放在和源文件同名，但是后缀为.d的文件中，然后make时Makefile会读取这些.d文件，通过include命令将其中的规则加到自己里面，这种自动生成规则并通过命令加入到Makefile中的方式显然比手工去维护Makefile中的规则要方便得多。
-=======
--MD:用于生成一套适用于make的规则，这套规则描述了源文件的依赖关系。并把这套规则放在和源文件同名，但是后缀为.d的文件中。
->>>>>>> 15115d6c6a8c809375162abcb9b584f15f72f577
 -Wall:打开所有用户认为可能有问题的warning flags，简单说来就是尽可能的对代码可能有问题的地方报warning。
 -Werror:将所有的warning都视为error。
 使用-Wall和-Werror能帮助我们尽可能及时的发现代码的bug，因为很多warning可能是潜在的error。
 
-<<<<<<< HEAD
 5.答：这个命令是将工程目录下所有的.d文件（所有.o文件，将后缀换成.d）中规则加入到Makefile里面，"include"的前面的"-"意思是即使找不到需要的文件也不报错继续读取Makefile。
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 	不过我认为这儿有一个问题，我去掉"-"后，make时报出找不到各种.d文件的错误。根据“GNU make manuals”中“3.3 Including Other Makefiles”的倒数第四段：
@@ -76,13 +71,6 @@ readelf -s kernel | grep dummy
 赋值给CFILES和SFILES变量。然后再将CFILES和SFILES中的.c和.S文件后缀替换为.o赋值给OBJS变量。然后Makefile读取规则，发现终极目标run需要disk.img，然后又发现disk.img需要kernel，然后又发现kernel需要OBJS变量表示的所有.o文件，然后根据.o文件的依赖（由"-include $(OBJS:.o=.d)"命令加入到Makefile里）与CFLAGS编译生成各个.o文件，然后由所有.o文件与LDFLAGS链接生成kernel，最后再把bootblock和kernel拼接生成终极目标disk.img。
 
 7.答：并没有发现任何不一样的地方。（GCC版本：5.3.0）
-=======
-5.答：
-
-6.答：
-
-7.答：
->>>>>>> 15115d6c6a8c809375162abcb9b584f15f72f577
 
 8.答：0x00100f80
 objdump -d kernel| grep os_init
@@ -114,13 +102,11 @@ kernel有两个segement会被load到内存中，而其PhysAddr一项的地址分
 
 
 目前自己的问题：
-<<<<<<< HEAD
 1.os_init()中，程序是怎么跳转到init_page()函数的？(分页并未打开，而init_page这个符号对应的是高地址，然而代码段实际在物理内存低地址)
+答：gcc编译产生汇编文件时，是用一个标号“init_page”表示这个函数，汇编指令为“call init_page”，然后在汇编时，这条指令是被汇编成为了一条相对跳转指令。虽然objdump反汇编显示的是绝对地址，但是编译后生成的其实是一条相对跳转指令。
+
 2.最后一个问题中，"x = 10000"，把10000赋给了哪个内存单元，为什么没有报段错误？(qemu默认客户机内存为128MB，访问一个超过128MB物理内存地址，会产生什么效果)
-=======
-1.os_init()中，程序是怎么跳转到init_page()函数的？
-2.最后一个问题中，"x = 10000"，把10000赋给了哪个内存单元，为什么没有报段错误？
->>>>>>> 15115d6c6a8c809375162abcb9b584f15f72f577
+答：对于cpu访问一个不存在的物理内存单元，真实的cpu会不会抛出异常，我还不太清楚，需要查手册。不过这里没有报错和qemu的实现有关。余大神之前用的qemu版本在这里会直接crash掉。
 
  
 

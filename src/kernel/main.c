@@ -2,7 +2,7 @@
 #include "x86/x86.h"
 #include "memory.h"
 
-
+int xxx = 2;
 void init_page(void);
 void init_serial(void);
 void init_segment(void);
@@ -15,6 +15,7 @@ void os_init_cont(void);
 
 void
 os_init(void) {
+	xxx = 1;
 	/* Notice that when we are here, IF is always 0 (see bootloader) */
 
 	/* We must set up kernel virtual memory first because our kernel
