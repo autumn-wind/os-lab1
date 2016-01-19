@@ -4,5 +4,6 @@ a.out
 *.SKEL
 *.ans
 *.img
+*.txt
 /boot/bootblock
 /kernel

@@ -22,7 +22,7 @@ create_kthread(void *fun, PCB *pcb) {
 void A () { 
     int x = 0;
     while(1) {
-        if(x % 100000 == 0) {
+        if(x % 10000000 == 0) {
             printk("a");
             wakeup(&pcb[1]);
             sleep();
@@ -33,7 +33,7 @@ void A () {
 void B () { 
     int x = 0;
     while(1) {
-        if(x % 100000 == 0) {
+        if(x % 10000000 == 0) {
             printk("b");
             wakeup(&pcb[2]);
             sleep();
@@ -44,7 +44,7 @@ void B () {
 void C () { 
     int x = 0;
     while(1) {
-        if(x % 100000 == 0) {
+        if(x % 10000000 == 0) {
             printk("c");
             wakeup(&pcb[3]);
             sleep();
@@ -55,7 +55,7 @@ void C () {
 void D () { 
     int x = 0;
     while(1) {
-        if(x % 100000 == 0) {
+        if(x % 10000000 == 0) {
             printk("d");
             wakeup(&pcb[0]);
             sleep();
@@ -66,13 +66,13 @@ void D () {
 
 void sleep(){
 	list_del(&current->list);
-	list_add_after(&block, &current->list);
+	list_add_before(&block, &current->list);
 	asm volatile("int $0x80");
 }
 
 void wakeup(PCB *p){
 	list_del(&p->list);
-	list_add_after(&ready, &p->list);
+	list_add_before(&idle.list, &p->list);
 }
 
 void
@@ -84,10 +84,10 @@ init_proc() {
 	list_init(&ready);
 	list_init(&block);
 	list_init(&free);
-	list_add_after(&ready, &idle.list);
-	list_add_after(&ready, &pcb[0].list);
-	list_add_after(&block, &pcb[1].list);
-	list_add_after(&block, &pcb[2].list);
-	list_add_after(&block, &pcb[3].list);
+	list_add_before(&ready, &idle.list);
+	list_add_before(&idle.list, &pcb[0].list);
+	list_add_before(&block, &pcb[1].list);
+	list_add_before(&block, &pcb[2].list);
+	list_add_before(&block, &pcb[3].list);
 }
 

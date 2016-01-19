@@ -8,15 +8,17 @@ schedule(void) {
 	/* implement process/thread schedule here */
 	if(list_empty(&ready))
 		return;
-	ListHead *ptr;
-	list_foreach(ptr, &ready)
-		if(ptr == &current->list)
-			break;
-	if(ptr != &ready){
-		if(ptr->next != &ready)	ptr = ptr->next;
-		else ptr = ready.next;	
-	}else{
-		ptr = ready.next;
-	}
+	ListHead *ptr = ready.next;
+	/*
+	 *list_foreach(ptr, &ready)
+	 *    if(ptr == &current->list)
+	 *        break;
+	 *if(ptr != &ready){
+	 *    if(ptr->next != &ready)	ptr = ptr->next;
+	 *    else ptr = ready.next;	
+	 *}else{
+	 *    ptr = ready.next;
+	 *}
+	 */
 	current = (PCB *)(char *)(ptr + 1) - 1;
 }
