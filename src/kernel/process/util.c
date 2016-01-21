@@ -18,6 +18,8 @@ create_kthread(void *fun) {
 	frame->eip = (uint32_t)fun;
 	frame->eflags |= 0x200;
 	p->tf = frame;
+	(p->list).prev = NULL;
+	(p->list).next = NULL;
 	return p;
 }
 
