@@ -21,5 +21,6 @@ schedule(void) {
 	 *    ptr = ready.next;
 	 *}
 	 */
-	current = (PCB *)(char *)(ptr + 1) - 1;
+	/*current = (PCB *)(char *)(ptr + 1) - 1;*/
+	current = (PCB *)((char *)ptr - KSTACK_SIZE - sizeof(void *));
 }

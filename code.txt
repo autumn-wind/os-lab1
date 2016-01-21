@@ -9783,7 +9783,7 @@ Disassembly of section .debug_line:
  2c1:	2d 01 04 01 03       	sub    $0x3010401,%eax
  2c6:	53                   	push   %ebx
  2c7:	58                   	pop    %eax
- 2c8:	3e 03 0e             	add    %ds:(%esi),%ecx
+ 2c8:	3e 03 0f             	add    %ds:(%edi),%ecx
  2cb:	74 9f                	je     26c <itoa-0xc00ffd94>
  2cd:	02 02                	add    (%edx),%al
  2cf:	00 01                	add    %al,(%ecx)
