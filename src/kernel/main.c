@@ -51,6 +51,16 @@ os_init_cont(void) {
 
 	welcome();
 
+#define PORT_TIME 0x40
+#define FREQ_8253 1193182
+#define HZ        100000
+
+	int count = FREQ_8253 / HZ;
+	assert(count < 65536);
+	out_byte(PORT_TIME + 3, 0x34);
+	out_byte(PORT_TIME    , count % 256);
+	out_byte(PORT_TIME    , count / 256);
+
 	sti();
 
 	/* This context now becomes the idle process. */
