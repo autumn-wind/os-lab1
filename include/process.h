@@ -22,6 +22,8 @@ typedef struct Semaphore {
 	ListHead block;		/* blocking queue */
 }Sem;
 
-extern PCB *current;
-
+extern PCB pcb[MAXPCB_NUM], idle, *current;
+extern ListHead ready;
+extern uint32_t pnum;
+ 
 #endif

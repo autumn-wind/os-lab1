@@ -10,7 +10,7 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0xc0101760
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          53112 (bytes into file)
+  Start of section headers:          53108 (bytes into file)
   Flags:                             0x0
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -31,13 +31,13 @@ Section Headers:
   [ 7] .debug_aranges    PROGBITS        00000000 004185 000178 00      0   0  1
   [ 8] .debug_info       PROGBITS        00000000 0042fd 003a98 00      0   0  1
   [ 9] .debug_abbrev     PROGBITS        00000000 007d95 0011e3 00      0   0  1
-  [10] .debug_line       PROGBITS        00000000 008f78 000e49 00      0   0  1
-  [11] .debug_str        PROGBITS        00000000 009dc1 000798 01  MS  0   0  1
-  [12] .debug_loc        PROGBITS        00000000 00a559 001627 00      0   0  1
-  [13] .debug_ranges     PROGBITS        00000000 00bb80 000728 00      0   0  1
-  [14] .shstrtab         STRTAB          00000000 00c2a8 0000a0 00      0   0  1
-  [15] .symtab           SYMTAB          00000000 00c348 000820 10     16  51  4
-  [16] .strtab           STRTAB          00000000 00cb68 000410 00      0   0  1
+  [10] .debug_line       PROGBITS        00000000 008f78 000e42 00      0   0  1
+  [11] .debug_str        PROGBITS        00000000 009dba 000798 01  MS  0   0  1
+  [12] .debug_loc        PROGBITS        00000000 00a552 001627 00      0   0  1
+  [13] .debug_ranges     PROGBITS        00000000 00bb79 000728 00      0   0  1
+  [14] .shstrtab         STRTAB          00000000 00c2a1 0000a0 00      0   0  1
+  [15] .symtab           SYMTAB          00000000 00c344 000820 10     16  51  4
+  [16] .strtab           STRTAB          00000000 00cb64 000410 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings)
   I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
@@ -86,22 +86,22 @@ Symbol table '.symtab' contains 130 entries:
     18: 00000000     0 FILE    LOCAL  DEFAULT  ABS serial.c
     19: 00000000     0 FILE    LOCAL  DEFAULT  ABS schedule.c
     20: 00000000     0 FILE    LOCAL  DEFAULT  ABS util.c
-    21: c0101cb8     6 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1277
+    21: c0101cb8     6 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1276
     22: c0101cac     9 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1219
     23: c0101c9c    16 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1208
-    24: c0101c94     7 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1282
-    25: c0101c91     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1305
-    26: c0101c8f     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1313
+    24: c0101c94     7 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1281
+    25: c0101c91     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1304
+    26: c0101c8f     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1312
     27: c0101c84    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1231
-    28: c0101c74    14 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1321
-    29: c0101c64    14 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1331
+    28: c0101c74    14 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1320
+    29: c0101c64    14 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1330
     30: 00000000     0 FILE    LOCAL  DEFAULT  ABS i8259.c
     31: 00000000     0 FILE    LOCAL  DEFAULT  ABS irq_handle.c
     32: c0104040     4 OBJECT  LOCAL  DEFAULT    5 handle_count
     33: c01040a0   256 OBJECT  LOCAL  DEFAULT    5 handle_pool
     34: c0104060    64 OBJECT  LOCAL  DEFAULT    5 handles
-    35: c0101db8    15 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1258
-    36: c0101dac    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1266
+    35: c0101db8    15 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1262
+    36: c0101dac    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1270
     37: 00000000     0 FILE    LOCAL  DEFAULT  ABS idt.c
     38: c01041c0  2048 OBJECT  LOCAL  DEFAULT    5 idt
     39: c01041a0     6 OBJECT  LOCAL  DEFAULT    5 data.1061

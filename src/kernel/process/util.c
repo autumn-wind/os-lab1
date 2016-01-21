@@ -3,10 +3,6 @@
 #define INTR assert(read_eflags() & IF_MASK)
 #define NOINTR assert(~read_eflags() & IF_MASK)
 
-extern PCB pcb[MAXPCB_NUM], idle, *current;
-extern ListHead ready;
-extern uint32_t pnum;
-
 PCB* create_kthread(void *);
 void sleep(ListHead *);
 void wakeup(PCB *);
@@ -73,7 +69,7 @@ Sem empty, full, mutex;
 
 void lock(){
 	if(current->lock_cnt == 0)
-		current->outmost_if = (read_eflags() & 0x200);	
+		current->outmost_if = (read_eflags() & IF_MASK);	
 	cli();
 	current->lock_cnt += 1;
 }
