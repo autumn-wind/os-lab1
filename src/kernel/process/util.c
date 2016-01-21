@@ -1,13 +1,15 @@
 #include "kernel.h"
 extern PCB pcb[4], idle;
 extern ListHead ready, block, free;
+extern uint32_t pnum;
 
 void sleep(void);
 void wakeup(PCB *p);
 
 PCB*
-create_kthread(void *fun, PCB *pcb) {
-	TrapFrame *frame = (TrapFrame *)(pcb->kstack + KSTACK_SIZE) - 1; 
+create_kthread(void *fun) {
+	PCB *p = &pcb[pnum++];
+	TrapFrame *frame = (TrapFrame *)(p->kstack + KSTACK_SIZE) - 1; 
 	frame->ds = 0x10;
 	frame->es = 0x10;
 	frame->fs = 0x10;
@@ -15,14 +17,14 @@ create_kthread(void *fun, PCB *pcb) {
 	frame->cs = 8;
 	frame->eip = (uint32_t)fun;
 	frame->eflags |= 0x200;
-	pcb->tf = frame;
-	return NULL;
+	p->tf = frame;
+	return p;
 }
 
 void A () { 
     int x = 0;
     while(1) {
-        if(x % 10000000 == 0) {
+        if(x % 100000 == 0) {
             printk("a");
             wakeup(&pcb[1]);
             sleep();
@@ -33,7 +35,7 @@ void A () {
 void B () { 
     int x = 0;
     while(1) {
-        if(x % 10000000 == 0) {
+        if(x % 100000 == 0) {
             printk("b");
             wakeup(&pcb[2]);
             sleep();
@@ -44,7 +46,7 @@ void B () {
 void C () { 
     int x = 0;
     while(1) {
-        if(x % 10000000 == 0) {
+        if(x % 100000 == 0) {
             printk("c");
             wakeup(&pcb[3]);
             sleep();
@@ -55,7 +57,7 @@ void C () {
 void D () { 
     int x = 0;
     while(1) {
-        if(x % 10000000 == 0) {
+        if(x % 100000 == 0) {
             printk("d");
             wakeup(&pcb[0]);
             sleep();
@@ -77,10 +79,10 @@ void wakeup(PCB *p){
 
 void
 init_proc() {
-    create_kthread(A, &pcb[0]);
-    create_kthread(B, &pcb[1]);
-    create_kthread(C, &pcb[2]);
-    create_kthread(D, &pcb[3]);
+    create_kthread(A);
+    create_kthread(B);
+    create_kthread(C);
+    create_kthread(D);
 	list_init(&ready);
 	list_init(&block);
 	list_init(&free);

@@ -2,6 +2,7 @@
 
 PCB idle, pcb[4], *current = &idle;
 ListHead ready, block, free;
+uint32_t pnum = 0;
 
 void
 schedule(void) {
