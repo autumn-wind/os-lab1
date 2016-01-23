@@ -150,17 +150,17 @@ void receive(pid_t src, Msg *m){
 				break;
 		}
 		list_del(pmail);
-		m->src = msg->src;
 		V(&current->mail_mutex);INTR;
-	}else if(src == -1){
+		m->src = msg->src;
+	}else if(src == ANY){
 		P(&current->mail_num);INTR;
 		P(&current->mail_mutex);INTR;
 		pmail = current->mail.next;
 		msg = listhead_to_mail(pmail);
 		P(&current->mail_some[msg->src]);INTR;
 		list_del(pmail);
-		m->src = msg->src;
 		V(&current->mail_mutex);INTR;
+		m->src = msg->src;
 	}
 }
 

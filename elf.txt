@@ -8,9 +8,9 @@ ELF Header:
   Type:                              EXEC (Executable file)
   Machine:                           Intel 80386
   Version:                           0x1
-  Entry point address:               0xc0101c30
+  Entry point address:               0xc0101c50
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          55544 (bytes into file)
+  Start of section headers:          55600 (bytes into file)
   Flags:                             0x0
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -22,22 +22,22 @@ ELF Header:
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .text             PROGBITS        c0100000 001000 002041 00  AX  0   0 16
-  [ 2] .rodata           PROGBITS        c0102044 003044 000280 00   A  0   0  4
-  [ 3] .eh_frame         PROGBITS        c01022c4 0032c4 0006d0 00   A  0   0  4
+  [ 1] .text             PROGBITS        c0100000 001000 002061 00  AX  0   0 16
+  [ 2] .rodata           PROGBITS        c0102064 003064 000280 00   A  0   0  4
+  [ 3] .eh_frame         PROGBITS        c01022e4 0032e4 0006f0 00   A  0   0  4
   [ 4] .data             PROGBITS        c0103000 004000 000170 00  WA  0   0 32
   [ 5] .bss              NOBITS          c0104000 004170 02e7c8 00  WA  0   0 4096
   [ 6] .comment          PROGBITS        00000000 004170 000011 01  MS  0   0  1
   [ 7] .debug_aranges    PROGBITS        00000000 004181 000178 00      0   0  1
   [ 8] .debug_info       PROGBITS        00000000 0042f9 00419b 00      0   0  1
   [ 9] .debug_abbrev     PROGBITS        00000000 008494 001267 00      0   0  1
-  [10] .debug_line       PROGBITS        00000000 0096fb 000fad 00      0   0  1
-  [11] .debug_str        PROGBITS        00000000 00a6a8 0007c0 01  MS  0   0  1
-  [12] .debug_loc        PROGBITS        00000000 00ae68 00169f 00      0   0  1
-  [13] .debug_ranges     PROGBITS        00000000 00c507 000738 00      0   0  1
-  [14] .shstrtab         STRTAB          00000000 00cc3f 0000a0 00      0   0  1
-  [15] .symtab           SYMTAB          00000000 00cce0 000810 10     16  53  4
-  [16] .strtab           STRTAB          00000000 00d4f0 000406 00      0   0  1
+  [10] .debug_line       PROGBITS        00000000 0096fb 000fa9 00      0   0  1
+  [11] .debug_str        PROGBITS        00000000 00a6a4 0007c0 01  MS  0   0  1
+  [12] .debug_loc        PROGBITS        00000000 00ae64 0016da 00      0   0  1
+  [13] .debug_ranges     PROGBITS        00000000 00c53e 000738 00      0   0  1
+  [14] .shstrtab         STRTAB          00000000 00cc76 0000a0 00      0   0  1
+  [15] .symtab           SYMTAB          00000000 00cd18 000810 10     16  53  4
+  [16] .strtab           STRTAB          00000000 00d528 000406 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings)
   I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
@@ -47,7 +47,7 @@ There are no section groups in this file.
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  LOAD           0x001000 0xc0100000 0xc0100000 0x02994 0x02994 R E 0x1000
+  LOAD           0x001000 0xc0100000 0xc0100000 0x029d4 0x029d4 R E 0x1000
   LOAD           0x004000 0xc0103000 0xc0103000 0x00170 0x2f7c8 RW  0x1000
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x10
 
@@ -67,8 +67,8 @@ Symbol table '.symtab' contains 129 entries:
    Num:    Value  Size Type    Bind   Vis      Ndx Name
      0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
      1: c0100000     0 SECTION LOCAL  DEFAULT    1 
-     2: c0102044     0 SECTION LOCAL  DEFAULT    2 
-     3: c01022c4     0 SECTION LOCAL  DEFAULT    3 
+     2: c0102064     0 SECTION LOCAL  DEFAULT    2 
+     3: c01022e4     0 SECTION LOCAL  DEFAULT    3 
      4: c0103000     0 SECTION LOCAL  DEFAULT    4 
      5: c0104000     0 SECTION LOCAL  DEFAULT    5 
      6: 00000000     0 SECTION LOCAL  DEFAULT    6 
@@ -87,28 +87,28 @@ Symbol table '.symtab' contains 129 entries:
     19: 00000000     0 FILE    LOCAL  DEFAULT  ABS schedule.c
     20: 00000000     0 FILE    LOCAL  DEFAULT  ABS util.c
     21: c0100400    91 FUNC    LOCAL  DEFAULT    1 list_del
-    22: c010217c     9 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1219
-    23: c0102188     6 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1313
-    24: c010216c    16 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1208
-    25: c0102164     7 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1318
-    26: c0102161     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1333
-    27: c010215f     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1341
-    28: c0102154    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1231
-    29: c010214c     5 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1350
-    30: c0102144     8 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1361
-    31: c0102140     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1401
+    22: c010219c     9 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1219
+    23: c01021a8     6 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1313
+    24: c010218c    16 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1208
+    25: c0102184     7 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1318
+    26: c0102181     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1333
+    27: c010217f     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1341
+    28: c0102174    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1231
+    29: c010216c     5 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1350
+    30: c0102164     8 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1361
+    31: c0102160     2 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1401
     32: 00000000     0 FILE    LOCAL  DEFAULT  ABS i8259.c
     33: 00000000     0 FILE    LOCAL  DEFAULT  ABS irq_handle.c
     34: c0104040     4 OBJECT  LOCAL  DEFAULT    5 handle_count
     35: c01040a0   256 OBJECT  LOCAL  DEFAULT    5 handle_pool
     36: c0104060    64 OBJECT  LOCAL  DEFAULT    5 handles
-    37: c0102288    15 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1286
-    38: c010227c    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1294
+    37: c01022a8    15 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1286
+    38: c010229c    11 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1294
     39: 00000000     0 FILE    LOCAL  DEFAULT  ABS idt.c
     40: c01041c0  2048 OBJECT  LOCAL  DEFAULT    5 idt
     41: c01041a0     6 OBJECT  LOCAL  DEFAULT    5 data.1061
     42: 00000000     0 FILE    LOCAL  DEFAULT  ABS main.c
-    43: c01022bc     8 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1212
+    43: c01022dc     8 OBJECT  LOCAL  DEFAULT    2 __FUNCTION__.1212
     44: 00000000     0 FILE    LOCAL  DEFAULT  ABS kvm.c
     45: c0127000     4 OBJECT  LOCAL  DEFAULT    5 kcr3
     46: c0126000  4096 OBJECT  LOCAL  DEFAULT    5 kpdir
@@ -119,78 +119,78 @@ Symbol table '.symtab' contains 129 entries:
     51: 00000000     0 FILE    LOCAL  DEFAULT  ABS util.c
     52: 00000000     0 FILE    LOCAL  DEFAULT  ABS logo.c
     53: c0100370    76 FUNC    GLOBAL DEFAULT    1 init_serial
-    54: c0101390   116 FUNC    GLOBAL DEFAULT    1 D
+    54: c01013b0   116 FUNC    GLOBAL DEFAULT    1 D
     55: c01000b0    56 FUNC    GLOBAL DEFAULT    1 strcpy
-    56: c0101620   179 FUNC    GLOBAL DEFAULT    1 add_irq_handle
+    56: c0101640   179 FUNC    GLOBAL DEFAULT    1 add_irq_handle
     57: c01003c0    31 FUNC    GLOBAL DEFAULT    1 serial_printc
-    58: c0101fad     0 NOTYPE  GLOBAL DEFAULT    1 vec8
+    58: c0101fcd     0 NOTYPE  GLOBAL DEFAULT    1 vec8
     59: c01001a0   166 FUNC    GLOBAL DEFAULT    1 printInterger
-    60: c0101f80     0 NOTYPE  GLOBAL DEFAULT    1 vec3
+    60: c0101fa0     0 NOTYPE  GLOBAL DEFAULT    1 vec3
     61: c0100840    64 FUNC    GLOBAL DEFAULT    1 lock
-    62: c0101cb0    10 FUNC    GLOBAL DEFAULT    1 get_kcr3
-    63: c01015a0   124 FUNC    GLOBAL DEFAULT    1 init_intr
-    64: c0102004     0 NOTYPE  GLOBAL DEFAULT    1 irq14
-    65: c0101220   108 FUNC    GLOBAL DEFAULT    1 A
+    62: c0101cd0    10 FUNC    GLOBAL DEFAULT    1 get_kcr3
+    63: c01015c0   124 FUNC    GLOBAL DEFAULT    1 init_intr
+    64: c0102024     0 NOTYPE  GLOBAL DEFAULT    1 irq14
+    65: c0101240   108 FUNC    GLOBAL DEFAULT    1 A
     66: c0100050    21 FUNC    GLOBAL DEFAULT    1 memcpy
-    67: c0101f89     0 NOTYPE  GLOBAL DEFAULT    1 vec4
-    68: c0101f10    14 FUNC    GLOBAL DEFAULT    1 make_invalid_pde
-    69: c0102019     0 NOTYPE  GLOBAL DEFAULT    1 asm_do_irq
-    70: c01016e0   259 FUNC    GLOBAL DEFAULT    1 irq_handle
-    71: c0101f50    21 FUNC    GLOBAL DEFAULT    1 make_pte
+    67: c0101fa9     0 NOTYPE  GLOBAL DEFAULT    1 vec4
+    68: c0101f30    14 FUNC    GLOBAL DEFAULT    1 make_invalid_pde
+    69: c0102039     0 NOTYPE  GLOBAL DEFAULT    1 asm_do_irq
+    70: c0101700   259 FUNC    GLOBAL DEFAULT    1 irq_handle
+    71: c0101f70    21 FUNC    GLOBAL DEFAULT    1 make_pte
     72: c0100580   371 FUNC    GLOBAL DEFAULT    1 sleep
     73: c0100000    65 FUNC    GLOBAL DEFAULT    1 itoa
-    74: c0101f6e     0 NOTYPE  GLOBAL DEFAULT    1 vec1
-    75: c0101cd0    10 FUNC    GLOBAL DEFAULT    1 get_kptable
+    74: c0101f8e     0 NOTYPE  GLOBAL DEFAULT    1 vec1
+    75: c0101cf0    10 FUNC    GLOBAL DEFAULT    1 get_kptable
     76: c01003e0    27 FUNC    GLOBAL DEFAULT    1 schedule
     77: c0100c90   467 FUNC    GLOBAL DEFAULT    1 send
-    78: c0101f30    21 FUNC    GLOBAL DEFAULT    1 make_pde
+    78: c0101f50    21 FUNC    GLOBAL DEFAULT    1 make_pde
     79: c0100700   307 FUNC    GLOBAL DEFAULT    1 wakeup
-    80: c0101bd0    83 FUNC    GLOBAL DEFAULT    1 os_init_cont
-    81: c0101c30    83 FUNC    GLOBAL DEFAULT    1 os_init
-    82: c0101290   116 FUNC    GLOBAL DEFAULT    1 B
-    83: c0101db0    13 FUNC    GLOBAL DEFAULT    1 set_tss_esp0
+    80: c0101bf0    83 FUNC    GLOBAL DEFAULT    1 os_init_cont
+    81: c0101c50    83 FUNC    GLOBAL DEFAULT    1 os_init
+    82: c01012b0   116 FUNC    GLOBAL DEFAULT    1 B
+    83: c0101dd0    13 FUNC    GLOBAL DEFAULT    1 set_tss_esp0
     84: c0104020     4 OBJECT  GLOBAL DEFAULT    5 pnum
-    85: c0101fa4     0 NOTYPE  GLOBAL DEFAULT    1 vec7
-    86: c0101ff8     0 NOTYPE  GLOBAL DEFAULT    1 irq1
-    87: c0101f77     0 NOTYPE  GLOBAL DEFAULT    1 vec2
+    85: c0101fc4     0 NOTYPE  GLOBAL DEFAULT    1 vec7
+    86: c0102018     0 NOTYPE  GLOBAL DEFAULT    1 irq1
+    87: c0101f97     0 NOTYPE  GLOBAL DEFAULT    1 vec2
     88: c0100880    31 FUNC    GLOBAL DEFAULT    1 unlock
-    89: c0101310   116 FUNC    GLOBAL DEFAULT    1 C
+    89: c0101330   116 FUNC    GLOBAL DEFAULT    1 C
     90: c0100a80   523 FUNC    GLOBAL DEFAULT    1 V
     91: c0127020  4272 OBJECT  GLOBAL DEFAULT    5 idle
-    92: c0101fd9     0 NOTYPE  GLOBAL DEFAULT    1 vec14
+    92: c0101ff9     0 NOTYPE  GLOBAL DEFAULT    1 vec14
     93: c010316c     4 OBJECT  GLOBAL DEFAULT    4 current
-    94: c01017f0   977 FUNC    GLOBAL DEFAULT    1 init_idt
-    95: c0101dc0   335 FUNC    GLOBAL DEFAULT    1 init_segment
+    94: c0101810   977 FUNC    GLOBAL DEFAULT    1 init_idt
+    95: c0101de0   335 FUNC    GLOBAL DEFAULT    1 init_segment
     96: c0100350    28 FUNC    GLOBAL DEFAULT    1 printk
-    97: c0101fe0     0 NOTYPE  GLOBAL DEFAULT    1 vecsys
-    98: c0101fd2     0 NOTYPE  GLOBAL DEFAULT    1 vec13
+    97: c0102000     0 NOTYPE  GLOBAL DEFAULT    1 vecsys
+    98: c0101ff2     0 NOTYPE  GLOBAL DEFAULT    1 vec13
     99: c0103170     0 NOTYPE  GLOBAL DEFAULT    5 __bss_start
    100: c0100070    19 FUNC    GLOBAL DEFAULT    1 memset
-   101: c0101f65     0 NOTYPE  GLOBAL DEFAULT    1 vec0
-   102: c0101fc4     0 NOTYPE  GLOBAL DEFAULT    1 vec11
-   103: c0102010     0 NOTYPE  GLOBAL DEFAULT    1 irq_empty
-   104: c0101ce0   197 FUNC    GLOBAL DEFAULT    1 init_page
-   105: c0101cc0    10 FUNC    GLOBAL DEFAULT    1 get_kpdir
+   101: c0101f85     0 NOTYPE  GLOBAL DEFAULT    1 vec0
+   102: c0101fe4     0 NOTYPE  GLOBAL DEFAULT    1 vec11
+   103: c0102030     0 NOTYPE  GLOBAL DEFAULT    1 irq_empty
+   104: c0101d00   197 FUNC    GLOBAL DEFAULT    1 init_page
+   105: c0101ce0    10 FUNC    GLOBAL DEFAULT    1 get_kpdir
    106: c0100460   281 FUNC    GLOBAL DEFAULT    1 create_kthread
    107: c0103158    17 OBJECT  GLOBAL DEFAULT    4 hexBoard
-   108: c0101560    49 FUNC    GLOBAL DEFAULT    1 init_proc
+   108: c0101580    49 FUNC    GLOBAL DEFAULT    1 init_proc
    109: c01008a0    22 FUNC    GLOBAL DEFAULT    1 create_sem
-   110: c0100e70   939 FUNC    GLOBAL DEFAULT    1 receive
-   111: c0101fb4     0 NOTYPE  GLOBAL DEFAULT    1 vec9
-   112: c0101f9b     0 NOTYPE  GLOBAL DEFAULT    1 vec6
-   113: c0101fcb     0 NOTYPE  GLOBAL DEFAULT    1 vec12
-   114: c0101410   219 FUNC    GLOBAL DEFAULT    1 E
-   115: c0101fbd     0 NOTYPE  GLOBAL DEFAULT    1 vec10
+   110: c0100e70   963 FUNC    GLOBAL DEFAULT    1 receive
+   111: c0101fd4     0 NOTYPE  GLOBAL DEFAULT    1 vec9
+   112: c0101fbb     0 NOTYPE  GLOBAL DEFAULT    1 vec6
+   113: c0101feb     0 NOTYPE  GLOBAL DEFAULT    1 vec12
+   114: c0101430   219 FUNC    GLOBAL DEFAULT    1 E
+   115: c0101fdd     0 NOTYPE  GLOBAL DEFAULT    1 vec10
    116: c01280e0 42720 OBJECT  GLOBAL DEFAULT    5 pcb
-   117: c0101fec     0 NOTYPE  GLOBAL DEFAULT    1 irq0
+   117: c010200c     0 NOTYPE  GLOBAL DEFAULT    1 irq0
    118: c0103170     0 NOTYPE  GLOBAL DEFAULT    4 _edata
    119: c01327c8     0 NOTYPE  GLOBAL DEFAULT    5 _end
-   120: c0101f92     0 NOTYPE  GLOBAL DEFAULT    1 vec5
+   120: c0101fb2     0 NOTYPE  GLOBAL DEFAULT    1 vec5
    121: c0100090    27 FUNC    GLOBAL DEFAULT    1 strlen
    122: c01327c0     8 OBJECT  GLOBAL DEFAULT    5 ready
-   123: c01014f0   110 FUNC    GLOBAL DEFAULT    1 test_setup
-   124: c0101f20    14 FUNC    GLOBAL DEFAULT    1 make_invalid_pte
-   125: c0101c90    21 FUNC    GLOBAL DEFAULT    1 welcome
+   123: c0101510   110 FUNC    GLOBAL DEFAULT    1 test_setup
+   124: c0101f40    14 FUNC    GLOBAL DEFAULT    1 make_invalid_pte
+   125: c0101cb0    21 FUNC    GLOBAL DEFAULT    1 welcome
    126: c01008c0   435 FUNC    GLOBAL DEFAULT    1 P
    127: c0103000   343 OBJECT  GLOBAL DEFAULT    4 logo
    128: c0100250   252 FUNC    GLOBAL DEFAULT    1 vfprintf

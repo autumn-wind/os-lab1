@@ -1,4 +1,4 @@
-cscope 15 $HOME/os-labs/os-lab1 -q 0000001881 0000205693
+cscope 15 $HOME/os-labs/os-lab1 -q 0000001881 0000205695
 	@boot/asm.h
 
 2 
@@ -5407,14 +5407,6 @@ pmaž
 );
 
 153 
-m
-->
-¤c
- = 
-msg
-->src;
-
-154 
 	`V
 (&
 cu¼’t
@@ -5424,9 +5416,19 @@ maž_mu‹x
 INTR
 ;
 
+154 
+m
+->
+¤c
+ = 
+msg
+->src;
+
 155 }if(
 ¤c
- == -1){
+ =ð
+ANY
+){
 
 156 
 	`P
@@ -5487,14 +5489,6 @@ pmaž
 );
 
 162 
-m
-->
-¤c
- = 
-msg
-->src;
-
-163 
 	`V
 (&
 cu¼’t
@@ -5503,6 +5497,14 @@ maž_mu‹x
 );
 INTR
 ;
+
+163 
+m
+->
+¤c
+ = 
+msg
+->src;
 
 165 
 	}
