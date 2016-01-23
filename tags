@@ -5,7 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 A	src/kernel/process/util.c	/^void A () { $/;"	f
-ANY	src/kernel/process/util.c	7;"	d	file:
+ANY	src/kernel/process/util.c	6;"	d	file:
 ASFLAGS	Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 B	src/kernel/process/util.c	/^void B () { $/;"	f
 C	src/kernel/process/util.c	/^void C () { $/;"	f
@@ -43,7 +43,6 @@ MAXPCB_NUM	include/process.h	7;"	d
 Message	include/process.h	/^typedef struct Message {$/;"	s
 Msg	include/process.h	/^} Msg;$/;"	t	typeref:struct:Message
 NOINTR	src/kernel/process/util.c	4;"	d	file:
-NONEXIST_SRC	src/kernel/process/util.c	6;"	d	file:
 NR_HARD_INTR	src/kernel/irq/irq_handle.c	6;"	d	file:
 NR_IRQ	include/x86/cpu.h	112;"	d
 NR_IRQ_HANDLE	src/kernel/irq/irq_handle.c	3;"	d	file:
@@ -271,11 +270,11 @@ phentsize	boot/boot.h	/^	unsigned short phentsize;$/;"	m	struct:ELFHeader
 phnum	boot/boot.h	/^	unsigned short phnum;$/;"	m	struct:ELFHeader
 phoff	boot/boot.h	/^	unsigned int   phoff;$/;"	m	struct:ELFHeader
 pid	include/process.h	/^	pid_t pid;$/;"	m	struct:PCB
-pidA	src/kernel/process/util.c	8;"	d	file:
-pidB	src/kernel/process/util.c	9;"	d	file:
-pidC	src/kernel/process/util.c	10;"	d	file:
-pidD	src/kernel/process/util.c	11;"	d	file:
-pidE	src/kernel/process/util.c	12;"	d	file:
+pidA	src/kernel/process/util.c	7;"	d	file:
+pidB	src/kernel/process/util.c	8;"	d	file:
+pidC	src/kernel/process/util.c	9;"	d	file:
+pidD	src/kernel/process/util.c	10;"	d	file:
+pidE	src/kernel/process/util.c	11;"	d	file:
 pid_t	include/types.h	/^typedef          int   pid_t;$/;"	t
 pnum	src/kernel/process/schedule.c	/^pid_t pnum = 0;$/;"	v
 present	include/x86/memory.h	/^		uint32_t present             : 1;$/;"	m	struct:PageDirectoryEntry::__anon4

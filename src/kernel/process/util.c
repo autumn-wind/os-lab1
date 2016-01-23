@@ -3,7 +3,6 @@
 #define INTR assert(read_eflags() & IF_MASK)
 #define NOINTR assert(~read_eflags() & IF_MASK)
 
-#define NONEXIST_SRC -2
 #define ANY -1
 #define pidA 0
 #define pidB 1
@@ -143,6 +142,7 @@ void receive(pid_t src, Msg *m){
 			for(pmail = current->mail.next; pmail != &current->mail; pmail = pmail->next){
 				msg = listhead_to_mail(pmail);
 				if(msg->src == src){
+					m->src = msg->src;
 					flag = 1;
 					break;
 				}
@@ -152,17 +152,16 @@ void receive(pid_t src, Msg *m){
 			lock();NOINTR;
 			pmail = current->mail.next;
 			list_del(pmail);
-			unlock();INTR;
 			msg = listhead_to_mail(pmail);
+			m->src = msg->src;
 			flag = 1;
+			unlock();INTR;
 		}else{
 			/*should never come here*/
 			assert(0);
 		}
 		if(!flag){
 			V(&current->mail_num);INTR;
-		}else{
-			m->src = msg->src;
 		}
 	}
 }
