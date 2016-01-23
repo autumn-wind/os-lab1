@@ -24,8 +24,6 @@ typedef struct PCB {
 	uint32_t outmost_if;
 	pid_t pid;
 	ListHead mail;
-	Sem mail_mutex;
-	Sem mail_some[MAXPCB_NUM];
 	Sem mail_num;
 } PCB;
 

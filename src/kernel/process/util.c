@@ -3,6 +3,7 @@
 #define INTR assert(read_eflags() & IF_MASK)
 #define NOINTR assert(~read_eflags() & IF_MASK)
 
+#define NONEXIST_SRC -2
 #define ANY -1
 #define pidA 0
 #define pidB 1
@@ -46,11 +47,6 @@ create_kthread(void *fun) {
 	p->outmost_if = IF_MASK;
 	p->pid = pnum++;
 	list_init(&p->mail);
-	create_sem(&p->mail_mutex, 1);
-	int i;
-	for(i = 0; i < MAXPCB_NUM; ++i){
-		create_sem(&p->mail_some[i], 0);
-	}
 	create_sem(&p->mail_num, 0);
 	return p;
 }
@@ -130,37 +126,44 @@ void V(Sem *s){
 
 void send(pid_t dest, Msg *m){
 	m->dest = dest;
-	P(&pcb[dest].mail_mutex);INTR;
+	lock();
 	list_add_before(&pcb[dest].mail, &m->list);
-	V(&pcb[dest].mail_mutex);INTR;
+	unlock();
 	V(&pcb[dest].mail_num);INTR;
-	V(&pcb[dest].mail_some[m->src]);INTR;
 }
 
 void receive(pid_t src, Msg *m){
 	ListHead *pmail;
 	Msg *msg;
-	if(src >= 0){
-		P(&current->mail_some[src]);INTR;
+	uint8_t flag = 0;
+	while(!flag){
 		P(&current->mail_num);INTR;
-		P(&current->mail_mutex);INTR;
-		for(pmail = current->mail.next; ;pmail = pmail->next){
+		if(src >= 0){
+			lock();NOINTR;
+			for(pmail = current->mail.next; pmail != &current->mail; pmail = pmail->next){
+				msg = listhead_to_mail(pmail);
+				if(msg->src == src){
+					flag = 1;
+					break;
+				}
+			}
+			unlock();INTR;
+		}else if(src == ANY){
+			lock();NOINTR;
+			pmail = current->mail.next;
+			list_del(pmail);
+			unlock();INTR;
 			msg = listhead_to_mail(pmail);
-			if(msg->src == src)
-				break;
+			flag = 1;
+		}else{
+			/*should never come here*/
+			assert(0);
 		}
-		list_del(pmail);
-		V(&current->mail_mutex);INTR;
-		m->src = msg->src;
-	}else if(src == ANY){
-		P(&current->mail_num);INTR;
-		P(&current->mail_mutex);INTR;
-		pmail = current->mail.next;
-		msg = listhead_to_mail(pmail);
-		P(&current->mail_some[msg->src]);INTR;
-		list_del(pmail);
-		V(&current->mail_mutex);INTR;
-		m->src = msg->src;
+		if(!flag){
+			V(&current->mail_num);INTR;
+		}else{
+			m->src = msg->src;
+		}
 	}
 }
 
