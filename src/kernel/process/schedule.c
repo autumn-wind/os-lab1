@@ -2,7 +2,7 @@
 
 PCB idle, pcb[MAXPCB_NUM], *current = &idle;
 ListHead ready;
-uint32_t pnum = 0;
+pid_t pnum = 0;
 
 void
 schedule(void) {

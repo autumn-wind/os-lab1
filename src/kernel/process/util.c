@@ -3,22 +3,34 @@
 #define INTR assert(read_eflags() & IF_MASK)
 #define NOINTR assert(~read_eflags() & IF_MASK)
 
+#define ANY -1
+#define pidA 0
+#define pidB 1
+#define pidC 2
+#define pidD 3
+#define pidE 4
+
 PCB* create_kthread(void *);
 void sleep(ListHead *);
 void wakeup(PCB *);
 void init_proc();
-void test_producer();
-void test_consumer();
-void test_setup();
 void lock();
 void unlock();
 void create_sem(Sem *, int);
 void P(Sem *);
 void V(Sem *);
+void send(pid_t dest, Msg *m);
+void receive(pid_t src, Msg *m);
+void A();
+void B();
+void C();
+void D();
+void E();
+void test_setup();
 
 PCB*
 create_kthread(void *fun) {
-	PCB *p = &pcb[pnum++];
+	PCB *p = &pcb[pnum];
 	TrapFrame *frame = (TrapFrame *)(p->kstack + KSTACK_SIZE) - 1; 
 	frame->ds = 0x10;
 	frame->es = 0x10;
@@ -32,6 +44,14 @@ create_kthread(void *fun) {
 	(p->list).next = NULL;
 	p->lock_cnt = 0;
 	p->outmost_if = IF_MASK;
+	p->pid = pnum++;
+	list_init(&p->mail);
+	create_sem(&p->mail_mutex, 1);
+	int i;
+	for(i = 0; i < MAXPCB_NUM; ++i){
+		create_sem(&p->mail_some[i], 0);
+	}
+	create_sem(&p->mail_num, 0);
 	return p;
 }
 
@@ -58,14 +78,6 @@ init_proc() {
 	list_add_before(&ready, &idle.list);
 	test_setup();
 }
-
-#define NBUF 5
-#define NR_PROD 3
-#define NR_CONS 4
-
-int buf[NBUF], f = 0, r = 0, g = 1;
-int last = 0;
-Sem empty, full, mutex;
 
 void lock(){
 	if(current->lock_cnt == 0)
@@ -116,47 +128,120 @@ void V(Sem *s){
 	INTR;
 }
 
-void
-test_producer(void) {
-	while (1) {
-		P(&empty);INTR;
-		P(&mutex);INTR;
-		if(g % 10000 == 0) {
-			printk(".");	// tell us threads are really working
+void send(pid_t dest, Msg *m){
+	m->dest = dest;
+	P(&pcb[dest].mail_mutex);INTR;
+	list_add_before(&pcb[dest].mail, &m->list);
+	V(&pcb[dest].mail_mutex);INTR;
+	V(&pcb[dest].mail_num);INTR;
+	V(&pcb[dest].mail_some[m->src]);INTR;
+}
+
+void receive(pid_t src, Msg *m){
+	ListHead *pmail;
+	Msg *msg;
+	if(src >= 0){
+		P(&current->mail_some[src]);INTR;
+		P(&current->mail_num);INTR;
+		P(&current->mail_mutex);INTR;
+		for(pmail = current->mail.next; ;pmail = pmail->next){
+			msg = listhead_to_mail(pmail);
+			if(msg->src == src)
+				break;
 		}
-		buf[f ++] = g ++;
-		f %= NBUF;
-		V(&mutex);INTR;
-		V(&full);INTR;
+		list_del(pmail);
+		m->src = msg->src;
+		V(&current->mail_mutex);INTR;
+	}else if(src == -1){
+		P(&current->mail_num);INTR;
+		P(&current->mail_mutex);INTR;
+		pmail = current->mail.next;
+		msg = listhead_to_mail(pmail);
+		P(&current->mail_some[msg->src]);INTR;
+		list_del(pmail);
+		m->src = msg->src;
+		V(&current->mail_mutex);INTR;
 	}
 }
 
-void
-test_consumer(void) {
-	int get;
-	while (1) {
-		P(&full);INTR;
-		P(&mutex);INTR;
-		get = buf[r ++];
-		assert(last == get - 1);	// the products should be strictly increasing
-		last = get;
-		r %= NBUF;
-		V(&mutex);INTR;
-		V(&empty);INTR;
+void A () { 
+	Msg m1, m2;
+	m1.src = current->pid;
+	int x = 0;
+	while(1) {
+		if(x % 10000000 == 0) {
+			printk("a"); 
+			send(pidE, &m1);
+			receive(pidE, &m2);
+		}
+		x ++;
+	}
+}
+void B () { 
+	Msg m1, m2;
+	m1.src = current->pid;
+	int x = 0;
+	receive(pidE, &m2);
+	while(1) {
+		if(x % 10000000 == 0) {
+			printk("b"); 
+			send(pidE, &m1);
+			receive(pidE, &m2);
+		}
+		x ++;
+	}
+}
+void C () { 
+	Msg m1, m2;
+	m1.src = current->pid;
+	int x = 0;
+	receive(pidE, &m2);
+	while(1) {
+		if(x % 10000000 == 0) {
+			printk("c"); 
+			send(pidE, &m1);
+			receive(pidE, &m2);
+		}
+		x ++;
+	}
+}
+void D () { 
+	Msg m1, m2;
+	m1.src = current->pid;
+	receive(pidE, &m2);
+	int x = 0;
+	while(1) {
+		if(x % 10000000 == 0) {
+			printk("d"); 
+			send(pidE, &m1);
+			receive(pidE, &m2);
+		}
+		x ++;
 	}
 }
 
-void
-test_setup(void) {
-	create_sem(&full, 0);
-	create_sem(&empty, NBUF);
-	create_sem(&mutex, 1);
-	int i;
-	for(i = 0; i < NR_PROD; i ++) {
-		wakeup(create_kthread(test_producer));
+void E () {
+	Msg m1, m2;
+	m2.src = current->pid;
+	char c;
+	while(1) {
+		receive(ANY, &m1);
+		if(m1.src == pidA) {c = '|'; m2.dest = pidB; }
+		else if(m1.src == pidB) {c = '/'; m2.dest = pidC;}
+		else if(m1.src == pidC) {c = '-'; m2.dest = pidD;}
+		else if(m1.src == pidD) {c = '\\';m2.dest = pidA;}
+		else assert(0);
+
+		printk("\033[s\033[1000;1000H%c\033[u", c);
+		send(m2.dest, &m2);
 	}
-	for(i = 0; i < NR_CONS; i ++) {
-		wakeup(create_kthread(test_consumer));
-	}
+}
+
+void test_setup(){
+	wakeup(create_kthread(A));
+	wakeup(create_kthread(B));
+	wakeup(create_kthread(C));
+	wakeup(create_kthread(D));
+	wakeup(create_kthread(E));
 }
 
