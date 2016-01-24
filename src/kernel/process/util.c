@@ -134,7 +134,7 @@ void send(pid_t dest, Msg *m){
 void receive(pid_t src, Msg *m){
 	ListHead *pmail;
 	Msg *msg;
-	uint8_t flag = 0;
+	uint8_t flag = 0, count = 0;
 	while(!flag){
 		P(&current->mail_num);INTR;
 		if(src >= 0){
@@ -142,6 +142,7 @@ void receive(pid_t src, Msg *m){
 			for(pmail = current->mail.next; pmail != &current->mail; pmail = pmail->next){
 				msg = listhead_to_mail(pmail);
 				if(msg->src == src){
+					list_del(pmail);
 					m->src = msg->src;
 					flag = 1;
 					break;
@@ -161,9 +162,12 @@ void receive(pid_t src, Msg *m){
 			assert(0);
 		}
 		if(!flag){
-			V(&current->mail_num);INTR;
+			count += 1;
 		}
 	}
+	lock();
+	current->mail_num.token += count;
+	unlock();
 }
 
 void A () { 
