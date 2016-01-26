@@ -13,6 +13,9 @@ void init_proc();
 
 PCB*
 create_kthread(void *fun) {
+	if(pnum >= MAXPCB_NUM){
+		panic("no pcb for more thread");
+	}
 	PCB *p = &pcb[pnum];
 	TrapFrame *frame = (TrapFrame *)(p->kstack + KSTACK_SIZE) - 1; 
 	frame->ds = 0x10;
