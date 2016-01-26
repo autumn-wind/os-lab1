@@ -31,3 +31,16 @@ size_t strlen(const char *str) {
 void strcpy(char *d, const char *s) {
 	memcpy(d, s, strlen(s) + 1);
 }
+
+int strcmp(const char *d, const char *s){
+	int i = 0, j = 0, di, sj;
+	while(*(d + i) && *(s + j)){
+		di = *(d + i);
+		sj = *(s + j);
+		if(di != sj)
+			return di - sj;
+		++i;
+		++j;
+	}
+	return *(d + i) - *(s + j);
+}

@@ -3,8 +3,13 @@
 
 #include "adt/list.h"
 
+#define INTR assert(read_eflags() & IF_MASK)
+#define NOINTR assert(~read_eflags() & IF_MASK)
+
+#define ANY -1
+
 #define KSTACK_SIZE 4096
-#define MAXPCB_NUM	10
+#define MAXPCB_NUM	20
 #define IF_MASK		0x200
 #define listhead_to_pcb(ptr) \
 	(PCB *)((char *)(ptr) - KSTACK_SIZE - sizeof(void *))
@@ -45,6 +50,26 @@ typedef struct Message {
 	};
 	ListHead list;
 } Msg;
+
+extern void lock();
+extern void unlock();
+extern void sleep(ListHead *);
+extern void wakeup(PCB *);
+extern void create_sem(Sem *, int);
+extern void P(Sem *);
+extern void V(Sem *);
+extern void send(pid_t dest, Msg *m);
+extern void receive(pid_t src, Msg *m);
+extern PCB* create_kthread(void *);
+extern PCB* fetch_pcb(pid_t);
+
+extern void copy_from_kernel(PCB* pcb, void* dest, void* src, int len);
+
+extern void copy_to_kernel(PCB* pcb, void* dest, void* src, int len);
+
+extern void strcpy_to_kernel(PCB* pcb, char* dest, char* src);
+
+extern void strcpy_from_kernel(PCB* pcb, char* dest, char* src);
 
 extern PCB pcb[MAXPCB_NUM], idle, *current;
 extern ListHead ready;

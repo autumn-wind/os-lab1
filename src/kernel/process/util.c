@@ -1,32 +1,15 @@
 #include "kernel.h"
 
-#define INTR assert(read_eflags() & IF_MASK)
-#define NOINTR assert(~read_eflags() & IF_MASK)
-
-#define ANY -1
-#define pidA 0
-#define pidB 1
-#define pidC 2
-#define pidD 3
-#define pidE 4
-
-PCB* create_kthread(void *);
-void sleep(ListHead *);
-void wakeup(PCB *);
-void init_proc();
 void lock();
 void unlock();
+void sleep(ListHead *);
+void wakeup(PCB *);
 void create_sem(Sem *, int);
 void P(Sem *);
 void V(Sem *);
 void send(pid_t dest, Msg *m);
 void receive(pid_t src, Msg *m);
-void A();
-void B();
-void C();
-void D();
-void E();
-void test_setup();
+void init_proc();
 
 PCB*
 create_kthread(void *fun) {
@@ -71,7 +54,6 @@ void
 init_proc() {
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
-	test_setup();
 }
 
 void lock(){
@@ -94,7 +76,6 @@ void create_sem(Sem *sem, int t){
 }
 
 void P(Sem *s){
-	INTR;
 	lock();
 	NOINTR;
 	if(s->token > 0)
@@ -105,11 +86,9 @@ void P(Sem *s){
 		NOINTR;
 	}
 	unlock();
-	INTR;
 }
 
 void V(Sem *s){
-	INTR;
 	lock();
 	NOINTR;
 	if(list_empty(&(s->block)))
@@ -120,7 +99,6 @@ void V(Sem *s){
 		NOINTR;
 	}
 	unlock();
-	INTR;
 }
 
 void send(pid_t dest, Msg *m){
@@ -128,7 +106,19 @@ void send(pid_t dest, Msg *m){
 	lock();
 	list_add_before(&pcb[dest].mail, &m->list);
 	unlock();
-	V(&pcb[dest].mail_num);INTR;
+	V(&pcb[dest].mail_num);
+}
+
+void copy_msg(Msg *d, Msg *s){
+	d->src = s->src;
+	d->dest = s->dest;
+	d->type = s->type;
+	d->req_pid = s->req_pid;
+	d->dev_id = s->dev_id;
+	d->buf = s->buf;
+	d->offset = s->offset;
+	d->len = s->len;
+	d->list = s->list;
 }
 
 void receive(pid_t src, Msg *m){
@@ -136,27 +126,27 @@ void receive(pid_t src, Msg *m){
 	Msg *msg;
 	uint8_t flag = 0, count = 0;
 	while(!flag){
-		P(&current->mail_num);INTR;
-		if(src >= 0){
+		P(&current->mail_num);
+		if(src != ANY){
 			lock();NOINTR;
 			for(pmail = current->mail.next; pmail != &current->mail; pmail = pmail->next){
 				msg = listhead_to_mail(pmail);
 				if(msg->src == src){
 					list_del(pmail);
-					m->src = msg->src;
+					copy_msg(m, msg);
 					flag = 1;
 					break;
 				}
 			}
-			unlock();INTR;
+			unlock();
 		}else if(src == ANY){
 			lock();NOINTR;
 			pmail = current->mail.next;
 			list_del(pmail);
 			msg = listhead_to_mail(pmail);
-			m->src = msg->src;
+			copy_msg(m, msg);
 			flag = 1;
-			unlock();INTR;
+			unlock();
 		}else{
 			/*should never come here*/
 			assert(0);
@@ -169,85 +159,3 @@ void receive(pid_t src, Msg *m){
 	current->mail_num.token += count;
 	unlock();
 }
-
-void A () { 
-	Msg m1, m2;
-	m1.src = current->pid;
-	int x = 0;
-	while(1) {
-		if(x % 10000000 == 0) {
-			printk("a"); 
-			send(pidE, &m1);
-			receive(pidE, &m2);
-		}
-		x ++;
-	}
-}
-void B () { 
-	Msg m1, m2;
-	m1.src = current->pid;
-	int x = 0;
-	receive(pidE, &m2);
-	while(1) {
-		if(x % 10000000 == 0) {
-			printk("b"); 
-			send(pidE, &m1);
-			receive(pidE, &m2);
-		}
-		x ++;
-	}
-}
-void C () { 
-	Msg m1, m2;
-	m1.src = current->pid;
-	int x = 0;
-	receive(pidE, &m2);
-	while(1) {
-		if(x % 10000000 == 0) {
-			printk("c"); 
-			send(pidE, &m1);
-			receive(pidE, &m2);
-		}
-		x ++;
-	}
-}
-void D () { 
-	Msg m1, m2;
-	m1.src = current->pid;
-	receive(pidE, &m2);
-	int x = 0;
-	while(1) {
-		if(x % 10000000 == 0) {
-			printk("d"); 
-			send(pidE, &m1);
-			receive(pidE, &m2);
-		}
-		x ++;
-	}
-}
-
-void E () {
-	Msg m1, m2;
-	m2.src = current->pid;
-	char c;
-	while(1) {
-		receive(ANY, &m1);
-		if(m1.src == pidA) {c = '|'; m2.dest = pidB; }
-		else if(m1.src == pidB) {c = '/'; m2.dest = pidC;}
-		else if(m1.src == pidC) {c = '-'; m2.dest = pidD;}
-		else if(m1.src == pidD) {c = '\\';m2.dest = pidA;}
-		else assert(0);
-
-		printk("\033[s\033[1000;1000H%c\033[u", c);
-		send(m2.dest, &m2);
-	}
-}
-
-void test_setup(){
-	wakeup(create_kthread(A));
-	wakeup(create_kthread(B));
-	wakeup(create_kthread(C));
-	wakeup(create_kthread(D));
-	wakeup(create_kthread(E));
-}
-

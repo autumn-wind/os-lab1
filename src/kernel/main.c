@@ -9,6 +9,7 @@ void init_idt(void);
 void init_intr(void);
 void init_proc(void);
 void welcome(void);
+extern void init_driver();
 
 void os_init_cont(void);
 
@@ -51,15 +52,17 @@ os_init_cont(void) {
 
 	welcome();
 
-#define PORT_TIME 0x40
-#define FREQ_8253 1193182
-#define HZ        100000
+/*#define PORT_TIME 0x40*/
+/*#define FREQ_8253 1193182*/
+/*#define HZ        100000*/
 
-	int count = FREQ_8253 / HZ;
-	assert(count < 65536);
-	out_byte(PORT_TIME + 3, 0x34);
-	out_byte(PORT_TIME    , count % 256);
-	out_byte(PORT_TIME    , count / 256);
+	/*int count = FREQ_8253 / HZ;*/
+	/*assert(count < 65536);*/
+	/*out_byte(PORT_TIME + 3, 0x34);*/
+	/*out_byte(PORT_TIME    , count % 256);*/
+	/*out_byte(PORT_TIME    , count / 256);*/
+
+	init_driver();
 
 	sti();
 

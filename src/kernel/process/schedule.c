@@ -11,3 +11,8 @@ schedule(void) {
 		return;
 	current = listhead_to_pcb(ready.next);
 }
+
+PCB* fetch_pcb(pid_t pid){
+	return &pcb[pid];
+}
+

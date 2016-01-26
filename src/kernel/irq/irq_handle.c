@@ -2,7 +2,7 @@
 
 #define NR_IRQ_HANDLE 32
 
-/* In Nanos, there are no more than 16(actually, 3) hardward interrupts. */
+/* In Nanos, there are no more than 16(actually, 3) hardware interrupts. */
 #define NR_HARD_INTR 16
 
 /* Structures below is a linked list of function pointers indicating the
