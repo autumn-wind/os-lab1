@@ -1,9 +1,10 @@
 #include "kernel.h"
 #include "tty.h"
+#include "hal.h"
 
 static int tty_idx = 1;
 
-static void
+void
 getty(void) {
 	char name[] = "tty0";
 	lock();
@@ -16,7 +17,14 @@ getty(void) {
 		 * 2. convert all small letters in buf into capitcal letters
 		 * 3. write the result on screen (use dev_write())
 		 */
-
+		char buf[CBUF_SZ];
+		int n = dev_read(name, current->pid, buf, 0, CBUF_SZ);
+		int i;
+		for(i = 0; i < n; i++){
+			if(buf[i] >= 'a' && buf[i] <= 'z')
+				buf[i] += 'A' - 'a';
+		}
+		dev_write(name, current->pid, buf, 0, n);
 	}
 }
 

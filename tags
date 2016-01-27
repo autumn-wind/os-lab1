@@ -269,7 +269,7 @@ get_kcr3	src/kernel/memory/kvm.c	/^inline CR3* get_kcr3() {$/;"	f
 get_kpdir	src/kernel/memory/kvm.c	/^inline PDE* get_kpdir() {$/;"	f
 get_kptable	src/kernel/memory/kvm.c	/^inline PTE* get_kptable() {$/;"	f
 get_time	src/kernel/drivers/timer/timer.c	/^get_time(Time *tm) {$/;"	f
-getty	src/kernel/drivers/tty/getty.c	/^getty(void) {$/;"	f	file:
+getty	src/kernel/drivers/tty/getty.c	/^getty(void) {$/;"	f
 global	include/x86/memory.h	/^		uint32_t global              : 1;$/;"	m	struct:PageTableEntry::__anon5
 granularity	include/x86/memory.h	/^	uint32_t granularity         : 1;$/;"	m	struct:SegmentDescriptor
 gs	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment registers$/;"	m	struct:TrapFrame
