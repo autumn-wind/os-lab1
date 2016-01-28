@@ -34,6 +34,10 @@ ttyd(void) {
 					update_banner();
 					break;
 				default:
+					printk("message src:%d\n", m.src);
+					printk("message dest:%d\n", m.dest);
+					printk("message req_pid:%d\n", m.req_pid);
+					printk("message dev_id:%d\n", m.dev_id);
 					printk("message type: %d\n", m.type);
 					assert(0);
 			}
@@ -60,7 +64,13 @@ ttyd(void) {
 					m.src = current->pid;
 					send(dest, &m);
 					break;
-				default: assert(0);
+				default: 
+					printk("message src:%d\n", m.src);
+					printk("message dest:%d\n", m.dest);
+					printk("message req_pid:%d\n", m.req_pid);
+					printk("message dev_id:%d\n", m.dev_id);
+					printk("message type:%d\n", m.type);
+					assert(0);
 			}
 		}
 	}

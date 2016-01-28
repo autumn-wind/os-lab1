@@ -58,7 +58,7 @@ void
 init_proc() {
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
-	wakeup(create_kthread(read_mbr));
+	/*wakeup(create_kthread(read_mbr));*/
 }
 
 void lock(){
@@ -109,6 +109,12 @@ void V(Sem *s){
 void send(pid_t dest, Msg *m){
 	m->dest = dest;
 	lock();
+	printk("current pid: %d\n", current->pid);
+	printk("send a message:\n");
+	printk("message src: %d\n", m->src);
+	printk("message dest: %d\n", m->dest);
+	printk("message type: %d\n", m->type);
+	printk("\n");
 	list_add_before(&pcb[dest].mail, &m->list);
 	unlock();
 	V(&pcb[dest].mail_num);
@@ -129,16 +135,28 @@ void copy_msg(Msg *d, Msg *s){
 void receive(pid_t src, Msg *m){
 	ListHead *pmail;
 	Msg *msg;
-	uint8_t flag = 0, count = 0;
+	int flag = 0, count = 0, mail_cnt = 0;
 	while(!flag){
 		P(&current->mail_num);
 		if(src != ANY){
 			lock();NOINTR;
+			mail_cnt = 0;
+			if(list_empty(&current->mail))
+				printk("mail box is empty!!\n");
+			list_foreach(pmail, &current->mail)
+				mail_cnt++;
+			printk("mail_cnt: %d\t mail_num: %d\t count: %d\n", mail_cnt, current->mail_num.token, count);
 			for(pmail = current->mail.next; pmail != &current->mail; pmail = pmail->next){
 				msg = listhead_to_mail(pmail);
 				if(msg->src == src){
 					list_del(pmail);
 					copy_msg(m, msg);
+					printk("current pid: %d\n", current->pid);
+					printk("receive certain message:\n");
+					printk("message src: %d\n", m->src);
+					printk("message dest: %d\n", m->dest);
+					printk("message type: %d\n", m->type);
+					printk("\n");
 					flag = 1;
 					break;
 				}
@@ -146,10 +164,21 @@ void receive(pid_t src, Msg *m){
 			unlock();
 		}else if(src == ANY){
 			lock();NOINTR;
+			if(list_empty(&current->mail))
+				printk("mail box is empty!!\n");
+			list_foreach(pmail, &current->mail)
+				mail_cnt++;
+			printk("mail_cnt: %d\t mail_num: %d\t count: %d\n", mail_cnt, current->mail_num.token, count);
 			pmail = current->mail.next;
 			list_del(pmail);
 			msg = listhead_to_mail(pmail);
 			copy_msg(m, msg);
+			printk("current pid: %d\n", current->pid);
+			printk("receive any message:\n");
+			printk("message src: %d\n", m->src);
+			printk("message dest: %d\n", m->dest);
+			printk("message type: %d\n", m->type);
+			printk("\n");
 			flag = 1;
 			unlock();
 		}else{

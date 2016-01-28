@@ -56,12 +56,31 @@ message src: 0
 message dest: 7
 message type: 1
 
+current pid: 7
+send a message:
+message src: -2
+message dest: 7
+message type: 1
+
 mail_cnt: 4	 mail_num: 3	 count: 0
 current pid: 2
 receive any message:
 message src: 3
 message dest: 2
 message type: 1
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 7
+receive certain message:
+message src: -2
+message dest: 7
+message type: 1
+
+current pid: 7
+send a message:
+message src: 7
+message dest: 0
+message type: 512
 
 mail_cnt: 3	 mail_num: 2	 count: 0
 current pid: 2
@@ -83,25 +102,6 @@ receive any message:
 message src: 6
 message dest: 2
 message type: 1
-
-current pid: 7
-send a message:
-message src: -2
-message dest: 7
-message type: 1
-
-mail_cnt: 1	 mail_num: 0	 count: 0
-current pid: 7
-receive certain message:
-message src: -2
-message dest: 7
-message type: 1
-
-current pid: 7
-send a message:
-message src: 7
-message dest: 0
-message type: 512
 
 mail_cnt: 1	 mail_num: 0	 count: 0
 current pid: 0
@@ -202,8 +202,28 @@ message src: -2
 message dest: 2
 message type: 1
 
-current pid: 2
+current pid: 0
 send a message:
+message src: -2
+message dest: 2
+message type: 1
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
+message src: -2
+message dest: 2
+message type: 1
+
+current pid: 0
+send a message:
+message src: -2
+message dest: 2
+message type: 2
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
 message src: -2
 message dest: 2
 message type: 2
@@ -214,7 +234,72 @@ message src: -2
 message dest: 2
 message type: 1
 
-mail_cnt: 2	 mail_num: 1	 count: 0
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
+message src: -2
+message dest: 2
+message type: 1
+
+current pid: 0
+send a message:
+message src: -2
+message dest: 2
+message type: 2
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
+message src: -2
+message dest: 2
+message type: 2
+
+current pid: 0
+send a message:
+message src: -2
+message dest: 2
+message type: 1
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
+message src: -2
+message dest: 2
+message type: 1
+
+current pid: 0
+send a message:
+message src: -2
+message dest: 2
+message type: 2
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
+message src: -2
+message dest: 2
+message type: 2
+
+current pid: 0
+send a message:
+message src: -2
+message dest: 2
+message type: 1
+
+mail_cnt: 1	 mail_num: 0	 count: 0
+current pid: 2
+receive any message:
+message src: -2
+message dest: 2
+message type: 1
+
+current pid: 2
+send a message:
+message src: -2
+message dest: 2
+message type: 1
+
+mail_cnt: 1	 mail_num: 0	 count: 0
 current pid: 2
 receive any message:
 message src: -2
