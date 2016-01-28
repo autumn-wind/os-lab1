@@ -427,6 +427,7 @@ r	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 read_byte	src/kernel/drivers/ide/cache.c	/^read_byte(uint32_t offset) {$/;"	f
 read_cr0	include/x86/cpu.h	/^read_cr0() {$/;"	f
 read_eflags	include/x86/cpu.h	/^read_eflags(void) {$/;"	f
+read_mbr	src/kernel/process/util.c	/^void read_mbr(){$/;"	f
 read_request	src/kernel/drivers/tty/console.c	/^read_request(Msg *m) {$/;"	f
 read_write	include/x86/memory.h	/^		uint32_t read_write          : 1; $/;"	m	struct:PageDirectoryEntry::__anon4
 read_write	include/x86/memory.h	/^		uint32_t read_write          : 1;$/;"	m	struct:PageTableEntry::__anon5

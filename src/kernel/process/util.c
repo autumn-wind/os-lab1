@@ -10,6 +10,7 @@ void V(Sem *);
 void send(pid_t dest, Msg *m);
 void receive(pid_t src, Msg *m);
 void init_proc();
+void read_mbr();
 
 PCB*
 create_kthread(void *fun) {
@@ -57,6 +58,7 @@ void
 init_proc() {
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
+	wakeup(create_kthread(read_mbr));
 }
 
 void lock(){
@@ -161,4 +163,23 @@ void receive(pid_t src, Msg *m){
 	lock();
 	current->mail_num.token += count;
 	unlock();
+}
+
+void read_mbr(){
+	uint8_t buf[512];
+	int n = dev_read("hda", current->pid, buf, 0, 512);
+	if(n)
+		printk("read %d bytes in MBR:\n", n);
+	else
+		panic("read ide failed!\n");
+	int i;
+	for(i = 0; i < 512; ++i){
+		uint8_t c = buf[i];
+		serial_printc(hexBoard[(c & 0xf0) >> 4]);
+		serial_printc(hexBoard[(c & 0x0f)]);
+		serial_printc(' ');
+	}
+	while(1){
+
+	}
 }
