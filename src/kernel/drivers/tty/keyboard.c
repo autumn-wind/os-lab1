@@ -6,7 +6,7 @@
 
 void
 send_keymsg(void) {
-	Msg m;
+	static Msg m;
 	m.type = MSG_TTY_GETKEY;
 	m.src = MSG_HARD_INTR;
 	send(TTY, &m);
