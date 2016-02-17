@@ -29,7 +29,7 @@ init_ide(void) {
 
 static void
 ide_driver_thread(void) {
-	static Msg m;
+	Msg m;
 
 	while (true) {
 		receive(ANY, &m);

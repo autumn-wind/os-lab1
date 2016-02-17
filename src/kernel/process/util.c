@@ -27,8 +27,8 @@ create_kthread(void *fun) {
 	frame->eip = (uint32_t)fun;
 	frame->eflags |= IF_MASK;
 	p->tf = frame;
-	(p->list).prev = NULL;
-	(p->list).next = NULL;
+	p->list.prev = NULL;
+	p->list.next = NULL;
 	p->lock_cnt = 0;
 	p->outmost_if = IF_MASK;
 	p->pid = pnum++;
@@ -62,17 +62,21 @@ init_proc() {
 }
 
 void lock(){
+	assert(current->lock_cnt >= 0);
 	if(current->lock_cnt == 0)
 		current->outmost_if = (read_eflags() & IF_MASK);	
 	cli();
 	current->lock_cnt += 1;
+	assert(current->lock_cnt >= 0);
 }
 
 void unlock(){
+	assert(current->lock_cnt >= 0);
 	current->lock_cnt -= 1;
 	if(current->lock_cnt == 0)
 		if(current->outmost_if)
 			sti();
+	assert(current->lock_cnt >= 0);
 }
 
 void create_sem(Sem *sem, int t){
@@ -100,13 +104,13 @@ void V(Sem *s){
 		s->token += 1;
 	else
 	{
-		wakeup(listhead_to_pcb((s->block).next));
+		wakeup(list_entry((s->block).next, PCB, list));
 		NOINTR;
 	}
 	unlock();
 }
 
-#define DEBUG
+/*#define DEBUG*/
 
 void send(pid_t dest, Msg *m){
 	m->dest = dest;
@@ -120,6 +124,9 @@ void send(pid_t dest, Msg *m){
 	printk("message type: %d\n", m->type);
 	printk("\n");
 #endif
+	/*printk("sending...\n");*/
+	/*printk("sender: %d\treceiver:%d\n", current->pid, dest);*/
+	/*printk("%x\n\n", m);*/
 	list_add_before(&pcb[dest].mail, &m->list);
 	unlock();
 	V(&pcb[dest].mail_num);
@@ -134,27 +141,32 @@ void copy_msg(Msg *d, Msg *s){
 	d->buf = s->buf;
 	d->offset = s->offset;
 	d->len = s->len;
-	d->list = s->list;
+	/*d->list = s->list;*/
 }
 
 void receive(pid_t src, Msg *m){
 	ListHead *pmail;
 	Msg *msg;
 	int flag = 0, count = 0;
+	/*printk("receiving...\n\n");*/
 	while(!flag){
 		P(&current->mail_num);
 		if(src != ANY){
+			/*printk("1	%x\n", &current->mail);*/
 			lock();NOINTR;
-#ifdef DEBUG
 			if(list_empty(&current->mail))
-				printk("mail box is empty!!\n");
+				panic("mail box is empty!!\n");
+#ifdef DEBUG
 			int mail_cnt = 0;
 			list_foreach(pmail, &current->mail)
 				mail_cnt++;
 			printk("mail_cnt: %d\t mail_num: %d\t count: %d\n", mail_cnt, current->mail_num.token, count);
 #endif
-			for(pmail = current->mail.next; pmail != &current->mail; pmail = pmail->next){
-				msg = listhead_to_mail(pmail);
+			list_foreach(pmail, &current->mail){
+				/*printk("2\n");*/
+				/*printk("receiver: %d\tsender: %d\n", current->pid, src);*/
+				/*printk("%x	%x\n", pmail, &current->mail);*/
+				msg = list_entry(pmail, Msg, list);
 				if(msg->src == src){
 					list_del(pmail);
 					copy_msg(m, msg);
@@ -174,9 +186,9 @@ void receive(pid_t src, Msg *m){
 			unlock();
 		}else if(src == ANY){
 			lock();NOINTR;
-#ifdef DEBUG
 			if(list_empty(&current->mail))
-				printk("mail box is empty!!\n");
+				panic("mail box is empty!!\n");
+#ifdef DEBUG
 			int mail_cnt = 0;
 			list_foreach(pmail, &current->mail)
 				mail_cnt++;
@@ -184,7 +196,7 @@ void receive(pid_t src, Msg *m){
 #endif
 			pmail = current->mail.next;
 			list_del(pmail);
-			msg = listhead_to_mail(pmail);
+			msg = list_entry(pmail, Msg, list);
 			copy_msg(m, msg);
 #ifdef DEBUG
 			printk("current pid: %d\n", current->pid);
@@ -205,6 +217,7 @@ void receive(pid_t src, Msg *m){
 			count += 1;
 		}
 	}
+	/*printk("3\n\n");*/
 	lock();
 	current->mail_num.token += count;
 	unlock();

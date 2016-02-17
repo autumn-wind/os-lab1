@@ -11,10 +11,6 @@
 #define KSTACK_SIZE 4096
 #define MAXPCB_NUM	20
 #define IF_MASK		0x200
-#define listhead_to_pcb(ptr) \
-	(PCB *)((char *)(ptr) - KSTACK_SIZE - sizeof(void *))
-#define listhead_to_mail(ptr) \
-	(Msg *)((char *)(ptr) - sizeof(int) * 6 - sizeof(pid_t) * 2)
 
 typedef struct Semaphore {
 	int token;

@@ -36,7 +36,7 @@ bootmain(void) {
 	for(; ph < eph; ph ++) {
 		pa = (unsigned char*)(ph->paddr - KOFFSET); /* physical address */
 		readseg(pa, ph->filesz, ph->off); /* load from disk */
-		/*for (i = pa + ph->filesz; i < pa + ph->memsz; *i ++ = 0);*/
+		for (i = pa + ph->filesz; i < pa + ph->memsz; *i ++ = 0);
 	}
 
 	/* Here we go! */

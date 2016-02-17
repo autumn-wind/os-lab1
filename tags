@@ -225,6 +225,7 @@ dev_rw	src/kernel/drivers/hal.c	/^dev_rw(const char *dev_name, int type, pid_t r
 dev_write	src/kernel/drivers/hal.c	/^dev_write(const char *dev_name, pid_t reqst_pid, void *buf, off_t offset, size_t len) {$/;"	f
 devices	src/kernel/drivers/hal.c	/^static ListHead free, devices;$/;"	v	file:
 die	run-repeat.sh	/^function die {$/;"	f
+die	test.sh	/^function die {$/;"	f
 dirty	include/x86/memory.h	/^		uint32_t dirty               : 1;$/;"	m	struct:PageTableEntry::__anon5
 dirty	src/kernel/drivers/ide/cache.c	/^	bool used, dirty;$/;"	m	struct:SectorCache	file:
 disk_do_read	src/kernel/drivers/ide/disk.c	/^disk_do_read(void *buf, uint32_t sector) {$/;"	f
@@ -250,6 +251,8 @@ es	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment regi
 esi	include/x86/memory.h	/^	uint32_t edi, esi, ebp, xxx, ebx, edx, ecx, eax;	\/\/ GPRs$/;"	m	struct:TrapFrame
 esp	include/x86/memory.h	/^	uint32_t esp, ss;									\/\/ only uses when DPL = 3$/;"	m	struct:TrapFrame
 esp0	include/x86/memory.h	/^	uint32_t esp0;$/;"	m	struct:TSS
+exec_cmd	test.sh	/^function exec_cmd() {$/;"	f
+exec_cmdfile	test.sh	/^function exec_cmdfile() {$/;"	f
 extension_type	include/x86/cpu.h	/^		uint32_t extension_type      : 1;$/;"	m	struct:CR0::__anon6
 f	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 false	include/const.h	5;"	d
@@ -336,10 +339,8 @@ list_add_before	include/adt/list.h	/^list_add_before(ListHead *list, ListHead *d
 list_del	include/adt/list.h	/^list_del(ListHead *data) {$/;"	f
 list_empty	include/adt/list.h	/^list_empty(ListHead *list) {$/;"	f
 list_entry	include/adt/list.h	11;"	d
-list_foreach	include/adt/list.h	56;"	d
+list_foreach	include/adt/list.h	63;"	d
 list_init	include/adt/list.h	/^list_init(ListHead *list) {$/;"	f
-listhead_to_mail	include/process.h	16;"	d
-listhead_to_pcb	include/process.h	14;"	d
 lock	src/kernel/process/util.c	/^void lock(){$/;"	f
 lock_cnt	include/process.h	/^	uint32_t lock_cnt;$/;"	m	struct:PCB
 logo	src/lib/logo.c	/^unsigned char logo[] = {$/;"	v
@@ -454,6 +455,8 @@ segment_type	include/x86/memory.h	/^	uint32_t segment_type        : 1;$/;"	m	str
 send	src/kernel/process/util.c	/^void send(pid_t dest, Msg *m){$/;"	f
 send_keymsg	src/kernel/drivers/tty/keyboard.c	/^send_keymsg(void) {$/;"	f
 send_updatemsg	src/kernel/drivers/tty/console.c	/^send_updatemsg(void) {$/;"	f	file:
+sendkey	test.sh	/^function sendkey {$/;"	f
+sendstr	test.sh	/^function sendstr() {$/;"	f
 serial_idle	src/lib/serial.c	/^serial_idle(void) {$/;"	f	file:
 serial_printc	src/lib/serial.c	/^serial_printc(char ch) {$/;"	f
 set_intr	src/kernel/irq/idt.c	/^static void set_intr(GateDesc *ptr, uint32_t selector, uint32_t offset, uint32_t dpl) {$/;"	f	file:

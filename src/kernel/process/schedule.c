@@ -12,7 +12,7 @@ schedule(void) {
 		list_del(&current->list);
 		list_add_before(&idle.list, &current->list);
 	}
-	current = listhead_to_pcb(ready.next);
+	current = list_entry(ready.next, PCB, list);
 }
 
 PCB* fetch_pcb(pid_t pid){

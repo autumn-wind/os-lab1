@@ -29,9 +29,9 @@ kernel: $(OBJS)
 
 count:
 	@echo all lines including ^$$:
-	@find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep ".*" | wc -l
+	@find . -name "*.[chS]" | xargs grep ".*" | wc -l
 	@echo all lines without ^$$:
-	@find . -name "*.c" -or -name "*.h" -or -name "*.S" | xargs grep "." | wc -l
+	@find . -name "*.[chS]" | xargs grep "." | wc -l
 
 clean:
 	@cd boot; make clean
