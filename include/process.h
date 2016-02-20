@@ -11,6 +11,11 @@
 #define KSTACK_SIZE 4096
 #define MAXPCB_NUM	20
 #define IF_MASK		0x200
+#define MAXMSG_NUM	256
+
+#define NR_MAX_FILE 8
+#define NR_FILE_SIZE (128 * 1024)
+ 
 
 typedef struct Semaphore {
 	int token;
@@ -68,7 +73,8 @@ extern void strcpy_to_kernel(PCB* pcb, char* dest, char* src);
 extern void strcpy_from_kernel(PCB* pcb, char* dest, char* src);
 
 extern PCB pcb[MAXPCB_NUM], idle, *current;
-extern ListHead ready;
+extern ListHead ready, msg_pool;
 extern pid_t pnum;
+extern Msg msgs[MAXMSG_NUM];
  
 #endif

@@ -38,6 +38,7 @@ add_irq_handle(int irq, void (*func)(void) ) {
 void schedule();
 
 void irq_handle(TrapFrame *tf) {
+	/*printk("irq: %d\teflags: %x\tcs: %x\teip: %x\n", tf->irq, tf->eflags, tf->cs, tf->eip);*/
 	int irq = tf->irq;
 
 	if (irq < 0) {
@@ -59,6 +60,7 @@ void irq_handle(TrapFrame *tf) {
 			f = f->next;
 		}
 	}
+	NOINTR;
 
 	current->tf = tf;
 	schedule();

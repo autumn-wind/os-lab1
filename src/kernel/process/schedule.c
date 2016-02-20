@@ -1,8 +1,9 @@
 #include "kernel.h"
 
 PCB idle, pcb[MAXPCB_NUM], *current = &idle;
-ListHead ready;
+ListHead ready, msg_pool;
 pid_t pnum = 0;
+Msg msgs[MAXMSG_NUM];
 
 void
 schedule(void) {

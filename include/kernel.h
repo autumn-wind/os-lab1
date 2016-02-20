@@ -6,5 +6,6 @@
 #include "memory.h"
 #include "process.h"
 #include "hal.h"
+#include "management.h"
 
 #endif

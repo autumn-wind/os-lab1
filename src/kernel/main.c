@@ -9,7 +9,8 @@ void init_idt(void);
 void init_intr(void);
 void init_proc(void);
 void welcome(void);
-extern void init_driver();
+void init_driver();
+void init_management();
 
 void os_init_cont(void);
 
@@ -63,6 +64,8 @@ os_init_cont(void) {
 	/*out_byte(PORT_TIME    , count / 256);*/
 
 	init_driver();
+
+	init_management();
 
 	sti();
 

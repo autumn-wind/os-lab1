@@ -28,6 +28,7 @@ DPL_USER	include/x86/memory.h	10;"	d
 Dev	include/hal.h	/^} Dev;$/;"	t	typeref:struct:Device
 Device	include/hal.h	/^typedef struct Device {$/;"	s
 ELFHeader	boot/boot.h	/^struct ELFHeader {$/;"	s
+FM	src/kernel/management/fm.c	/^pid_t FM;$/;"	v
 FREQ_8253	src/kernel/drivers/timer/timer.c	9;"	d	file:
 GDT_ENTRY	boot/asm.h	2;"	d
 GateDesc	include/x86/memory.h	/^} GateDesc;$/;"	t	typeref:struct:GateDescriptor
@@ -75,6 +76,7 @@ LD	Makefile	/^LD      = ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS = -melf_i386$/;"	m
 ListHead	include/adt/list.h	/^struct ListHead {$/;"	s
 ListHead	include/adt/list.h	/^typedef struct ListHead ListHead;$/;"	t	typeref:struct:ListHead
+MAXMSG_NUM	include/process.h	14;"	d
 MAXPCB_NUM	include/process.h	12;"	d
 MSG_HARD_INTR	include/hal.h	10;"	d
 MSG_TTY_GETKEY	src/kernel/drivers/tty/tty.h	5;"	d
@@ -85,9 +87,11 @@ Message	include/process.h	/^typedef struct Message {$/;"	s
 Msg	include/process.h	/^} Msg;$/;"	t	typeref:struct:Message
 NOINTR	include/process.h	7;"	d
 NR_DEV	src/kernel/drivers/hal.c	5;"	d	file:
+NR_FILE_SIZE	include/process.h	17;"	d
 NR_HARD_INTR	src/kernel/irq/irq_handle.c	6;"	d	file:
 NR_IRQ	include/x86/cpu.h	112;"	d
 NR_IRQ_HANDLE	src/kernel/irq/irq_handle.c	3;"	d	file:
+NR_MAX_FILE	include/process.h	16;"	d
 NR_PDE	include/x86/memory.h	29;"	d
 NR_PTE	include/x86/memory.h	30;"	d
 NR_SEC_CACHE	src/kernel/drivers/ide/cache.c	2;"	d	file:
@@ -111,6 +115,7 @@ PageDirectoryEntry	include/x86/memory.h	/^typedef union PageDirectoryEntry {$/;"
 PageTableEntry	include/x86/memory.h	/^typedef union PageTableEntry {$/;"	u
 ProgramHeader	boot/boot.h	/^struct ProgramHeader {$/;"	s
 QEMU	Makefile	/^QEMU    = qemu-system-i386$/;"	m
+RAM	src/kernel/drivers/ram.c	/^pid_t RAM;$/;"	v
 RSTK_SZ	src/kernel/drivers/tty/tty.h	9;"	d
 SCR_H	src/kernel/drivers/tty/term.h	44;"	d
 SCR_W	src/kernel/drivers/tty/term.h	43;"	d
@@ -228,8 +233,10 @@ die	run-repeat.sh	/^function die {$/;"	f
 die	test.sh	/^function die {$/;"	f
 dirty	include/x86/memory.h	/^		uint32_t dirty               : 1;$/;"	m	struct:PageTableEntry::__anon5
 dirty	src/kernel/drivers/ide/cache.c	/^	bool used, dirty;$/;"	m	struct:SectorCache	file:
+disk	src/kernel/drivers/ram.c	/^static uint8_t *disk = (void*)file;$/;"	v	file:
 disk_do_read	src/kernel/drivers/ide/disk.c	/^disk_do_read(void *buf, uint32_t sector) {$/;"	f
 disk_do_write	src/kernel/drivers/ide/disk.c	/^disk_do_write(void *buf, uint32_t sector) {$/;"	f
+do_read	src/kernel/management/fm.c	/^size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len){$/;"	f
 dont_care	include/x86/memory.h	/^	uint8_t dont_care[88];$/;"	m	struct:TSS
 draw	src/kernel/drivers/tty/console.c	/^draw(char ch) {$/;"	f	file:
 draw2	src/kernel/drivers/tty/banner.c	/^draw2(char **p, int q) {$/;"	f	file:
@@ -257,9 +264,11 @@ extension_type	include/x86/cpu.h	/^		uint32_t extension_type      : 1;$/;"	m	str
 f	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 false	include/const.h	5;"	d
 fetch_pcb	src/kernel/process/schedule.c	/^PCB* fetch_pcb(pid_t pid){$/;"	f
+file	src/kernel/drivers/ram.c	/^static uint8_t file[NR_MAX_FILE][NR_FILE_SIZE] = {$/;"	v	file:
 filesz	boot/boot.h	/^	unsigned int filesz;$/;"	m	struct:ProgramHeader
 flags	boot/boot.h	/^	unsigned int   flags;$/;"	m	struct:ELFHeader
 flags	boot/boot.h	/^	unsigned int flags;$/;"	m	struct:ProgramHeader
+fm	src/kernel/management/fm.c	/^static void fm(void){$/;"	f	file:
 free	src/kernel/drivers/hal.c	/^static ListHead free, devices;$/;"	v	file:
 fs	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment registers$/;"	m	struct:TrapFrame
 gdt	boot/start.S	/^gdt:$/;"	l
@@ -300,14 +309,17 @@ in_long	include/x86/io.h	/^in_long(uint16_t port) {$/;"	f
 init_consl	src/kernel/drivers/tty/console.c	/^init_consl(int tty_index) {$/;"	f	file:
 init_console	src/kernel/drivers/tty/console.c	/^void init_console(void) {$/;"	f
 init_driver	src/kernel/drivers/drivers.c	/^void init_driver() {$/;"	f
+init_fm	src/kernel/management/fm.c	/^void init_fm(){$/;"	f
 init_getty	src/kernel/drivers/tty/getty.c	/^init_getty(void) {$/;"	f
 init_hal	src/kernel/drivers/hal.c	/^void init_hal(void) {$/;"	f
 init_i8253	src/kernel/drivers/timer/timer.c	/^init_i8253(void) {$/;"	f	file:
 init_ide	src/kernel/drivers/ide/ide.c	/^init_ide(void) {$/;"	f
 init_idt	src/kernel/irq/idt.c	/^void init_idt() {$/;"	f
 init_intr	src/kernel/irq/i8259.c	/^void init_intr(void) {$/;"	f
+init_management	src/kernel/management/management.c	/^void init_management(){$/;"	f
 init_page	src/kernel/memory/kvm.c	/^init_page(void) {$/;"	f
 init_proc	src/kernel/process/util.c	/^init_proc() {$/;"	f
+init_ram	src/kernel/drivers/ram.c	/^void init_ram(void){$/;"	f
 init_rt	src/kernel/drivers/timer/timer.c	/^init_rt(void) {$/;"	f	file:
 init_segment	src/kernel/memory/kvm.c	/^init_segment(void) {$/;"	f
 init_serial	src/lib/serial.c	/^init_serial(void) {$/;"	f
@@ -361,6 +373,8 @@ monitor_coprocessor	include/x86/cpu.h	/^		uint32_t monitor_coprocessor : 1;$/;"	
 month	include/time.h	/^	int year, month, day;$/;"	m	struct:Time
 movl	src/kernel/drivers/tty/console.c	/^movl(Console *c) {$/;"	f	file:
 movr	src/kernel/drivers/tty/console.c	/^movr(Console *c) {$/;"	f	file:
+msg_pool	src/kernel/process/schedule.c	/^ListHead ready, msg_pool;$/;"	v
+msgs	src/kernel/process/schedule.c	/^Msg msgs[MAXMSG_NUM];$/;"	v
 name	include/hal.h	/^	const char *name;$/;"	m	struct:Device
 name	src/kernel/drivers/tty/tty.h	/^	const char *name;$/;"	m	struct:Console
 next	include/adt/list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::
@@ -425,17 +439,21 @@ privilege_level	include/x86/memory.h	/^	uint32_t privilege_level  : 2;$/;"	m	str
 protect_enable	include/x86/cpu.h	/^		uint32_t protect_enable      : 1;$/;"	m	struct:CR0::__anon6
 putc	src/kernel/drivers/tty/console.c	/^putc(Console *c, char ch) {$/;"	f	file:
 r	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
+ram_driver_thread	src/kernel/drivers/ram.c	/^ram_driver_thread(void){$/;"	f	file:
 read_byte	src/kernel/drivers/ide/cache.c	/^read_byte(uint32_t offset) {$/;"	f
 read_cr0	include/x86/cpu.h	/^read_cr0() {$/;"	f
 read_eflags	include/x86/cpu.h	/^read_eflags(void) {$/;"	f
+read_file	src/kernel/process/util.c	/^void read_file(){$/;"	f
 read_mbr	src/kernel/process/util.c	/^void read_mbr(){$/;"	f
+read_ram	src/kernel/process/util.c	/^void read_ram(){$/;"	f
+read_ram_request	src/kernel/drivers/ram.c	/^static void read_ram_request(Msg *m){$/;"	f	file:
 read_request	src/kernel/drivers/tty/console.c	/^read_request(Msg *m) {$/;"	f
 read_write	include/x86/memory.h	/^		uint32_t read_write          : 1; $/;"	m	struct:PageDirectoryEntry::__anon4
 read_write	include/x86/memory.h	/^		uint32_t read_write          : 1;$/;"	m	struct:PageTableEntry::__anon5
 readkey	src/kernel/drivers/tty/keyboard.c	/^readkey(void) {$/;"	f
 readsect	boot/main.c	/^readsect(void *dst, int offset) {$/;"	f
 readseg	boot/main.c	/^readseg(unsigned char *pa, int count, int offset) {$/;"	f
-ready	src/kernel/process/schedule.c	/^ListHead ready;$/;"	v
+ready	src/kernel/process/schedule.c	/^ListHead ready, msg_pool;$/;"	v
 receive	src/kernel/process/util.c	/^void receive(pid_t src, Msg *m){$/;"	f
 removec	src/kernel/drivers/tty/console.c	/^removec(Console *c) {$/;"	f	file:
 req_pid	include/process.h	/^			pid_t req_pid;$/;"	m	struct:Message::__anon2::__anon3

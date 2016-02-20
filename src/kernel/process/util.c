@@ -7,10 +7,13 @@ void wakeup(PCB *);
 void create_sem(Sem *, int);
 void P(Sem *);
 void V(Sem *);
+void copy_msg(Msg *d, Msg *s);
 void send(pid_t dest, Msg *m);
 void receive(pid_t src, Msg *m);
 void init_proc();
 void read_mbr();
+void read_ram();
+void read_file();
 
 PCB*
 create_kthread(void *fun) {
@@ -58,7 +61,11 @@ void
 init_proc() {
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
-	wakeup(create_kthread(read_mbr));
+	wakeup(create_kthread(read_file));
+	list_init(&msg_pool);
+	int i = 0;
+	for(i = 0; i < MAXMSG_NUM; ++i)
+		list_add_before(&msg_pool, &msgs[i].list);
 }
 
 void lock(){
@@ -115,6 +122,12 @@ void V(Sem *s){
 void send(pid_t dest, Msg *m){
 	m->dest = dest;
 	lock();
+	if(list_empty(&msg_pool))
+		panic("message pool runs out!\n");
+	ListHead *pm = msg_pool.next;
+	list_del(pm);
+	Msg *t = list_entry(pm, Msg, list);
+	copy_msg(t, m);
 #ifdef DEBUG
 	printk("current pid: %d\n", current->pid);
 	printk("send a message:\n");
@@ -127,7 +140,7 @@ void send(pid_t dest, Msg *m){
 	/*printk("sending...\n");*/
 	/*printk("sender: %d\treceiver:%d\n", current->pid, dest);*/
 	/*printk("%x\n\n", m);*/
-	list_add_before(&pcb[dest].mail, &m->list);
+	list_add_before(&pcb[dest].mail, &t->list);
 	unlock();
 	V(&pcb[dest].mail_num);
 }
@@ -219,6 +232,7 @@ void receive(pid_t src, Msg *m){
 	}
 	/*printk("3\n\n");*/
 	lock();
+	list_add_before(&msg_pool, pmail);
 	current->mail_num.token += count;
 	unlock();
 }
@@ -237,6 +251,43 @@ void read_mbr(){
 		serial_printc(hexBoard[(c & 0x0f)]);
 		serial_printc(' ');
 	}
+	serial_printc('\n');
+	while(1){
+
+	}
+}
+
+void read_ram(){
+	int len = 1024, offset = 0;
+	uint8_t buf[len];
+	int n = dev_read("ram", current->pid, buf, offset, len);
+	if(n)
+		printk("read %d bytes in ramdisk:\n", n);
+	else
+		panic("read ramdisk failed!\n");
+	int i;
+	for(i = 0; i < len; ++i){
+		printk("%c", buf[i]);
+	}
+	printk("\n");
+	while(1){
+
+	}
+}
+
+void read_file(){
+	int file = 1, len = 1024, offset = 0;
+	uint8_t buf[len];
+	int n = do_read(file, buf, offset, len);
+	if(n)
+		printk("read %d bytes from file %d:\n", n, file);
+	else
+		panic("read file %d failed!\n", file);
+	int i;
+	for(i = 0; i < len; ++i){
+		printk("%c", buf[i]);
+	}
+	printk("\n");
 	while(1){
 
 	}
