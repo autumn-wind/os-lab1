@@ -61,7 +61,7 @@ void
 init_proc() {
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
-	wakeup(create_kthread(read_file));
+	/*wakeup(create_kthread(read_file));*/
 	list_init(&msg_pool);
 	int i = 0;
 	for(i = 0; i < MAXMSG_NUM; ++i)
@@ -118,6 +118,7 @@ void V(Sem *s){
 }
 
 /*#define DEBUG*/
+#define MAIL
 
 void send(pid_t dest, Msg *m){
 	m->dest = dest;
@@ -141,8 +142,25 @@ void send(pid_t dest, Msg *m){
 	/*printk("sender: %d\treceiver:%d\n", current->pid, dest);*/
 	/*printk("%x\n\n", m);*/
 	list_add_before(&pcb[dest].mail, &t->list);
+#ifdef MAIL
+	ListHead *pmail;
+	int n = 0;
+	list_foreach(pmail, &pcb[dest].mail)
+		n++;
+	printk("sender: %d\nsend: id:%d\tmail nums:%d\n", m->src, dest, n);
+#endif
 	unlock();
 	V(&pcb[dest].mail_num);
+#ifdef MAIL
+	lock();
+	int exist = 0;
+	ListHead *pt;
+	list_foreach(pt, &ready)
+		if(list_entry(pt, PCB, list)->pid == 1)
+			exist = 1;
+	assert(exist == 1);
+	unlock();
+#endif
 }
 
 void copy_msg(Msg *d, Msg *s){
@@ -196,6 +214,10 @@ void receive(pid_t src, Msg *m){
 					break;
 				}
 			}
+#ifdef MAIL
+			if(!flag)
+				printk("%d Need mail from %d but no needed mails!\n", current->pid, src);
+#endif
 			unlock();
 		}else if(src == ANY){
 			lock();NOINTR;
@@ -234,6 +256,12 @@ void receive(pid_t src, Msg *m){
 	lock();
 	list_add_before(&msg_pool, pmail);
 	current->mail_num.token += count;
+#ifdef MAIL
+	int n = 0;
+	list_foreach(pmail, &current->mail)
+		n++;
+	printk("recv: id:%d\tmail nums:%d\n", current->pid, n);
+#endif
 	unlock();
 }
 

@@ -13,6 +13,9 @@ OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)
 run: disk.img
 	$(QEMU) -serial stdio disk.img
 
+log: disk.img
+	$(QEMU) -serial file:./log.out disk.img
+
 debug: disk.img
 	$(QEMU) -serial stdio -s -S disk.img
 

@@ -6,11 +6,15 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 ANY	include/process.h	9;"	d
 ASFLAGS	Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
+ASFLAGS	test0/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 CBUF_SZ	src/kernel/drivers/tty/term.h	35;"	d
 CBUF_SZ	src/kernel/drivers/tty/tty.h	8;"	d
 CC	Makefile	/^CC      = gcc$/;"	m
+CC	test0/Makefile	/^CC      = gcc$/;"	m
 CFILES	Makefile	/^CFILES  = $(shell find src\/ -name "*.c")$/;"	m
+CFILES	test0/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFLAGS	Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
+CFLAGS	test0/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CR0	include/x86/cpu.h	/^typedef union CR0 {$/;"	u
 CR0	include/x86/cpu.h	/^} CR0;$/;"	t	typeref:union:CR0
 CR3	include/x86/cpu.h	/^typedef union CR3 {$/;"	u
@@ -30,10 +34,12 @@ Device	include/hal.h	/^typedef struct Device {$/;"	s
 ELFHeader	boot/boot.h	/^struct ELFHeader {$/;"	s
 FM	src/kernel/management/fm.c	/^pid_t FM;$/;"	v
 FREQ_8253	src/kernel/drivers/timer/timer.c	9;"	d	file:
+FREQ_8253	src/kernel/main.c	59;"	d	file:
 GDT_ENTRY	boot/asm.h	2;"	d
 GateDesc	include/x86/memory.h	/^} GateDesc;$/;"	t	typeref:struct:GateDescriptor
 GateDescriptor	include/x86/memory.h	/^typedef struct GateDescriptor {$/;"	s
 HZ	include/time.h	4;"	d
+HZ	src/kernel/main.c	60;"	d	file:
 IDE	src/kernel/drivers/ide/ide.c	/^pid_t IDE;$/;"	v
 IDE_PORT_BASE	src/kernel/drivers/ide/disk.c	8;"	d	file:
 IDE_PORT_CTRL	src/kernel/drivers/ide/disk.c	7;"	d	file:
@@ -73,9 +79,12 @@ K_RSHFT	src/kernel/drivers/tty/term.h	6;"	d
 LBUF_SZ	src/kernel/drivers/tty/term.h	34;"	d
 LBUF_SZ	src/kernel/drivers/tty/tty.h	7;"	d
 LD	Makefile	/^LD      = ld$/;"	m
+LD	test0/Makefile	/^LD      = ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS = -melf_i386$/;"	m
+LDFLAGS	test0/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 ListHead	include/adt/list.h	/^struct ListHead {$/;"	s
 ListHead	include/adt/list.h	/^typedef struct ListHead ListHead;$/;"	t	typeref:struct:ListHead
+MAIL	src/kernel/process/util.c	121;"	d	file:
 MAXMSG_NUM	include/process.h	14;"	d
 MAXPCB_NUM	include/process.h	12;"	d
 MSG_HARD_INTR	include/hal.h	10;"	d
@@ -99,6 +108,7 @@ NR_SEGMENTS	include/x86/memory.h	16;"	d
 NR_TTY	src/kernel/drivers/tty/tty.h	4;"	d
 NULL	include/const.h	7;"	d
 OBJS	Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
+OBJS	test0/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 P	src/kernel/process/util.c	/^void P(Sem *s){$/;"	f
 PAGE_SIZE	include/x86/memory.h	28;"	d
 PCB	include/process.h	/^typedef struct PCB {$/;"	s
@@ -110,6 +120,7 @@ PORT_PIC_MASTER	src/kernel/irq/i8259.c	3;"	d	file:
 PORT_PIC_SLAVE	src/kernel/irq/i8259.c	4;"	d	file:
 PORT_RTC	src/kernel/drivers/timer/timer.c	8;"	d	file:
 PORT_TIME	src/kernel/drivers/timer/timer.c	7;"	d	file:
+PORT_TIME	src/kernel/main.c	58;"	d	file:
 PTE	include/x86/memory.h	/^} PTE;$/;"	t	typeref:union:PageTableEntry
 PageDirectoryEntry	include/x86/memory.h	/^typedef union PageDirectoryEntry {$/;"	u
 PageTableEntry	include/x86/memory.h	/^typedef union PageTableEntry {$/;"	u
@@ -139,6 +150,7 @@ SELECTOR_KERNEL	include/x86/memory.h	24;"	d
 SELECTOR_USER	include/x86/memory.h	25;"	d
 SERIAL_PORT	src/lib/serial.c	3;"	d	file:
 SFILES	Makefile	/^SFILES  = $(shell find src\/ -name "*.S")$/;"	m
+SFILES	test0/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SectorCache	src/kernel/drivers/ide/cache.c	/^struct SectorCache {$/;"	s	file:
 SegDesc	include/x86/memory.h	/^} SegDesc;$/;"	t	typeref:struct:SegmentDescriptor
 SegmentDescriptor	include/x86/memory.h	/^typedef struct SegmentDescriptor {$/;"	s
@@ -360,6 +372,7 @@ machine	boot/boot.h	/^	unsigned short machine;$/;"	m	struct:ELFHeader
 magic	boot/boot.h	/^	unsigned int   magic;$/;"	m	struct:ELFHeader
 mail	include/process.h	/^	ListHead mail;$/;"	m	struct:PCB
 mail_num	include/process.h	/^	Sem mail_num;$/;"	m	struct:PCB
+main	test0/test0.c	/^int main() {$/;"	f
 make_invalid_pde	src/kernel/memory/util.c	/^make_invalid_pde(PDE *p) {$/;"	f
 make_invalid_pte	src/kernel/memory/util.c	/^make_invalid_pte(PTE *p) {$/;"	f
 make_pde	src/kernel/memory/util.c	/^make_pde(PDE *p, void *addr) {$/;"	f

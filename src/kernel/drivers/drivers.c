@@ -10,7 +10,7 @@ void init_driver() {
 	init_hal();
 	init_timer();
 	init_tty();
-	init_ide();
+	/*init_ide();*/
 	init_ram();
 
 	hal_list();

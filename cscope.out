@@ -1,4 +1,4 @@
-cscope 15 $HOME/os-labs/os-lab1 -q 0000003114 0000279343
+cscope 15 $HOME/os-labs/os-lab1 -q 0000003120 0000281330
 	@boot/asm.h
 
 2 
@@ -1429,7 +1429,7 @@ IF_MASK
 
 14 
 	#MAXMSG_NUM
- 256
+ 1024
 
 	)
 
@@ -3129,10 +3129,6 @@ __X86_H__
 
 12 
 	`öô_ây
-();
-
-13 
-	`öô_ide
 ();
 
 14 
@@ -7075,25 +7071,25 @@ cuºít_c⁄¶
 	`u∆ock
 ();
 
-29 
+31 
 	}
 }
 
-32 
+34 
 	$öô_gëty
 () {
 
-33 
+35 
 i
 ;
 
-34 
+36 
 i
  = 0; i < 
 NR_TTY
 ; i ++) {
 
-35 
+37 
 	`wakeup
 (
 	`¸óã_kthªad
@@ -7101,7 +7097,7 @@ NR_TTY
 gëty
 ));
 
-37 
+39 
 	}
 }
 
@@ -8965,31 +8961,51 @@ TøpFøme
 tf
 ) {
 
-42 
+41 if(
+cuºít
+->
+pid
+ == 1)
+
+42 
+	`¥ötk
+("úq: %d\ãÊags: %x\tcs: %x\ãù: %x\n", 
+tf
+->
+úq
+,Åf->
+eÊags
+,Åf->
+cs
+,Åf->
+eù
+);
+
+43 
 úq
  = 
 tf
 ->irq;
 
-44 i‡(
+45 i‡(
 úq
  < 0) {
 
-45 
+46 
 	`∑nic
 ("UnhandledÉxception!");
 
-48 i‡(
+49 i‡(
 úq
  < 1000 && irq != 0x80) {
 
-49 
+50 
 uöt8_t
  
 logo
 [];
 
-50 
+51 
 	`∑nic
 ("U√x≥˘edÉx˚±i⁄ #%d\n\33[1;31mHöt: Thêmachöêi†Æway†right! F‹ m‹êdëaû†abouàex˚±i⁄ #%d, sì\n%s\n\33[0m", 
 úq
@@ -8997,17 +9013,17 @@ logo
 logo
 );
 
-51 } i‡(
+52 } i‡(
 úq
  >= 1000) {
 
-54 
+55 
 úq_id
  = 
 úq
  - 1000;
 
-55 
+56 
 	`as£π
 (
 úq_id
@@ -9015,7 +9031,7 @@ logo
 NR_HARD_INTR
 );
 
-56 
+57 
 IRQ_t
  *
 f
@@ -9025,39 +9041,39 @@ h™dÀs
 úq_id
 ];
 
-58 
+59 
 f
  !
 NULL
 ) {
 
-59 
+60 
 f
 ->
 	`routöe
 ();
 
-60 
+61 
 f
  = f->
 √xt
 ;
 
-63 
+64 
 NOINTR
 ;
 
-65 
+66 
 cuºít
 ->
 tf
  =Åf;
 
-66 
+67 
 	`scheduÀ
 ();
 
-67 
+68 
 	}
 }
 
@@ -9168,9 +9184,63 @@ os_öô_c⁄t
 	`wñcome
 ();
 
-66 
+56 
 	`öô_drivî
 ();
+
+58 
+	#PORT_TIME
+ 0x40
+
+	)
+
+59 
+	#FREQ_8253
+ 1193182
+
+	)
+
+60 
+	#HZ
+ 100000
+
+	)
+
+62 
+cou¡
+ = 
+FREQ_8253
+ / 
+HZ
+;
+
+63 
+	`as£π
+(
+cou¡
+ < 65536);
+
+64 
+	`out_byã
+(
+PORT_TIME
+ + 3, 0x34);
+
+65 
+	`out_byã
+(
+PORT_TIME
+ , 
+cou¡
+ % 256);
+
+66 
+	`out_byã
+(
+PORT_TIME
+ , 
+cou¡
+ / 256);
 
 68 
 	`öô_m™agemít
@@ -10268,7 +10338,15 @@ MAXMSG_NUM
 	$scheduÀ
 () {
 
-11 
+10 
+	`¥ötk
+("pid: %d\n", 
+cuºít
+->
+pid
+);
+
+12 
 	`as£π
 (!
 	`li°_em±y
@@ -10276,7 +10354,7 @@ MAXMSG_NUM
 ªady
 ));
 
-12 if(
+13 if(
 cuºít
  !&
 idÀ
@@ -10288,7 +10366,7 @@ li°
 ªady
 ){
 
-13 
+14 
 	`li°_dñ
 (&
 cuºít
@@ -10296,7 +10374,7 @@ cuºít
 li°
 );
 
-14 
+15 
 	`li°_add_bef‹e
 (&
 idÀ
@@ -10306,7 +10384,7 @@ li°
 cuºít
 ->list);
 
-16 
+17 
 cuºít
  = 
 	`li°_íåy
@@ -10320,11 +10398,19 @@ PCB
 li°
 );
 
-17 
+18 
+	`as£π
+(
+cuºít
+ !&
+idÀ
+);
+
+19 
 	}
 }
 
-19 
+21 
 PCB
 * 
 	$„tch_pcb
@@ -10334,13 +10420,13 @@ pid_t
 pid
 ){
 
-20  &
+22  &
 pcb
 [
 pid
 ];
 
-21 
+23 
 	}
 }
 
@@ -10710,14 +10796,6 @@ idÀ
 li°
 );
 
-64 
-	`wakeup
-(
-	`¸óã_kthªad
-(
-ªad_fûe
-));
-
 65 
 	`li°_öô
 (&
@@ -10982,7 +11060,13 @@ NOINTR
 	}
 }
 
-122 
+121 
+	#MAIL
+
+
+	)
+
+123 
 	$£nd
 (
 pid_t
@@ -10994,27 +11078,27 @@ Msg
 m
 ){
 
-123 
+124 
 m
 ->
 de°
  = dest;
 
-124 
+125 
 	`lock
 ();
 
-125 if(
+126 if(
 	`li°_em±y
 (&
 msg_poﬁ
 ))
 
-126 
+127 
 	`∑nic
 ("messageÖoolÑuns out!\n");
 
-127 
+128 
 Li°Hód
  *
 pm
@@ -11024,13 +11108,13 @@ msg_poﬁ
 √xt
 ;
 
-128 
+129 
 	`li°_dñ
 (
 pm
 );
 
-129 
+130 
 Msg
  *
 t
@@ -11042,7 +11126,7 @@ pm
 li°
 );
 
-130 
+131 
 	`c›y_msg
 (
 t
@@ -11050,11 +11134,11 @@ t
 m
 );
 
-131 #ifde‡
+132 #ifde‡
 DEBUG
 
 
-132 
+133 
 	`¥ötk
 ("cuºíàpid: %d\n", 
 cuºít
@@ -11062,17 +11146,17 @@ cuºít
 pid
 );
 
-133 
+134 
 	`¥ötk
 ("sendá message:\n");
 
-134 
+135 
 	`¥ötk
 ("mesßgêaddr:%x\n", 
 m
 );
 
-135 
+136 
 	`¥ötk
 ("mesßgê§c: %d\n", 
 m
@@ -11080,7 +11164,7 @@ m
 §c
 );
 
-136 
+137 
 	`¥ötk
 ("mesßgêde°: %d\n", 
 m
@@ -11088,7 +11172,7 @@ m
 de°
 );
 
-137 
+138 
 	`¥ötk
 ("mesßgêty≥: %d\n", 
 m
@@ -11096,11 +11180,11 @@ m
 ty≥
 );
 
-138 
+139 
 	`¥ötk
 ("\n");
 
-143 
+144 
 	`li°_add_bef‹e
 (&
 pcb
@@ -11114,11 +11198,53 @@ t
 li°
 );
 
-144 
+145 #ifde‡
+MAIL
+
+
+146 
+Li°Hód
+ *
+pmaû
+;
+
+147 
+n
+ = 0;
+
+148 
+	`li°_f‹óch
+(
+pmaû
+, &
+pcb
+[
+de°
+].
+maû
+)
+
+149 
+n
+++;
+
+150 
+	`¥ötk
+("£ndî: %d\n£nd: id:%d\tmaûÇums:%d\n", 
+m
+->
+§c
+, 
+de°
+, 
+n
+);
+
+152 
 	`u∆ock
 ();
 
-145 
+153 
 	`V
 (&
 pcb
@@ -11128,11 +11254,63 @@ de°
 maû_num
 );
 
-146 
+154 #ifde‡
+MAIL
+
+
+155 
+	`lock
+();
+
+156 
+exi°
+ = 0;
+
+157 
+Li°Hód
+ *
+±
+;
+
+158 
+	`li°_f‹óch
+(
+±
+, &
+ªady
+)
+
+159 if(
+	`li°_íåy
+(
+±
+, 
+PCB
+, 
+li°
+)->
+pid
+ == 1)
+
+160 
+exi°
+ = 1;
+
+161 
+	`as£π
+(
+exi°
+ == 1);
+
+162 
+	`u∆ock
+();
+
+164 
 	}
 }
 
-148 
+166 
 	$c›y_msg
 (
 Msg
@@ -11142,7 +11320,7 @@ d
 s
 ){
 
-149 
+167 
 d
 ->
 §c
@@ -11150,7 +11328,7 @@ d
 s
 ->src;
 
-150 
+168 
 d
 ->
 de°
@@ -11158,7 +11336,7 @@ de°
 s
 ->dest;
 
-151 
+169 
 d
 ->
 ty≥
@@ -11166,7 +11344,7 @@ ty≥
 s
 ->type;
 
-152 
+170 
 d
 ->
 ªq_pid
@@ -11174,7 +11352,7 @@ d
 s
 ->req_pid;
 
-153 
+171 
 d
 ->
 dev_id
@@ -11182,7 +11360,7 @@ dev_id
 s
 ->dev_id;
 
-154 
+172 
 d
 ->
 buf
@@ -11190,7 +11368,7 @@ buf
 s
 ->buf;
 
-155 
+173 
 d
 ->
 off£t
@@ -11198,7 +11376,7 @@ off£t
 s
 ->offset;
 
-156 
+174 
 d
 ->
 Àn
@@ -11206,11 +11384,11 @@ d
 s
 ->len;
 
-158 
+176 
 	}
 }
 
-160 
+178 
 	$ª˚ive
 (
 pid_t
@@ -11222,29 +11400,29 @@ Msg
 m
 ){
 
-161 
+179 
 Li°Hód
  *
 pmaû
 ;
 
-162 
+180 
 Msg
  *
 msg
 ;
 
-163 
+181 
 Êag
  = 0, 
 cou¡
  = 0;
 
-165 !
+183 !
 Êag
 ){
 
-166 
+184 
 	`P
 (&
 cuºít
@@ -11252,19 +11430,19 @@ cuºít
 maû_num
 );
 
-167 if(
+185 if(
 §c
  !
 ANY
 ){
 
-169 
+187 
 	`lock
 ();
 NOINTR
 ;
 
-170 if(
+188 if(
 	`li°_em±y
 (&
 cuºít
@@ -11272,19 +11450,19 @@ cuºít
 maû
 ))
 
-171 
+189 
 	`∑nic
 ("mail box isÉmpty!!\n");
 
-172 #ifde‡
+190 #ifde‡
 DEBUG
 
 
-173 
+191 
 maû_˙t
  = 0;
 
-174 
+192 
 	`li°_f‹óch
 (
 pmaû
@@ -11294,11 +11472,11 @@ cuºít
 maû
 )
 
-175 
+193 
 maû_˙t
 ++;
 
-176 
+194 
 	`¥ötk
 ("maû_˙t: %d\àmaû_num: %d\àcou¡: %d\n", 
 maû_˙t
@@ -11312,7 +11490,7 @@ tokí
 cou¡
 );
 
-178 
+196 
 	`li°_f‹óch
 (
 pmaû
@@ -11322,7 +11500,7 @@ cuºít
 maû
 ){
 
-182 
+200 
 msg
  = 
 	`li°_íåy
@@ -11334,19 +11512,19 @@ Msg
 li°
 );
 
-183 if(
+201 if(
 msg
 ->
 §c
  == src){
 
-184 
+202 
 	`li°_dñ
 (
 pmaû
 );
 
-185 
+203 
 	`c›y_msg
 (
 m
@@ -11354,11 +11532,11 @@ m
 msg
 );
 
-186 #ifde‡
+204 #ifde‡
 DEBUG
 
 
-187 
+205 
 	`¥ötk
 ("cuºíàpid: %d\n", 
 cuºít
@@ -11366,17 +11544,17 @@ cuºít
 pid
 );
 
-188 
+206 
 	`¥ötk
 ("receive certain message:\n");
 
-189 
+207 
 	`¥ötk
 ("mesßgêaddr:%x\n", 
 msg
 );
 
-190 
+208 
 	`¥ötk
 ("mesßgê§c: %d\n", 
 m
@@ -11384,7 +11562,7 @@ m
 §c
 );
 
-191 
+209 
 	`¥ötk
 ("mesßgêde°: %d\n", 
 m
@@ -11392,7 +11570,7 @@ m
 de°
 );
 
-192 
+210 
 	`¥ötk
 ("mesßgêty≥: %d\n", 
 m
@@ -11400,31 +11578,49 @@ m
 ty≥
 );
 
-193 
+211 
 	`¥ötk
 ("\n");
 
-195 
+213 
 Êag
  = 1;
 
-199 
+217 #ifde‡
+MAIL
+
+
+218 if(!
+Êag
+)
+
+219 
+	`¥ötk
+("%d Nìd maû from %d buànÿ√eded maûs!\n", 
+cuºít
+->
+pid
+, 
+§c
+);
+
+221 
 	`u∆ock
 ();
 
-200 }if(
+222 }if(
 §c
  =
 ANY
 ){
 
-201 
+223 
 	`lock
 ();
 NOINTR
 ;
 
-202 if(
+224 if(
 	`li°_em±y
 (&
 cuºít
@@ -11432,19 +11628,19 @@ cuºít
 maû
 ))
 
-203 
+225 
 	`∑nic
 ("mail box isÉmpty!!\n");
 
-204 #ifde‡
+226 #ifde‡
 DEBUG
 
 
-205 
+227 
 maû_˙t
  = 0;
 
-206 
+228 
 	`li°_f‹óch
 (
 pmaû
@@ -11454,11 +11650,11 @@ cuºít
 maû
 )
 
-207 
+229 
 maû_˙t
 ++;
 
-208 
+230 
 	`¥ötk
 ("maû_˙t: %d\àmaû_num: %d\àcou¡: %d\n", 
 maû_˙t
@@ -11472,7 +11668,7 @@ tokí
 cou¡
 );
 
-210 
+232 
 pmaû
  = 
 cuºít
@@ -11482,13 +11678,13 @@ maû
 √xt
 ;
 
-211 
+233 
 	`li°_dñ
 (
 pmaû
 );
 
-212 
+234 
 msg
  = 
 	`li°_íåy
@@ -11500,7 +11696,7 @@ Msg
 li°
 );
 
-213 
+235 
 	`c›y_msg
 (
 m
@@ -11508,11 +11704,11 @@ m
 msg
 );
 
-214 #ifde‡
+236 #ifde‡
 DEBUG
 
 
-215 
+237 
 	`¥ötk
 ("cuºíàpid: %d\n", 
 cuºít
@@ -11520,17 +11716,17 @@ cuºít
 pid
 );
 
-216 
+238 
 	`¥ötk
 ("receiveány message:\n");
 
-217 
+239 
 	`¥ötk
 ("mesßgêaddr:%x\n", 
 msg
 );
 
-218 
+240 
 	`¥ötk
 ("mesßgê§c: %d\n", 
 m
@@ -11538,7 +11734,7 @@ m
 §c
 );
 
-219 
+241 
 	`¥ötk
 ("mesßgêde°: %d\n", 
 m
@@ -11546,7 +11742,7 @@ m
 de°
 );
 
-220 
+242 
 	`¥ötk
 ("mesßgêty≥: %d\n", 
 m
@@ -11554,35 +11750,35 @@ m
 ty≥
 );
 
-221 
+243 
 	`¥ötk
 ("\n");
 
-223 
+245 
 Êag
  = 1;
 
-224 
+246 
 	`u∆ock
 ();
 
-227 
+249 
 	`as£π
 (0);
 
-229 if(!
+251 if(!
 Êag
 ){
 
-230 
+252 
 cou¡
  += 1;
 
-234 
+256 
 	`lock
 ();
 
-235 
+257 
 	`li°_add_bef‹e
 (&
 msg_poﬁ
@@ -11590,7 +11786,7 @@ msg_poﬁ
 pmaû
 );
 
-236 
+258 
 cuºít
 ->
 maû_num
@@ -11600,25 +11796,57 @@ tokí
 cou¡
 ;
 
-237 
+259 #ifde‡
+MAIL
+
+
+260 
+n
+ = 0;
+
+261 
+	`li°_f‹óch
+(
+pmaû
+, &
+cuºít
+->
+maû
+)
+
+262 
+n
+++;
+
+263 
+	`¥ötk
+("ªcv: id:%d\tmaûÇums:%d\n", 
+cuºít
+->
+pid
+, 
+n
+);
+
+265 
 	`u∆ock
 ();
 
-238 
+266 
 	}
 }
 
-240 
+268 
 	$ªad_mbr
 (){
 
-241 
+269 
 uöt8_t
  
 buf
 [512];
 
-242 
+270 
 n
  = 
 	`dev_ªad
@@ -11630,29 +11858,29 @@ pid
 buf
 , 0, 512);
 
-243 if(
+271 if(
 n
 )
 
-244 
+272 
 	`¥ötk
 ("ªad %d byã†ö MBR:\n", 
 n
 );
 
-246 
+274 
 	`∑nic
 ("read ide failed!\n");
 
-247 
+275 
 i
 ;
 
-248 
+276 
 i
  = 0; i < 512; ++i){
 
-249 
+277 
 uöt8_t
  
 c
@@ -11662,7 +11890,7 @@ buf
 i
 ];
 
-250 
+278 
 	`£rül_¥ötc
 (
 hexBﬂrd
@@ -11670,7 +11898,7 @@ hexBﬂrd
 c
  & 0xf0) >> 4]);
 
-251 
+279 
 	`£rül_¥ötc
 (
 hexBﬂrd
@@ -11678,29 +11906,29 @@ hexBﬂrd
 c
  & 0x0f)]);
 
-252 
+280 
 	`£rül_¥ötc
 (' ');
 
-254 
+282 
 	`£rül_¥ötc
 ('\n');
 
-258 
+286 
 	}
 }
 
-260 
+288 
 	$ªad_øm
 (){
 
-261 
+289 
 Àn
  = 1024, 
 off£t
  = 0;
 
-262 
+290 
 uöt8_t
  
 buf
@@ -11708,7 +11936,7 @@ buf
 Àn
 ];
 
-263 
+291 
 n
  = 
 	`dev_ªad
@@ -11724,31 +11952,31 @@ off£t
 Àn
 );
 
-264 if(
+292 if(
 n
 )
 
-265 
+293 
 	`¥ötk
 ("ªad %d byã†öÑamdisk:\n", 
 n
 );
 
-267 
+295 
 	`∑nic
 ("readÑamdisk failed!\n");
 
-268 
+296 
 i
 ;
 
-269 
+297 
 i
  = 0; i < 
 Àn
 ; ++i){
 
-270 
+298 
 	`¥ötk
 ("%c", 
 buf
@@ -11756,19 +11984,19 @@ buf
 i
 ]);
 
-272 
+300 
 	`¥ötk
 ("\n");
 
-276 
+304 
 	}
 }
 
-278 
+306 
 	$ªad_fûe
 (){
 
-279 
+307 
 fûe
  = 1, 
 Àn
@@ -11776,7 +12004,7 @@ fûe
 off£t
  = 0;
 
-280 
+308 
 uöt8_t
  
 buf
@@ -11784,7 +12012,7 @@ buf
 Àn
 ];
 
-281 
+309 
 n
  = 
 	`do_ªad
@@ -11798,11 +12026,11 @@ off£t
 Àn
 );
 
-282 if(
+310 if(
 n
 )
 
-283 
+311 
 	`¥ötk
 ("ªad %d byã†‰om fûê%d:\n", 
 n
@@ -11810,23 +12038,23 @@ n
 fûe
 );
 
-285 
+313 
 	`∑nic
 ("ªad fûê%d faûed!\n", 
 fûe
 );
 
-286 
+314 
 i
 ;
 
-287 
+315 
 i
  = 0; i < 
 Àn
 ; ++i){
 
-288 
+316 
 	`¥ötk
 ("%c", 
 buf
@@ -11834,11 +12062,11 @@ buf
 i
 ]);
 
-290 
+318 
 	`¥ötk
 ("\n");
 
-294 
+322 
 	}
 }
 
@@ -12580,6 +12808,24 @@ j
 	}
 }
 
+	@test0/test0.c
+
+1 
+	$maö
+() {
+
+2 vﬁ©ûê
+x
+ = 0;
+
+3 1Ë
+x
+ ++;
+
+5 
+	}
+}
+
 	@/usr/include/assert.h
 
 22 #ifdef 
@@ -12752,11 +12998,7 @@ ex¥
 
 88 : 
 	`__as£π_Áû
- (
-	`__STRING
-(
-ex¥
-), 
+ (#ex¥, 
 __FILE__
 , 
 __LINE__
@@ -15272,8 +15514,104 @@ __f‹tify_fun˘i⁄
 	~<bôs/°rög3.h
 >
 
-639 
-__END_DECLS
+639 #i‡
+deföed
+ 
+__USE_GNU
+ && deföed 
+__OPTIMIZE__
+ \
+
+640 && 
+deföed
+ 
+__exã∫_Æways_ölöe
+ && 
+	$__GNUC_PREREQ
+ (3,2)
+
+641 #i‡!
+deföed
+ 
+_FORCE_INLINES
+ && !deföed 
+_HAVE_STRING_ARCH_memp˝y
+
+
+643 #unde‡
+memp˝y
+
+
+644 #unde‡
+__memp˝y
+
+
+645 
+	#memp˝y
+(
+de°
+, 
+§c
+, 
+n
+Ë
+	`__memp˝y_ölöe
+ (de°, src,Ç)
+
+	)
+
+646 
+	#__memp˝y
+(
+de°
+, 
+§c
+, 
+n
+Ë
+	`__memp˝y_ölöe
+ (de°, src,Ç)
+
+	)
+
+648 
+__exã∫_Æways_ölöe
+ *
+
+649 
+	$__memp˝y_ölöe
+ (*
+__ª°ri˘
+ 
+__de°
+,
+
+650 c⁄° *
+__ª°ri˘
+ 
+__§c
+, 
+size_t
+ 
+__n
+)
+
+652  (*Ë
+	`mem˝y
+ (
+__de°
+, 
+__§c
+, 
+__n
+) + __n;
+
+653 
+	}
+}
+
+658 
+	g__END_DECLS
 
 
 	@/usr/include/term.h
@@ -22501,7 +22839,7 @@ _STRING_H
 
 
 24 
-	#_STRING_ARCH_u«lig√d
+	#_STRING_INLINE_u«lig√d
  1
 
 	)
@@ -29485,7 +29823,7 @@ __exã∫_ölöe
 	)
 
 49 #i‡
-_STRING_ARCH_u«lig√d
+_STRING_INLINE_u«lig√d
 
 
 51 
@@ -29695,7 +30033,7 @@ __GNUC_PREREQ
  (3, 0)
 
 98 #i‡
-_STRING_ARCH_u«lig√d
+_STRING_INLINE_u«lig√d
 
 
 99 
@@ -30271,7 +30609,7 @@ _FORCE_INLINES
 
 
 226 #i‡
-_STRING_ARCH_u«lig√d
+_STRING_INLINE_u«lig√d
 
 
 227 #i‚de‡
@@ -31159,7 +31497,7 @@ de°
 	)
 
 422 #i‡
-_STRING_ARCH_u«lig√d
+_STRING_INLINE_u«lig√d
 
 
 423 #i‚de‡
@@ -31939,7 +32277,7 @@ _FORCE_INLINES
 
 
 601 #i‡
-_STRING_ARCH_u«lig√d
+_STRING_INLINE_u«lig√d
 
 
 602 #i‚de‡
@@ -35994,7 +36332,7 @@ size_t
 	`__buûtö_c⁄°™t_p
  (
 __n
-Ë|| __¿<
+Ë|| __¿> 
 	`__bos
  (
 __de°
@@ -37316,11 +37654,15 @@ _POSIX_C_SOURCE
 deföed
  
 __STRICT_ANSI__
- || (
-_XOPEN_SOURCE
- - 0) >= 500) && \
+ \
 
-228 !
+228 || (
+deföed
+ 
+_XOPEN_SOURCE
+ && (_XOPEN_SOURCE - 0) >= 500)) \
+
+229 && !
 deföed
  
 _POSIX_SOURCE
@@ -37328,77 +37670,85 @@ _POSIX_SOURCE
 _POSIX_C_SOURCE
 )
 
-229 
+230 
 	#_POSIX_SOURCE
  1
 
 	)
 
-230 #i‡
+231 #i‡
 deföed
  
 _XOPEN_SOURCE
  && (_XOPEN_SOURCE - 0) < 500
 
-231 
+232 
 	#_POSIX_C_SOURCE
  2
 
 	)
 
-232 #ñi‡
+233 #ñi‡
 deföed
  
 _XOPEN_SOURCE
  && (_XOPEN_SOURCE - 0) < 600
 
-233 
+234 
 	#_POSIX_C_SOURCE
  199506L
 
 	)
 
-234 #ñi‡
+235 #ñi‡
 deföed
  
 _XOPEN_SOURCE
  && (_XOPEN_SOURCE - 0) < 700
 
-235 
+236 
 	#_POSIX_C_SOURCE
  200112L
 
 	)
 
-237 
+238 
 	#_POSIX_C_SOURCE
  200809L
 
 	)
 
-239 
+240 
 	#__USE_POSIX_IMPLICITLY
  1
 
 	)
 
-242 #i‡
+243 #i‡(
 deföed
  
 _POSIX_SOURCE
- || 
+ \
+
+244 || (
+deföed
+ 
 _POSIX_C_SOURCE
- >1 || deföed 
+ && _POSIX_C_SOURCE >= 1) \
+
+245 || 
+deföed
+ 
 _XOPEN_SOURCE
+)
 
-
-243 
+246 
 	#__USE_POSIX
  1
 
 	)
 
-246 #i‡
+249 #i‡
 deföed
  
 _POSIX_C_SOURCE
@@ -37406,245 +37756,253 @@ _POSIX_C_SOURCE
 _XOPEN_SOURCE
 
 
-247 
+250 
 	#__USE_POSIX2
  1
 
 	)
 
-250 #i‡(
+253 #i‡
+deföed
+ 
 _POSIX_C_SOURCE
- - 0) >= 199309L
+ && (_POSIX_C_SOURCE - 0) >= 199309L
 
-251 
+254 
 	#__USE_POSIX199309
  1
 
 	)
 
-254 #i‡(
+257 #i‡
+deföed
+ 
 _POSIX_C_SOURCE
- - 0) >= 199506L
+ && (_POSIX_C_SOURCE - 0) >= 199506L
 
-255 
+258 
 	#__USE_POSIX199506
  1
 
 	)
 
-258 #i‡(
+261 #i‡
+deföed
+ 
 _POSIX_C_SOURCE
- - 0) >= 200112L
+ && (_POSIX_C_SOURCE - 0) >= 200112L
 
-259 
+262 
 	#__USE_XOPEN2K
  1
 
 	)
 
-260 #unde‡
+263 #unde‡
 __USE_ISOC95
 
 
-261 
+264 
 	#__USE_ISOC95
  1
 
 	)
 
-262 #unde‡
+265 #unde‡
 __USE_ISOC99
 
 
-263 
+266 
 	#__USE_ISOC99
  1
 
 	)
 
-266 #i‡(
+269 #i‡
+deföed
+ 
 _POSIX_C_SOURCE
- - 0) >= 200809L
+ && (_POSIX_C_SOURCE - 0) >= 200809L
 
-267 
+270 
 	#__USE_XOPEN2K8
  1
 
 	)
 
-268 #unde‡
+271 #unde‡
 _ATFILE_SOURCE
 
 
-269 
+272 
 	#_ATFILE_SOURCE
  1
 
 	)
 
-272 #ifdef 
+275 #ifdef 
 _XOPEN_SOURCE
 
 
-273 
+276 
 	#__USE_XOPEN
  1
 
 	)
 
-274 #i‡(
+277 #i‡(
 _XOPEN_SOURCE
  - 0) >= 500
 
-275 
+278 
 	#__USE_XOPEN_EXTENDED
  1
 
 	)
 
-276 
+279 
 	#__USE_UNIX98
  1
 
 	)
 
-277 #unde‡
+280 #unde‡
 _LARGEFILE_SOURCE
 
 
-278 
+281 
 	#_LARGEFILE_SOURCE
  1
 
 	)
 
-279 #i‡(
+282 #i‡(
 _XOPEN_SOURCE
  - 0) >= 600
 
-280 #i‡(
+283 #i‡(
 _XOPEN_SOURCE
  - 0) >= 700
 
-281 
+284 
 	#__USE_XOPEN2K8
  1
 
 	)
 
-282 
+285 
 	#__USE_XOPEN2K8XSI
  1
 
 	)
 
-284 
+287 
 	#__USE_XOPEN2K
  1
 
 	)
 
-285 
+288 
 	#__USE_XOPEN2KXSI
  1
 
 	)
 
-286 #unde‡
+289 #unde‡
 __USE_ISOC95
 
 
-287 
+290 
 	#__USE_ISOC95
  1
 
 	)
 
-288 #unde‡
+291 #unde‡
 __USE_ISOC99
 
 
-289 
+292 
 	#__USE_ISOC99
  1
 
 	)
 
-292 #ifde‡
+295 #ifde‡
 _XOPEN_SOURCE_EXTENDED
 
 
-293 
+296 
 	#__USE_XOPEN_EXTENDED
  1
 
 	)
 
-298 #ifde‡
+301 #ifde‡
 _LARGEFILE_SOURCE
 
 
-299 
+302 
 	#__USE_LARGEFILE
  1
 
 	)
 
-302 #ifde‡
+305 #ifde‡
 _LARGEFILE64_SOURCE
 
 
-303 
+306 
 	#__USE_LARGEFILE64
  1
 
 	)
 
-306 #i‡
+309 #i‡
 deföed
  
 _FILE_OFFSET_BITS
  && _FILE_OFFSET_BITS == 64
 
-307 
+310 
 	#__USE_FILE_OFFSET64
  1
 
 	)
 
-310 #i‡
+313 #i‡
 deföed
  
 _DEFAULT_SOURCE
 
 
-311 
+314 
 	#__USE_MISC
  1
 
 	)
 
-314 #ifdef 
+317 #ifdef 
 _ATFILE_SOURCE
 
 
-315 
+318 
 	#__USE_ATFILE
  1
 
 	)
 
-318 #ifdef 
+321 #ifdef 
 _GNU_SOURCE
 
 
-319 
+322 
 	#__USE_GNU
  1
 
 	)
 
-322 #i‡
+325 #i‡
 deföed
  
 _REENTRANT
@@ -37652,25 +38010,25 @@ _REENTRANT
 _THREAD_SAFE
 
 
-323 
+326 
 	#__USE_REENTRANT
  1
 
 	)
 
-326 #i‡
+329 #i‡
 deföed
  
 _FORTIFY_SOURCE
  && _FORTIFY_SOURCE > 0
 
-327 #i‡!
+330 #i‡!
 deföed
  
 __OPTIMIZE__
  || __OPTIMIZE__ <= 0
 
-328 #w¨nög 
+331 #w¨nög 
 _FORTIFY_SOURCE
  
 ªquúes
@@ -37684,11 +38042,11 @@ wôh
 O
 )
 
-329 #ñi‡!
+332 #ñi‡!
 __GNUC_PREREQ
  (4, 1)
 
-330 #w¨nög 
+333 #w¨nög 
 _FORTIFY_SOURCE
  
 ªquúes
@@ -37700,59 +38058,59 @@ GCC
 œãr
 
 
-331 #ñi‡
+334 #ñi‡
 _FORTIFY_SOURCE
  > 1
 
-332 
+335 
 	#__USE_FORTIFY_LEVEL
  2
 
 	)
 
-334 
+337 
 	#__USE_FORTIFY_LEVEL
  1
 
 	)
 
-337 #i‚de‡
+340 #i‚de‡
 __USE_FORTIFY_LEVEL
 
 
-338 
+341 
 	#__USE_FORTIFY_LEVEL
  0
 
 	)
 
-343 
+346 
 	~<°dc-¥edef.h
 >
 
-351 #unde‡
+354 #unde‡
 __GNU_LIBRARY__
 
 
-352 
+355 
 	#__GNU_LIBRARY__
  6
 
 	)
 
-356 
+359 
 	#__GLIBC__
  2
 
 	)
 
-357 
+360 
 	#__GLIBC_MINOR__
- 22
+ 23
 
 	)
 
-359 
+362 
 	#__GLIBC_PREREQ
 (
 maj
@@ -37760,7 +38118,7 @@ maj
 mö
 ) \
 
-360 ((
+363 ((
 __GLIBC__
  << 16Ë+ 
 __GLIBC_MINOR__
@@ -37772,19 +38130,19 @@ mö
 
 	)
 
-363 #i‚de‡
+366 #i‚de‡
 __ASSEMBLER__
 
 
-364 #i‚de‡
+367 #i‚de‡
 _SYS_CDEFS_H
 
 
-365 
+368 
 	~<sys/cdefs.h
 >
 
-370 #i‡
+373 #i‡
 deföed
  
 __USE_FILE_OFFSET64
@@ -37792,19 +38150,19 @@ __USE_FILE_OFFSET64
 __REDIRECT
 
 
-371 
+374 
 	#__USE_LARGEFILE
  1
 
 	)
 
-372 
+375 
 	#__USE_LARGEFILE64
  1
 
 	)
 
-378 #i‡
+381 #i‡
 __GNUC_PREREQ
  (2, 7Ë&& 
 deföed
@@ -37812,7 +38170,7 @@ deföed
 __OPTIMIZE__
  \
 
-379 && !
+382 && !
 deföed
  
 	g__OPTIMIZE_SIZE__
@@ -37820,19 +38178,19 @@ deföed
 	g__NO_INLINE__
  \
 
-380 && 
+383 && 
 deföed
  
 	g__exã∫_ölöe
 
 
-381 
+384 
 	#__USE_EXTERN_INLINES
  1
 
 	)
 
-389 
+392 
 	~<gnu/°ubs.h
 >
 
@@ -40786,23 +41144,31 @@ __SWORD_TYPE
 
 	)
 
-75 #ifde‡
+74 
+	#__CPU_MASK_TYPE
+ 
+__SYSCALL_ULONG_TYPE
+
+
+	)
+
+76 #ifde‡
 __x86_64__
 
 
-79 
+80 
 	#__OFF_T_MATCHES_OFF64_T
  1
 
 	)
 
-82 
+83 
 	#__INO_T_MATCHES_INO64_T
  1
 
 	)
 
-86 
+87 
 	#__FD_SETSIZE
  1024
 
@@ -41286,13 +41652,13 @@ __GCC_IEC_559_COMPLEX
 
 	)
 
-59 
+55 
 	#__STDC_ISO_10646__
- 201304L
+ 201505L
 
 	)
 
-62 
+58 
 	#__STDC_NO_THREADS__
  1
 
@@ -52375,8 +52741,8 @@ _IOC_SIZESHIFT
 .
 1
 /usr/include
-101
-2495
+102
+2509
 boot/asm.h
 boot/boot.h
 boot/main.c
@@ -52426,6 +52792,7 @@ src/lib/logo.c
 src/lib/printk.c
 src/lib/serial.c
 src/lib/string.c
+test0/test0.c
 /usr/include/assert.h
 /usr/include/memory.h
 /usr/include/string.h

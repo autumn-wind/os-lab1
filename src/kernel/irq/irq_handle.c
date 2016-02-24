@@ -38,7 +38,8 @@ add_irq_handle(int irq, void (*func)(void) ) {
 void schedule();
 
 void irq_handle(TrapFrame *tf) {
-	/*printk("irq: %d\teflags: %x\tcs: %x\teip: %x\n", tf->irq, tf->eflags, tf->cs, tf->eip);*/
+	if(current->pid == 1)
+		printk("irq: %d\teflags: %x\tcs: %x\teip: %x\n", tf->irq, tf->eflags, tf->cs, tf->eip);
 	int irq = tf->irq;
 
 	if (irq < 0) {
