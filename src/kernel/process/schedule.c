@@ -7,7 +7,7 @@ Msg msgs[MAXMSG_NUM];
 
 void
 schedule(void) {
-	printk("pid: %d\n", current->pid);
+	/*printk("pid: %d\n", current->pid);*/
 	/* implement process/thread schedule here */
 	assert(!list_empty(&ready));
 	if(current != &idle && current->list.prev == &ready){
@@ -16,6 +16,7 @@ schedule(void) {
 	}
 	current = list_entry(ready.next, PCB, list);
 	assert(current != &idle);
+	write_cr3(&current->cr3);
 }
 
 PCB* fetch_pcb(pid_t pid){

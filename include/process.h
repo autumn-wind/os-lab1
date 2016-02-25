@@ -31,6 +31,7 @@ typedef struct PCB {
 	pid_t pid;
 	ListHead mail;
 	Sem mail_num;
+	CR3 cr3;
 } PCB;
 
 typedef struct Message {

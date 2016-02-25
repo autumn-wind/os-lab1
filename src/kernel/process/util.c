@@ -37,6 +37,7 @@ create_kthread(void *fun) {
 	p->pid = pnum++;
 	list_init(&p->mail);
 	create_sem(&p->mail_num, 0);
+	p->cr3.val = get_kcr3()->val;
 	return p;
 }
 
@@ -118,7 +119,7 @@ void V(Sem *s){
 }
 
 /*#define DEBUG*/
-#define MAIL
+/*#define MAIL*/
 
 void send(pid_t dest, Msg *m){
 	m->dest = dest;
@@ -151,16 +152,16 @@ void send(pid_t dest, Msg *m){
 #endif
 	unlock();
 	V(&pcb[dest].mail_num);
-#ifdef MAIL
-	lock();
-	int exist = 0;
-	ListHead *pt;
-	list_foreach(pt, &ready)
-		if(list_entry(pt, PCB, list)->pid == 1)
-			exist = 1;
-	assert(exist == 1);
-	unlock();
-#endif
+/*#ifdef MAIL*/
+	/*lock();*/
+	/*int exist = 0;*/
+	/*ListHead *pt;*/
+	/*list_foreach(pt, &ready)*/
+		/*if(list_entry(pt, PCB, list)->pid == 1)*/
+			/*exist = 1;*/
+	/*assert(exist == 1);*/
+	/*unlock();*/
+/*#endif*/
 }
 
 void copy_msg(Msg *d, Msg *s){
