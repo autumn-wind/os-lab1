@@ -35,10 +35,11 @@ static void mm(void){
 		}else{
 			switch(m.type){
 				case NEW_PAGE:
-					pa = pframe_idx << 12;
 					/*printk("pframe_idx: %x\n", pframe_idx);*/
 					/*printk("pa sent in mm: %x\n", pa);*/
 					va = m.offset;
+					/*pa = (pframe_idx << 12);*/
+					pa = (pframe_idx << 12) + (va % PAGE_SIZE);
 					memsz = m.len;
 					make_pde(&pdir[(va >> 22) & 0x3FF], va_to_pa(ptable)); 
 					for(i = 0; i < memsz; i += PAGE_SIZE, va += PAGE_SIZE){

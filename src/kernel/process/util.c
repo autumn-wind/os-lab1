@@ -47,6 +47,7 @@ void sleep(ListHead *b){
 	list_del(&current->list);
 	list_add_before(b, &current->list);
 	unlock();
+	asm volatile("movl $-1, %eax");
 	asm volatile("int $0x80");
 }
 

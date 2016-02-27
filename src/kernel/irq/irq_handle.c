@@ -19,9 +19,33 @@ struct IRQ_t {
 	struct IRQ_t *next;
 };
 
+void do_syscall(TrapFrame *tf);
+
 static struct IRQ_t handle_pool[NR_IRQ_HANDLE];
 static struct IRQ_t *handles[NR_HARD_INTR];
 static int handle_count = 0;
+
+void do_syscall(TrapFrame *tf) {
+	int id = tf->eax; // system call id
+ 
+	switch (id) {
+		case 0:
+			printk("%s", tf->ebx);
+			break;
+		/*case SYS_read:*/
+			/*...*/
+			/*send(FM, m);*/
+			/*receive(FM, m);*/
+			/*int nread = m.ret;*/
+			/*tf->eax = nread;   // return value is stored in eax*/
+			/*break;*/
+		/*case SYS_write:*/
+			/*...*/
+			/*tf->eax = nwrite;*/
+			/*break;*/
+		/*...*/
+	}
+}
 
 void
 add_irq_handle(int irq, void (*func)(void) ) {
@@ -63,6 +87,8 @@ void irq_handle(TrapFrame *tf) {
 			f->routine(); 
 			f = f->next;
 		}
+	} else if(irq == 0x80) {
+		do_syscall(tf);
 	}
 	NOINTR;
 

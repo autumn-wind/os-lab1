@@ -23,6 +23,7 @@ static void
 ttyd(void) {
 	Msg m;
 
+	lock();
 	while (1) {
 		receive(ANY, &m);
 		if (m.src == MSG_HARD_INTR) {
@@ -74,5 +75,6 @@ ttyd(void) {
 			}
 		}
 	}
+	unlock();
 }
 
