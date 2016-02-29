@@ -7,6 +7,7 @@ pid_t FM, PM, MM;
 
 #define NEW_PAGE -3
 #define SHARE_KERNEL_PAGE -4
+#define CLEAN_ADDR -5
 
 /* Structure of a ELF binary header */
 struct ELFHeader {

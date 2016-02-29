@@ -1,7 +1,6 @@
 #include "kernel.h"
 
 #define SEGMENT_MEM 4 * 1024 * 1024
-#define USER_ADDR 10 * SEGMENT_MEM
 
 
 static void mm(void);
@@ -15,25 +14,27 @@ void init_mm(){
 }
 
 static void mm(void){
-	PDE *pdir = pa_to_va(USER_ADDR), *kpdir = get_kpdir();
-	PTE *ptable = pa_to_va(USER_ADDR + PAGE_SIZE);
-	uint32_t pdir_idx, pframe_idx;
-
-	for(pdir_idx = 0; pdir_idx < NR_PDE; pdir_idx++){
-		make_invalid_pde(&pdir[pdir_idx]);
-	}
-
-	pframe_idx = (USER_ADDR >> 12) + 2;
-	/*printk("pframe_idx: %x\n", pframe_idx);*/
-	uint32_t pa, va, memsz, i, index;
+	PDE *pdir, *kpdir = get_kpdir();
+	PTE *ptable;
+	uint32_t pdir_idx, pframe_idx = 0;
+	uint32_t pa, va, memsz, i, index, user_addr_start;
 
 	Msg m;
 	while(1){
 		receive(ANY, &m);
 		if(m.src == MSG_HARD_INTR){
 			assert(0);
-		}else{
+		}else if(m.src == PM){
+			user_addr_start = m.req_pid * SEGMENT_MEM;
+			pdir = pa_to_va(user_addr_start);
+			ptable = pa_to_va(user_addr_start + PAGE_SIZE);
 			switch(m.type){
+				case CLEAN_ADDR:
+					for(pdir_idx = 0; pdir_idx < NR_PDE; pdir_idx++){
+						make_invalid_pde(&pdir[pdir_idx]);
+					}
+					pframe_idx = (user_addr_start >> 12) + 2;
+					break;
 				case NEW_PAGE:
 					/*printk("pframe_idx: %x\n", pframe_idx);*/
 					/*printk("pa sent in mm: %x\n", pa);*/
@@ -62,6 +63,8 @@ static void mm(void){
 			pid_t dest = m.src;
 			m.src = current->pid;
 			send(dest, &m);
+		}else{
+			assert(0);
 		}
 	}
 	

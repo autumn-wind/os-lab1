@@ -2,6 +2,7 @@
 
 static void pm(void);
 TrapFrame* init_pcb(PCB *p, void *fun);
+void create_user_process(int file);
 
 pid_t PM;
 
@@ -11,7 +12,7 @@ void init_pm(){
 	wakeup(p);
 }
 
-static void pm(void){
+void create_user_process(int file){
 	uint32_t va, pa;
 	unsigned char *i, *vdest;
 	char buf[512];
@@ -23,7 +24,12 @@ static void pm(void){
 	PCB *p = &pcb[pnum];
 	p->pid = pnum++;
 	unlock();
-	do_read(0, (uint8_t *)buf, 0, 512);
+	do_read(file, (uint8_t *)buf, 0, 512);
+	m.src = current->pid;
+	m.type = CLEAN_ADDR;
+	m.req_pid = p->pid;
+	send(MM, &m);
+	receive(MM, &m);
 
 	/*int j;*/
 	/*lock();*/
@@ -44,6 +50,7 @@ static void pm(void){
 		/*printk("va: %x\t, filesz: %x\t, memsz: %x\n", va, ph->filesz, ph->memsz);*/
 		m.src = current->pid;
 		m.type = NEW_PAGE;
+		m.req_pid = p->pid;
 		m.offset = va;
 		m.len = ph->memsz;
 		send(MM, &m);
@@ -51,20 +58,27 @@ static void pm(void){
 		pa = m.ret;
 		/*printk("pa receiverd in pm: %x\n", pa);*/
 		vdest = pa_to_va(pa);
-		do_read(0, vdest, ph->off, ph->filesz);
+		do_read(file, vdest, ph->off, ph->filesz);
 		for(i = vdest + ph->filesz; i < vdest + ph->memsz; *i++ = 0);
 	}
 	init_pcb(p, (void *)(elf->entry));	
 	p->cr3.val = 0;
-	p->cr3.page_directory_base = (10 * PD_SIZE) >> 12;
+	p->cr3.page_directory_base = (p->pid * PD_SIZE) >> 12;
 	/*printk("user cr3: %x\n", p->cr3.page_directory_base);*/
 	m.src = current->pid;
 	m.type = SHARE_KERNEL_PAGE;
+	m.req_pid = p->pid;
 	m.offset = KOFFSET;
 	m.len = KMEM;
 	send(MM, &m);
 	receive(MM, &m);
 	wakeup(p);
+
+}
+
+static void pm(void){
+	create_user_process(0);
+	create_user_process(2);
 	while(1){
 
 	}

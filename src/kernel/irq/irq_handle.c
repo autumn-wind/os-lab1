@@ -30,7 +30,7 @@ void do_syscall(TrapFrame *tf) {
  
 	switch (id) {
 		case 0:
-			printk("%s", tf->ebx);
+			printk("%scurrent process: %d\n\n", tf->ebx, current->pid);
 			break;
 		/*case SYS_read:*/
 			/*...*/
@@ -71,7 +71,7 @@ void irq_handle(TrapFrame *tf) {
 	}
 	
 	if(irq == 0x80 && tf->eax == 1)
-		printk("test3 past! current process: %d\n", current->pid);
+		printk("test3 past!\ncurrent process: %d\n\n", current->pid);
 
 	if (irq < 1000 && irq != 0x80) {
 		extern uint8_t logo[];

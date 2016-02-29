@@ -9,24 +9,25 @@ ASFLAGS	Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test0/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test1/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test2/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
-ASFLAGS	test4/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
+ASFLAGS	test3/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 CBUF_SZ	src/kernel/drivers/tty/term.h	35;"	d
 CBUF_SZ	src/kernel/drivers/tty/tty.h	8;"	d
 CC	Makefile	/^CC      = gcc$/;"	m
 CC	test0/Makefile	/^CC      = gcc$/;"	m
 CC	test1/Makefile	/^CC      = gcc$/;"	m
 CC	test2/Makefile	/^CC      = gcc$/;"	m
-CC	test4/Makefile	/^CC      = gcc$/;"	m
+CC	test3/Makefile	/^CC      = gcc$/;"	m
 CFILES	Makefile	/^CFILES  = $(shell find src\/ -name "*.c")$/;"	m
 CFILES	test0/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test1/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test2/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
-CFILES	test4/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
+CFILES	test3/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFLAGS	Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test0/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test1/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test2/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
-CFLAGS	test4/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
+CFLAGS	test3/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
+CLEAN_ADDR	include/management.h	10;"	d
 CR0	include/x86/cpu.h	/^typedef union CR0 {$/;"	u
 CR0	include/x86/cpu.h	/^} CR0;$/;"	t	typeref:union:CR0
 CR3	include/x86/cpu.h	/^typedef union CR3 {$/;"	u
@@ -96,12 +97,12 @@ LD	Makefile	/^LD      = ld$/;"	m
 LD	test0/Makefile	/^LD      = ld$/;"	m
 LD	test1/Makefile	/^LD      = ld$/;"	m
 LD	test2/Makefile	/^LD      = ld$/;"	m
-LD	test4/Makefile	/^LD      = ld$/;"	m
+LD	test3/Makefile	/^LD      = ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test0/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test1/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test2/Makefile	/^LDFLAGS = -melf_i386$/;"	m
-LDFLAGS	test4/Makefile	/^LDFLAGS = -melf_i386$/;"	m
+LDFLAGS	test3/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 ListHead	include/adt/list.h	/^struct ListHead {$/;"	s
 ListHead	include/adt/list.h	/^typedef struct ListHead ListHead;$/;"	t	typeref:struct:ListHead
 MAXMSG_NUM	include/process.h	14;"	d
@@ -133,7 +134,7 @@ OBJS	Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test0/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test1/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test2/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
-OBJS	test4/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
+OBJS	test3/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 P	src/kernel/process/util.c	/^void P(Sem *s){$/;"	f
 PAGE_SIZE	include/x86/memory.h	28;"	d
 PCB	include/process.h	/^typedef struct PCB {$/;"	s
@@ -182,9 +183,9 @@ SFILES	Makefile	/^SFILES  = $(shell find src\/ -name "*.S")$/;"	m
 SFILES	test0/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test1/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test2/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
-SFILES	test4/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
+SFILES	test3/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SHARE_KERNEL_PAGE	include/management.h	9;"	d
-SYS_puts	test4/syscall.c	1;"	d	file:
+SYS_puts	test3/syscall.c	1;"	d	file:
 SectorCache	src/kernel/drivers/ide/cache.c	/^struct SectorCache {$/;"	s	file:
 SegDesc	include/x86/memory.h	/^} SegDesc;$/;"	t	typeref:struct:SegmentDescriptor
 SegmentDescriptor	include/x86/memory.h	/^typedef struct SegmentDescriptor {$/;"	s
@@ -199,7 +200,6 @@ Time	include/time.h	/^typedef struct Time {$/;"	s
 Time	include/time.h	/^} Time;$/;"	t	typeref:struct:Time
 TrapFrame	include/x86/memory.h	/^typedef struct TrapFrame {$/;"	s
 TrapFrame	include/x86/memory.h	/^} TrapFrame;$/;"	t	typeref:struct:TrapFrame
-USER_ADDR	src/kernel/management/mm.c	4;"	d	file:
 V	src/kernel/process/util.c	/^void V(Sem *s){$/;"	f
 WRITEBACK_TIME	src/kernel/drivers/ide/ide.c	6;"	d	file:
 __ASSERT_H__	include/assert.h	2;"	d
@@ -265,6 +265,7 @@ cr	src/kernel/drivers/tty/console.c	/^cr(Console *c) {$/;"	f	file:
 cr3	include/process.h	/^	CR3 cr3;$/;"	m	struct:PCB
 create_kthread	src/kernel/process/util.c	/^create_kthread(void *fun) {$/;"	f
 create_sem	src/kernel/process/util.c	/^void create_sem(Sem *sem, int t){$/;"	f
+create_user_process	src/kernel/management/pm.c	/^void create_user_process(int file){$/;"	f
 cs	include/x86/memory.h	/^	uint32_t eip, cs, eflags;							\/\/ execution state saved by hardware$/;"	m	struct:TrapFrame
 ctrl	src/kernel/drivers/tty/keyboard.c	/^static int caps, ctrl, alt, shft;$/;"	v	file:
 current	src/kernel/process/schedule.c	/^PCB idle, pcb[MAXPCB_NUM], *current = &idle;$/;"	v
@@ -425,7 +426,7 @@ mail_num	include/process.h	/^	Sem mail_num;$/;"	m	struct:PCB
 main	test0/test0.c	/^int main() {$/;"	f
 main	test1/test0.c	/^int main() {$/;"	f
 main	test2/test0.c	/^int main() {$/;"	f
-main	test4/test0.c	/^int main() {$/;"	f
+main	test3/test0.c	/^int main() {$/;"	f
 make_invalid_pde	src/kernel/memory/util.c	/^make_invalid_pde(PDE *p) {$/;"	f
 make_invalid_pte	src/kernel/memory/util.c	/^make_invalid_pte(PTE *p) {$/;"	f
 make_pde	src/kernel/memory/util.c	/^make_pde(PDE *p, void *addr) {$/;"	f
@@ -512,7 +513,7 @@ privilege_level	include/x86/memory.h	/^	uint32_t privilege_level     : 2;$/;"	m	
 privilege_level	include/x86/memory.h	/^	uint32_t privilege_level  : 2;$/;"	m	struct:GateDescriptor
 protect_enable	include/x86/cpu.h	/^		uint32_t protect_enable      : 1;$/;"	m	struct:CR0::__anon6
 putc	src/kernel/drivers/tty/console.c	/^putc(Console *c, char ch) {$/;"	f	file:
-puts	test4/syscall.c	/^int puts(char *buf){$/;"	f
+puts	test3/syscall.c	/^int puts(char *buf){$/;"	f
 r	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 ram_driver_thread	src/kernel/drivers/ram.c	/^ram_driver_thread(void){$/;"	f	file:
 read_byte	src/kernel/drivers/ide/cache.c	/^read_byte(uint32_t offset) {$/;"	f
@@ -581,7 +582,7 @@ strcpy	src/lib/string.c	/^void strcpy(char *d, const char *s) {$/;"	f
 strcpy_from_kernel	src/lib/kcpy.c	/^void strcpy_from_kernel(PCB* pcb, char* dest, char* src){$/;"	f
 strcpy_to_kernel	src/lib/kcpy.c	/^void strcpy_to_kernel(PCB* pcb, char* dest, char* src){$/;"	f
 strlen	src/lib/string.c	/^size_t strlen(const char *str) {$/;"	f
-syscall	test4/syscall.c	/^syscall(int id, ...) {$/;"	f
+syscall	test3/syscall.c	/^syscall(int id, ...) {$/;"	f
 system	include/x86/memory.h	/^	uint32_t system           : 1;$/;"	m	struct:GateDescriptor
 task_switched	include/x86/cpu.h	/^		uint32_t task_switched       : 1;$/;"	m	struct:CR0::__anon6
 tf	include/process.h	/^	void *tf;$/;"	m	struct:PCB
@@ -639,6 +640,6 @@ write_protect	include/x86/cpu.h	/^		uint32_t write_protect       : 1; $/;"	m	str
 write_tr	include/x86/cpu.h	/^write_tr(uint16_t selector) {$/;"	f
 x	test1/test0.c	/^volatile int x = 0;$/;"	v
 x	test2/test0.c	/^volatile int x = 0;$/;"	v
-x	test4/test0.c	/^volatile int x = 0;$/;"	v
+x	test3/test0.c	/^volatile int x = 0;$/;"	v
 xxx	include/x86/memory.h	/^	uint32_t edi, esi, ebp, xxx, ebx, edx, ecx, eax;	\/\/ GPRs$/;"	m	struct:TrapFrame
 year	include/time.h	/^	int year, month, day;$/;"	m	struct:Time
