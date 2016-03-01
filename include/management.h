@@ -1,13 +1,14 @@
 #ifndef __MANAGEMENT_H__
 #define __MANAGEMENT_H__
 
-size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
-
-pid_t FM, PM, MM;
-
 #define NEW_PAGE -3
 #define SHARE_KERNEL_PAGE -4
 #define CLEAN_ADDR -5
+#define FORK_PROCESS -6
+
+size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
+
+pid_t FM, PM, MM;
 
 /* Structure of a ELF binary header */
 struct ELFHeader {

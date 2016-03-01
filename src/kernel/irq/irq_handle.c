@@ -13,6 +13,8 @@
    alarm checker. Also, the IDE driver needs to write back dirty cache
    slots periodically. So the IDE driver also calls add_irq_handle
    to register a handler. */
+#define SYS_puts 0
+#define SYS_fork 1
 
 struct IRQ_t {
 	void (*routine)(void);
@@ -27,10 +29,20 @@ static int handle_count = 0;
 
 void do_syscall(TrapFrame *tf) {
 	int id = tf->eax; // system call id
+	Msg m;
  
 	switch (id) {
-		case 0:
+		case SYS_puts:
 			printk("%scurrent process: %d\n\n", tf->ebx, current->pid);
+			break;
+		case SYS_fork:
+			m.src = current->pid;
+			m.type = FORK_PROCESS;
+			m.buf = tf;
+			m.dest = PM;
+			send(PM, &m);
+			receive(PM, &m);
+			tf->eax = m.ret;
 			break;
 		/*case SYS_read:*/
 			/*...*/

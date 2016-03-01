@@ -16,8 +16,8 @@ void init_mm(){
 static void mm(void){
 	PDE *pdir, *kpdir = get_kpdir();
 	PTE *ptable;
-	uint32_t pdir_idx, pframe_idx = 0;
-	uint32_t pa, va, memsz, i, index, user_addr_start;
+	uint32_t pdir_idx, ptable_idx, pframe_idx = 0;
+	uint32_t pa = 0, va, memsz, i, j, index, user_addr_start;
 
 	Msg m;
 	while(1){
@@ -27,26 +27,40 @@ static void mm(void){
 		}else if(m.src == PM){
 			user_addr_start = m.req_pid * SEGMENT_MEM;
 			pdir = pa_to_va(user_addr_start);
-			ptable = pa_to_va(user_addr_start + PAGE_SIZE);
+			/*ptable = pa_to_va(user_addr_start + PAGE_SIZE);*/
 			switch(m.type){
 				case CLEAN_ADDR:
 					for(pdir_idx = 0; pdir_idx < NR_PDE; pdir_idx++){
 						make_invalid_pde(&pdir[pdir_idx]);
 					}
-					pframe_idx = (user_addr_start >> 12) + 2;
+					pframe_idx = (user_addr_start >> 12) + 1;
 					break;
 				case NEW_PAGE:
+					assert(pframe_idx);
 					/*printk("pframe_idx: %x\n", pframe_idx);*/
 					/*printk("pa sent in mm: %x\n", pa);*/
 					va = m.offset;
 					/*pa = (pframe_idx << 12);*/
-					pa = (pframe_idx << 12) + (va % PAGE_SIZE);
 					memsz = m.len;
-					make_pde(&pdir[(va >> 22) & 0x3FF], va_to_pa(ptable)); 
-					for(i = 0; i < memsz; i += PAGE_SIZE, va += PAGE_SIZE){
-						make_pte(&ptable[(va >> 12) & 0x3FF], (void *)(pframe_idx << 12));
-						pframe_idx ++;
+					for(j = 0; j < memsz; j += PD_SIZE){
+						index = (va >> 22) & 0x3FF;
+						if(pdir[index].present == 0){
+							ptable = pa_to_va(pframe_idx << 12);
+							make_pde(&pdir[index], (void *)(pframe_idx << 12)); 
+							pframe_idx ++;
+							for(ptable_idx = 0; ptable_idx < NR_PTE; ptable_idx ++){
+								make_invalid_pte(&ptable[ptable_idx]);
+							}
+						}else{
+							ptable = pa_to_va(pdir[index].page_frame << 12);
+						}
+						pa = (pframe_idx << 12) + (va % PAGE_SIZE);
+						for(i = 0; j + i < memsz && i < PD_SIZE; i += PAGE_SIZE, va += PAGE_SIZE){
+							make_pte(&ptable[(va >> 12) & 0x3FF], (void *)(pframe_idx << 12));
+							pframe_idx ++;
+						}
 					}
+					assert(pa);
 					m.ret = pa;
 					break;
 				case SHARE_KERNEL_PAGE:

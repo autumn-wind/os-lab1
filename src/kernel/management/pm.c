@@ -77,8 +77,8 @@ void create_user_process(int file){
 }
 
 static void pm(void){
-	create_user_process(0);
-	create_user_process(2);
+	/*create_user_process(0);*/
+	/*create_user_process(2);*/
 	while(1){
 
 	}

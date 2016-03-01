@@ -22,6 +22,7 @@ create_kthread(void *fun) {
 	}
 	PCB *p = &pcb[pnum];
 	TrapFrame *frame = (TrapFrame *)(p->kstack + KSTACK_SIZE) - 1; 
+	frame->ebp = 0;
 	frame->ds = 0x10;
 	frame->es = 0x10;
 	frame->fs = 0x10;
