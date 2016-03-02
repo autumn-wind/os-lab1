@@ -6,6 +6,8 @@
 #define CLEAN_ADDR -5
 #define FORK_PROCESS -6
 #define COPY_FATHER_PAGE -7
+#define EXEC_PROCESS -8
+#define GET_ARGS_PHY_ADDR -9
 
 size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
 

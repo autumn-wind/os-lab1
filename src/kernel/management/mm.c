@@ -20,7 +20,7 @@ void init_mm(){
 static void mm(void){
 	PDE *pdir, *fdir, *kpdir = get_kpdir();
 	PTE *ptable, *ftable;
-	uint32_t pdir_idx, ptable_idx, pframe_idx = 0;
+	uint32_t pdir_idx, ptable_idx, pframe_idx = 0, addr;
 	uint32_t pa = 0, va, memsz, i, j, index, user_addr_start;
 
 	Msg m;
@@ -95,6 +95,11 @@ static void mm(void){
 							}
 						}
 					}
+					break;
+				case GET_ARGS_PHY_ADDR:
+					addr = m.offset;
+					ptable = pa_to_va(pdir[(addr >> 22) & 0x3FF].page_frame << 12);
+					m.ret = (ptable[(addr >> 12) & 0x3FF].page_frame << 12) + (addr % PAGE_SIZE);
 					break;
 				default:
 					assert(0);

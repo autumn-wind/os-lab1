@@ -64,6 +64,7 @@ extern void send(pid_t dest, Msg *m);
 extern void receive(pid_t src, Msg *m);
 extern PCB* create_kthread(void *);
 extern PCB* fetch_pcb(pid_t);
+extern PCB* get_pcb();
 
 extern void copy_from_kernel(PCB* pcb, void* dest, void* src, int len);
 
@@ -74,7 +75,7 @@ extern void strcpy_to_kernel(PCB* pcb, char* dest, char* src);
 extern void strcpy_from_kernel(PCB* pcb, char* dest, char* src);
 
 extern PCB pcb[MAXPCB_NUM], idle, *current;
-extern ListHead ready, msg_pool;
+extern ListHead ready, msg_pool, pcb_pool;
 extern pid_t pnum;
 extern Msg msgs[MAXMSG_NUM];
  

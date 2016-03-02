@@ -1,11 +1,10 @@
 #include "syscall.h"
 
 volatile int x = 0;
-int main(char *args) {
+int main() {
 	int n = fork();
 	while(1) {
 		if(x % 10000000 == 0) {
-			puts(args);
 			if(n){
 				puts("Parent process is running.\n");
 			}else{

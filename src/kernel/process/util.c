@@ -14,13 +14,24 @@ void init_proc();
 void read_mbr();
 void read_ram();
 void read_file();
+PCB* get_pcb();
+PCB* create_kthread(void *fun);
 
-PCB*
-create_kthread(void *fun) {
-	if(pnum >= MAXPCB_NUM){
-		panic("no pcb for more thread");
+PCB* get_pcb(){
+	lock();
+	if(list_empty(&pcb_pool)){
+		panic("no pcb for more thread!");
 	}
-	PCB *p = &pcb[pnum];
+	ListHead *l = pcb_pool.next;
+	list_del(l);
+	PCB *p = list_entry(l, PCB, list);
+	p->pid = pnum++;
+	unlock();
+	return p;
+}
+
+PCB* create_kthread(void *fun) {
+	PCB *p = get_pcb();
 	TrapFrame *frame = (TrapFrame *)(p->kstack + KSTACK_SIZE) - 1; 
 	frame->ebp = 0;
 	frame->ds = 0x10;
@@ -35,7 +46,6 @@ create_kthread(void *fun) {
 	p->list.next = NULL;
 	p->lock_cnt = 0;
 	p->outmost_if = IF_MASK;
-	p->pid = pnum++;
 	list_init(&p->mail);
 	create_sem(&p->mail_num, 0);
 	p->cr3.val = get_kcr3()->val;
@@ -62,13 +72,19 @@ void wakeup(PCB *p){
 
 void
 init_proc() {
+	int i = 0;
 	/*off_t offset = (uint32_t)(char *)((PCB *)0 + 1);*/
 	/*printk("%d\n", offset);*/
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
 	/*wakeup(create_kthread(read_file));*/
+	list_init(&pcb_pool);
+	for(i = 0; i < MAXPCB_NUM; ++i){
+		pcb[i].pid = -1;
+		list_add_before(&pcb_pool, &pcb[i].list);
+	}
+
 	list_init(&msg_pool);
-	int i = 0;
 	for(i = 0; i < MAXMSG_NUM; ++i)
 		list_add_before(&msg_pool, &msgs[i].list);
 }
@@ -134,6 +150,7 @@ void send(pid_t dest, Msg *m){
 	list_del(pm);
 	Msg *t = list_entry(pm, Msg, list);
 	copy_msg(t, m);
+	PCB *p = fetch_pcb(dest);
 #ifdef DEBUG
 	printk("current pid: %d\n", current->pid);
 	printk("send a message:\n");
@@ -146,16 +163,16 @@ void send(pid_t dest, Msg *m){
 	/*printk("sending...\n");*/
 	/*printk("sender: %d\treceiver:%d\n", current->pid, dest);*/
 	/*printk("%x\n\n", m);*/
-	list_add_before(&pcb[dest].mail, &t->list);
+	list_add_before(&p->mail, &t->list);
 #ifdef MAIL
 	ListHead *pmail;
 	int n = 0;
-	list_foreach(pmail, &pcb[dest].mail)
+	list_foreach(pmail, &p->mail)
 		n++;
 	printk("sender: %d\nsend: id:%d\tmail nums:%d\n", m->src, dest, n);
 #endif
 	unlock();
-	V(&pcb[dest].mail_num);
+	V(&p->mail_num);
 /*#ifdef MAIL*/
 	/*lock();*/
 	/*int exist = 0;*/

@@ -1,7 +1,7 @@
 #include "kernel.h"
 
 PCB idle, pcb[MAXPCB_NUM], *current = &idle;
-ListHead ready, msg_pool;
+ListHead ready, msg_pool, pcb_pool;
 pid_t pnum = 0;
 Msg msgs[MAXMSG_NUM];
 
@@ -20,6 +20,11 @@ schedule(void) {
 }
 
 PCB* fetch_pcb(pid_t pid){
-	return &pcb[pid];
+	int i;
+	for(i = 0; i < MAXPCB_NUM; ++i){
+		if(pid == pcb[i].pid)
+			return &pcb[i];
+	}
+	assert(0);
 }
 
