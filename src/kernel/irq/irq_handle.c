@@ -82,7 +82,7 @@ void irq_handle(TrapFrame *tf) {
 		panic("Unhandled exception!");
 	}
 	
-	if(irq == 0x80 && tf->eax == 1)
+	if(irq == 0x80 && tf->eax == -2)
 		printk("test3 past!\ncurrent process: %d\n\n", current->pid);
 
 	if (irq < 1000 && irq != 0x80) {

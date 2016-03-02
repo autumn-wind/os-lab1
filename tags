@@ -32,6 +32,7 @@ CFLAGS	test2/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/incl
 CFLAGS	test3/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test_fork/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CLEAN_ADDR	include/management.h	6;"	d
+COPY_FATHER_PAGE	include/management.h	8;"	d
 CR0	include/x86/cpu.h	/^typedef union CR0 {$/;"	u
 CR0	include/x86/cpu.h	/^} CR0;$/;"	t	typeref:union:CR0
 CR3	include/x86/cpu.h	/^typedef union CR3 {$/;"	u
@@ -70,7 +71,7 @@ INTERRUPT_GATE_32	src/kernel/irq/idt.c	4;"	d	file:
 INTR	include/process.h	6;"	d
 IRQ_SLAVE	src/kernel/irq/i8259.c	5;"	d	file:
 IRQ_t	src/kernel/irq/irq_handle.c	/^struct IRQ_t {$/;"	s	file:
-KMEM	include/memory.h	24;"	d
+KMEM	include/memory.h	26;"	d
 KOFFSET	boot/main.c	13;"	d	file:
 KOFFSET	include/memory.h	6;"	d
 KSTACK_SIZE	include/process.h	11;"	d
@@ -149,7 +150,7 @@ PCB	include/process.h	/^typedef struct PCB {$/;"	s
 PCB	include/process.h	/^} PCB;$/;"	t	typeref:struct:PCB
 PDE	include/x86/memory.h	/^} PDE;$/;"	t	typeref:union:PageDirectoryEntry
 PD_SIZE	include/x86/memory.h	31;"	d
-PHY_MEM	include/memory.h	27;"	d
+PHY_MEM	include/memory.h	29;"	d
 PM	include/management.h	/^pid_t FM, PM, MM;$/;"	v
 PM	src/kernel/management/pm.c	/^pid_t PM;$/;"	v
 PORT_PIC_MASTER	src/kernel/irq/i8259.c	3;"	d	file:
@@ -168,7 +169,6 @@ RSTK_SZ	src/kernel/drivers/tty/tty.h	9;"	d
 SCR_H	src/kernel/drivers/tty/term.h	44;"	d
 SCR_W	src/kernel/drivers/tty/term.h	43;"	d
 SECTSIZE	boot/main.c	12;"	d	file:
-SEGMENT_MEM	src/kernel/management/mm.c	3;"	d	file:
 SEG_32BIT	include/x86/memory.h	5;"	d
 SEG_4KB_GRANULARITY	include/x86/memory.h	6;"	d
 SEG_ASM	boot/asm.h	11;"	d
@@ -264,6 +264,7 @@ cache_init	src/kernel/drivers/ide/cache.c	/^cache_init(void) {$/;"	f
 cache_writeback	src/kernel/drivers/ide/cache.c	/^cache_writeback(void) {$/;"	f
 caps	src/kernel/drivers/tty/keyboard.c	/^static int caps, ctrl, alt, shft;$/;"	v	file:
 cbuf	src/kernel/drivers/tty/tty.h	/^	char cbuf[CBUF_SZ + 1];$/;"	m	struct:Console
+clean_process_addr	src/kernel/management/pm.c	/^void clean_process_addr(Msg *m, pid_t src, int req_pid){$/;"	f
 cli	include/x86/cpu.h	/^cli(void) {$/;"	f
 consl_accept	src/kernel/drivers/tty/console.c	/^consl_accept(Console *c, char ch) {$/;"	f
 consl_feed	src/kernel/drivers/tty/console.c	/^consl_feed(Console *c, int key) {$/;"	f
@@ -271,8 +272,11 @@ consl_sync	src/kernel/drivers/tty/console.c	/^consl_sync(Console *c) {$/;"	f
 consl_writec	src/kernel/drivers/tty/console.c	/^consl_writec(Console *c, char ch) {$/;"	f
 content	src/kernel/drivers/ide/cache.c	/^	uint8_t content[512];$/;"	m	struct:SectorCache	file:
 cook	src/kernel/drivers/tty/console.c	/^cook(Console *c) {$/;"	f	file:
+copy_father_page	src/kernel/management/pm.c	/^void copy_father_page(Msg *m, pid_t src ,pid_t father_pid, pid_t req_pid){$/;"	f
 copy_from_kernel	src/lib/kcpy.c	/^void copy_from_kernel(PCB* pcb, void* dest, void* src, int len){$/;"	f
+copy_mem	src/kernel/management/mm.c	/^void copy_mem(char *dest, char *src, size_t len){$/;"	f
 copy_msg	src/kernel/process/util.c	/^void copy_msg(Msg *d, Msg *s){$/;"	f
+copy_process	src/kernel/management/pm.c	/^void copy_process(PCB *father, PCB *child){$/;"	f
 copy_to_kernel	src/lib/kcpy.c	/^void copy_to_kernel(PCB* pcb, void* dest, void* src, int len){$/;"	f
 cr	src/kernel/drivers/tty/console.c	/^cr(Console *c) {$/;"	f	file:
 cr3	include/process.h	/^	CR3 cr3;$/;"	m	struct:PCB
@@ -352,6 +356,7 @@ get_jiffy	src/kernel/drivers/timer/timer.c	/^get_jiffy() {$/;"	f
 get_kcr3	src/kernel/memory/kvm.c	/^inline CR3* get_kcr3() {$/;"	f
 get_kpdir	src/kernel/memory/kvm.c	/^inline PDE* get_kpdir() {$/;"	f
 get_kptable	src/kernel/memory/kvm.c	/^inline PTE* get_kptable() {$/;"	f
+get_pcb	src/kernel/management/pm.c	/^PCB* get_pcb(){$/;"	f
 get_time	src/kernel/drivers/timer/timer.c	/^get_time(Time *tm) {$/;"	f
 getty	src/kernel/drivers/tty/getty.c	/^getty(void) {$/;"	f
 global	include/x86/memory.h	/^		uint32_t global              : 1;$/;"	m	struct:PageTableEntry::__anon5
@@ -479,7 +484,7 @@ out_byte	boot/boot.h	/^out_byte(short port, char data) {$/;"	f
 out_byte	include/x86/io.h	/^out_byte(uint16_t port, uint8_t data) {$/;"	f
 out_long	include/x86/io.h	/^out_long(uint16_t port, uint32_t data) {$/;"	f
 outmost_if	include/process.h	/^	uint32_t outmost_if;$/;"	m	struct:PCB
-pa_to_va	include/memory.h	20;"	d
+pa_to_va	include/memory.h	22;"	d
 pad0	include/x86/cpu.h	/^		uint32_t pad0                : 10;$/;"	m	struct:CR0::__anon6
 pad0	include/x86/cpu.h	/^		uint32_t pad0                : 3;$/;"	m	struct:CR3::__anon7
 pad0	include/x86/memory.h	/^		uint32_t pad0                : 1;$/;"	m	struct:PageTableEntry::__anon5
@@ -574,6 +579,7 @@ set_segment	src/kernel/memory/kvm.c	/^set_segment(SegDesc *ptr, uint32_t pl, uin
 set_trap	src/kernel/irq/idt.c	/^static void set_trap(GateDesc *ptr, uint32_t selector, uint32_t offset, uint32_t dpl) {$/;"	f	file:
 set_tss	src/kernel/memory/kvm.c	/^set_tss(SegDesc *ptr) {$/;"	f	file:
 set_tss_esp0	src/kernel/memory/kvm.c	/^inline void set_tss_esp0(uint32_t esp) {$/;"	f
+share_kernel_page	src/kernel/management/pm.c	/^void share_kernel_page(Msg *m, pid_t src, pid_t req_pid){$/;"	f
 shentsize	boot/boot.h	/^	unsigned short shentsize;$/;"	m	struct:ELFHeader
 shentsize	include/management.h	/^	unsigned short shentsize;$/;"	m	struct:ELFHeader
 shft	src/kernel/drivers/tty/keyboard.c	/^static int caps, ctrl, alt, shft;$/;"	v	file:
@@ -629,7 +635,7 @@ update_jiffy	src/kernel/drivers/timer/timer.c	/^update_jiffy(void) {$/;"	f	file:
 used	src/kernel/drivers/ide/cache.c	/^	bool used, dirty;$/;"	m	struct:SectorCache	file:
 user_supervisor	include/x86/memory.h	/^		uint32_t user_supervisor     : 1;$/;"	m	struct:PageDirectoryEntry::__anon4
 user_supervisor	include/x86/memory.h	/^		uint32_t user_supervisor     : 1;$/;"	m	struct:PageTableEntry::__anon5
-va_to_pa	include/memory.h	17;"	d
+va_to_pa	include/memory.h	19;"	d
 vaddr	boot/boot.h	/^	unsigned int vaddr;$/;"	m	struct:ProgramHeader
 vaddr	include/management.h	/^	unsigned int vaddr;$/;"	m	struct:ProgramHeader
 val	include/x86/cpu.h	/^	uint32_t val;$/;"	m	union:CR0

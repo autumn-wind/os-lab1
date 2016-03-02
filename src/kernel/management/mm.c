@@ -1,11 +1,15 @@
 #include "kernel.h"
 
-#define SEGMENT_MEM 4 * 1024 * 1024
-
-
 static void mm(void);
 
 pid_t MM;
+
+void copy_mem(char *dest, char *src, size_t len){
+	size_t i;
+	for(i = 0; i < len; ++i){
+		*(dest + i) = *(src + i);
+	}
+}
 
 void init_mm(){
 	PCB *p = create_kthread(mm);
@@ -14,8 +18,8 @@ void init_mm(){
 }
 
 static void mm(void){
-	PDE *pdir, *kpdir = get_kpdir();
-	PTE *ptable;
+	PDE *pdir, *fdir, *kpdir = get_kpdir();
+	PTE *ptable, *ftable;
 	uint32_t pdir_idx, ptable_idx, pframe_idx = 0;
 	uint32_t pa = 0, va, memsz, i, j, index, user_addr_start;
 
@@ -25,7 +29,7 @@ static void mm(void){
 		if(m.src == MSG_HARD_INTR){
 			assert(0);
 		}else if(m.src == PM){
-			user_addr_start = m.req_pid * SEGMENT_MEM;
+			user_addr_start = m.req_pid * PD_SIZE;
 			pdir = pa_to_va(user_addr_start);
 			/*ptable = pa_to_va(user_addr_start + PAGE_SIZE);*/
 			switch(m.type){
@@ -69,6 +73,27 @@ static void mm(void){
 					for(i = 0; i < memsz; i += PD_SIZE, va += PD_SIZE){
 						index = (va >> 22) & 0x3FF;
 						make_pde(&pdir[index], (void *)(kpdir[index].page_frame << 12));
+					}
+					break;
+				case COPY_FATHER_PAGE:
+					fdir = pa_to_va(m.offset * PD_SIZE);
+					for(i = 0; i < KOFFSET / PD_SIZE; ++i){
+						if(fdir[i].present){
+							ptable = pa_to_va(pframe_idx << 12);
+							make_pde(&pdir[i], (void *)(pframe_idx << 12)); 
+							pframe_idx ++;
+							for(ptable_idx = 0; ptable_idx < NR_PTE; ptable_idx ++){
+								make_invalid_pte(&ptable[ptable_idx]);
+							}
+							ftable = pa_to_va(fdir[i].page_frame << 12);
+							for(j = 0; j < NR_PTE; ++j){
+								if(ftable[j].present){
+									make_pte(&ptable[j], (void *)(pframe_idx << 12));
+									copy_mem((char *)pa_to_va(pframe_idx << 12), (char *)pa_to_va(ftable[j].page_frame << 12), PAGE_SIZE);
+									pframe_idx ++;
+								}
+							}
+						}
 					}
 					break;
 				default:

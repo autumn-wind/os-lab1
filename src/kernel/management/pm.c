@@ -3,6 +3,11 @@
 static void pm(void);
 TrapFrame* init_pcb(PCB *p, void *fun);
 void create_user_process(int file);
+PCB* get_pcb();
+void copy_process(PCB *father, PCB *child);
+void clean_process_addr(Msg *m, pid_t src, int req_pid);
+void copy_father_page(Msg *m, pid_t src ,pid_t father_pid, pid_t req_pid);
+void share_kernel_page(Msg *m, pid_t src, pid_t req_pid);
 
 pid_t PM;
 
@@ -12,11 +17,7 @@ void init_pm(){
 	wakeup(p);
 }
 
-void create_user_process(int file){
-	uint32_t va, pa;
-	unsigned char *i, *vdest;
-	char buf[512];
-	Msg m;
+PCB* get_pcb(){
 	lock();
 	if(pnum >= MAXPCB_NUM){
 		panic("no pcb for more thread");
@@ -24,12 +25,25 @@ void create_user_process(int file){
 	PCB *p = &pcb[pnum];
 	p->pid = pnum++;
 	unlock();
+	return p;
+}
+
+void clean_process_addr(Msg *m, pid_t src, int req_pid){
+	m->src = src;
+	m->type = CLEAN_ADDR;
+	m->req_pid = req_pid;
+	send(MM, m);
+	receive(MM, m);
+}
+
+void create_user_process(int file){
+	uint32_t va, pa;
+	unsigned char *i, *vdest;
+	char buf[512];
+	Msg m;
+	PCB *p = get_pcb();
 	do_read(file, (uint8_t *)buf, 0, 512);
-	m.src = current->pid;
-	m.type = CLEAN_ADDR;
-	m.req_pid = p->pid;
-	send(MM, &m);
-	receive(MM, &m);
+	clean_process_addr(&m, current->pid, p->pid);
 
 	/*int j;*/
 	/*lock();*/
@@ -65,22 +79,77 @@ void create_user_process(int file){
 	p->cr3.val = 0;
 	p->cr3.page_directory_base = (p->pid * PD_SIZE) >> 12;
 	/*printk("user cr3: %x\n", p->cr3.page_directory_base);*/
-	m.src = current->pid;
-	m.type = SHARE_KERNEL_PAGE;
-	m.req_pid = p->pid;
-	m.offset = KOFFSET;
-	m.len = KMEM;
-	send(MM, &m);
-	receive(MM, &m);
+	share_kernel_page(&m, current->pid, p->pid);
 	wakeup(p);
 
 }
 
+void copy_process(PCB *father, PCB *child){
+	child->lock_cnt = father->lock_cnt;
+	child->outmost_if = father->outmost_if;
+	child->list.prev = child->list.next = NULL;
+	list_init(&child->mail);
+	create_sem(&child->mail_num, 0);
+}
+
+void copy_father_page(Msg *m, pid_t src ,pid_t father_pid, pid_t req_pid){
+	m->src = src;
+	m->type = COPY_FATHER_PAGE;
+	m->req_pid = req_pid;
+	m->offset = father_pid;
+	send(MM, m);
+	receive(MM, m);
+}
+
+void share_kernel_page(Msg *m, pid_t src, pid_t req_pid){
+	m->src = src;
+	m->type = SHARE_KERNEL_PAGE;
+	m->req_pid = req_pid;
+	m->offset = KOFFSET;
+	m->len = KMEM;
+	send(MM, m);
+	receive(MM, m);
+}
+
 static void pm(void){
 	/*create_user_process(0);*/
-	/*create_user_process(2);*/
+	create_user_process(2);
+	Msg m;
 	while(1){
-
+		receive(ANY, &m);
+		if(m.type == FORK_PROCESS){
+			Msg m2;
+			pid_t father_pid = m.src, child_pid;
+			PCB *child = get_pcb(), *father = &pcb[father_pid];
+			child_pid = child->pid;
+			TrapFrame *ftf = m.buf;
+			copy_process(father, child);
+			clean_process_addr(&m2, current->pid, child_pid);
+			copy_father_page(&m2, current->pid, father_pid, child_pid);
+			share_kernel_page(&m2, current->pid, child_pid);
+			child->cr3.val = 0;
+			child->cr3.page_directory_base = (child_pid * PD_SIZE) >> 12;
+			off_t offset = (uint32_t)((PCB *)0 + 1) * (child_pid - father_pid);
+			TrapFrame *ptf = (TrapFrame *)((char *)ftf + offset);
+			uint32_t stack_len = (uint32_t)(father->kstack) + KSTACK_SIZE - (uint32_t)ftf;
+			copy_mem((char *)ptf, (char *)ftf, stack_len);
+			uint32_t *ebp = &ftf->ebp;
+			while(*ebp != 0){
+				*(uint32_t *)((uint32_t)ebp + offset) = *ebp + offset;
+				ebp = (uint32_t *)(*ebp);
+			}
+			/*assert(0);*/
+			*(uint32_t *)((uint32_t)ebp + offset) = 0;
+			child->tf = ptf;
+			ptf->eax = 0;
+			wakeup(child);
+			int dest = m.src;
+			m.src = current->pid;
+			m.ret = child_pid;
+			send(dest, &m);
+		}else{
+			assert(0);
+		}
 	}
 }
 

@@ -5,6 +5,7 @@
 #define SHARE_KERNEL_PAGE -4
 #define CLEAN_ADDR -5
 #define FORK_PROCESS -6
+#define COPY_FATHER_PAGE -7
 
 size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
 

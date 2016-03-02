@@ -62,6 +62,8 @@ void wakeup(PCB *p){
 
 void
 init_proc() {
+	/*off_t offset = (uint32_t)(char *)((PCB *)0 + 1);*/
+	/*printk("%d\n", offset);*/
 	list_init(&ready);
 	list_add_before(&ready, &idle.list);
 	/*wakeup(create_kthread(read_file));*/

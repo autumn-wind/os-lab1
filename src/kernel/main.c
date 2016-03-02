@@ -66,7 +66,6 @@ os_init_cont(void) {
 	out_byte(PORT_TIME    , count / 256);
 
 	init_management();
-
 	sti();
 
 	/* This context now becomes the idle process. */

@@ -5,6 +5,8 @@
 
 #define KOFFSET 0xC0000000
 
+void copy_mem(char *dest, char *src, size_t len);
+
 inline CR3* get_kcr3();
 inline PDE* get_kpdir();
 inline PTE* get_kptable();
