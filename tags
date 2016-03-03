@@ -7,6 +7,8 @@
 ANY	include/process.h	9;"	d
 ASFLAGS	Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	fork/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
+ASFLAGS	fork_exec_exit/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
+ASFLAGS	puts_exit/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test0/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test1/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test2/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
@@ -17,6 +19,8 @@ CBUF_SZ	src/kernel/drivers/tty/term.h	35;"	d
 CBUF_SZ	src/kernel/drivers/tty/tty.h	8;"	d
 CC	Makefile	/^CC      = gcc$/;"	m
 CC	fork/Makefile	/^CC      = gcc$/;"	m
+CC	fork_exec_exit/Makefile	/^CC      = gcc$/;"	m
+CC	puts_exit/Makefile	/^CC      = gcc$/;"	m
 CC	test0/Makefile	/^CC      = gcc$/;"	m
 CC	test1/Makefile	/^CC      = gcc$/;"	m
 CC	test2/Makefile	/^CC      = gcc$/;"	m
@@ -25,6 +29,8 @@ CC	test_exec/Makefile	/^CC      = gcc$/;"	m
 CC	test_fork/Makefile	/^CC      = gcc$/;"	m
 CFILES	Makefile	/^CFILES  = $(shell find src\/ -name "*.c")$/;"	m
 CFILES	fork/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
+CFILES	fork_exec_exit/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
+CFILES	puts_exit/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test0/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test1/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test2/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
@@ -33,6 +39,8 @@ CFILES	test_exec/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test_fork/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFLAGS	Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	fork/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
+CFLAGS	fork_exec_exit/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
+CFLAGS	puts_exit/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test0/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test1/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test2/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
@@ -60,6 +68,7 @@ Device	include/hal.h	/^typedef struct Device {$/;"	s
 ELFHeader	boot/boot.h	/^struct ELFHeader {$/;"	s
 ELFHeader	include/management.h	/^struct ELFHeader {$/;"	s
 EXEC_PROCESS	include/management.h	9;"	d
+EXIT_PROCESS	include/management.h	11;"	d
 FM	include/management.h	/^pid_t FM, PM, MM;$/;"	v
 FM	src/kernel/management/fm.c	/^pid_t FM;$/;"	v
 FORK_PROCESS	include/management.h	7;"	d
@@ -111,6 +120,8 @@ LBUF_SZ	src/kernel/drivers/tty/term.h	34;"	d
 LBUF_SZ	src/kernel/drivers/tty/tty.h	7;"	d
 LD	Makefile	/^LD      = ld$/;"	m
 LD	fork/Makefile	/^LD      = ld$/;"	m
+LD	fork_exec_exit/Makefile	/^LD      = ld$/;"	m
+LD	puts_exit/Makefile	/^LD      = ld$/;"	m
 LD	test0/Makefile	/^LD      = ld$/;"	m
 LD	test1/Makefile	/^LD      = ld$/;"	m
 LD	test2/Makefile	/^LD      = ld$/;"	m
@@ -119,6 +130,8 @@ LD	test_exec/Makefile	/^LD      = ld$/;"	m
 LD	test_fork/Makefile	/^LD      = ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	fork/Makefile	/^LDFLAGS = -melf_i386$/;"	m
+LDFLAGS	fork_exec_exit/Makefile	/^LDFLAGS = -melf_i386$/;"	m
+LDFLAGS	puts_exit/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test0/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test1/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test2/Makefile	/^LDFLAGS = -melf_i386$/;"	m
@@ -154,6 +167,8 @@ NR_TTY	src/kernel/drivers/tty/tty.h	4;"	d
 NULL	include/const.h	7;"	d
 OBJS	Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	fork/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
+OBJS	fork_exec_exit/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
+OBJS	puts_exit/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test0/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test1/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test2/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
@@ -205,6 +220,8 @@ SELECTOR_USER	include/x86/memory.h	25;"	d
 SERIAL_PORT	src/lib/serial.c	3;"	d	file:
 SFILES	Makefile	/^SFILES  = $(shell find src\/ -name "*.S")$/;"	m
 SFILES	fork/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
+SFILES	fork_exec_exit/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
+SFILES	puts_exit/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test0/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test1/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test2/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
@@ -212,13 +229,21 @@ SFILES	test3/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test_exec/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test_fork/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SHARE_KERNEL_PAGE	include/management.h	5;"	d
+SYS_exec	fork_exec_exit/syscall.c	3;"	d	file:
+SYS_exec	puts_exit/syscall.c	3;"	d	file:
 SYS_exec	src/kernel/irq/irq_handle.c	18;"	d	file:
 SYS_exec	test_exec/syscall.c	3;"	d	file:
+SYS_exit	puts_exit/syscall.c	4;"	d	file:
+SYS_exit	src/kernel/irq/irq_handle.c	19;"	d	file:
 SYS_fork	fork/syscall.c	2;"	d	file:
+SYS_fork	fork_exec_exit/syscall.c	2;"	d	file:
+SYS_fork	puts_exit/syscall.c	2;"	d	file:
 SYS_fork	src/kernel/irq/irq_handle.c	17;"	d	file:
 SYS_fork	test_exec/syscall.c	2;"	d	file:
 SYS_fork	test_fork/syscall.c	2;"	d	file:
 SYS_puts	fork/syscall.c	1;"	d	file:
+SYS_puts	fork_exec_exit/syscall.c	1;"	d	file:
+SYS_puts	puts_exit/syscall.c	1;"	d	file:
 SYS_puts	src/kernel/irq/irq_handle.c	16;"	d	file:
 SYS_puts	test3/syscall.c	1;"	d	file:
 SYS_puts	test_exec/syscall.c	1;"	d	file:
@@ -280,7 +305,9 @@ base_31_24	include/x86/memory.h	/^	uint32_t base_31_24          : 8;$/;"	m	struc
 block	include/process.h	/^	ListHead block;		\/* blocking queue *\/$/;"	m	struct:Semaphore
 bool	include/types.h	/^typedef unsigned char  bool;$/;"	t
 bootmain	boot/main.c	/^bootmain(void) {$/;"	f
+buf	fork_exec_exit/test0.c	/^char buf[] = "Aloha!!";$/;"	v
 buf	include/process.h	/^			void *buf;$/;"	m	struct:Message::__anon2::__anon3
+buf	puts_exit/test0.c	/^char buf[] = "Aloha!!";$/;"	v
 buf	test_exec/test0.c	/^char buf[] = "Aloha!!";$/;"	v
 buf_for_args	src/kernel/management/pm.c	/^char buf_for_args[PAGE_SIZE];$/;"	v
 cache	src/kernel/drivers/ide/cache.c	/^static struct SectorCache cache[NR_SEC_CACHE];$/;"	v	typeref:struct:SectorCache	file:
@@ -356,9 +383,12 @@ es	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment regi
 esi	include/x86/memory.h	/^	uint32_t edi, esi, ebp, xxx, ebx, edx, ecx, eax;	\/\/ GPRs$/;"	m	struct:TrapFrame
 esp	include/x86/memory.h	/^	uint32_t esp, ss;									\/\/ only uses when DPL = 3$/;"	m	struct:TrapFrame
 esp0	include/x86/memory.h	/^	uint32_t esp0;$/;"	m	struct:TSS
+exec	fork_exec_exit/syscall.c	/^int exec(int file, char *args){$/;"	f
+exec	puts_exit/syscall.c	/^int exec(int file, char *args){$/;"	f
 exec	test_exec/syscall.c	/^int exec(int file, char *args){$/;"	f
 exec_cmd	test.sh	/^function exec_cmd() {$/;"	f
 exec_cmdfile	test.sh	/^function exec_cmdfile() {$/;"	f
+exit	puts_exit/syscall.c	/^int exit(){$/;"	f
 extension_type	include/x86/cpu.h	/^		uint32_t extension_type      : 1;$/;"	m	struct:CR0::__anon6
 f	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 false	include/const.h	5;"	d
@@ -372,6 +402,8 @@ flags	include/management.h	/^	unsigned int   flags;$/;"	m	struct:ELFHeader
 flags	include/management.h	/^	unsigned int flags;$/;"	m	struct:ProgramHeader
 fm	src/kernel/management/fm.c	/^static void fm(void){$/;"	f	file:
 fork	fork/syscall.c	/^int fork(){$/;"	f
+fork	fork_exec_exit/syscall.c	/^int fork(){$/;"	f
+fork	puts_exit/syscall.c	/^int fork(){$/;"	f
 fork	test_exec/syscall.c	/^int fork(){$/;"	f
 fork	test_fork/syscall.c	/^int fork(){$/;"	f
 free	src/kernel/drivers/hal.c	/^static ListHead free, devices;$/;"	v	file:
@@ -473,6 +505,8 @@ magic	include/management.h	/^	unsigned int   magic;$/;"	m	struct:ELFHeader
 mail	include/process.h	/^	ListHead mail;$/;"	m	struct:PCB
 mail_num	include/process.h	/^	Sem mail_num;$/;"	m	struct:PCB
 main	fork/test0.c	/^int main() {$/;"	f
+main	fork_exec_exit/test0.c	/^int main() {$/;"	f
+main	puts_exit/test0.c	/^int main(char *args) {$/;"	f
 main	test0/test0.c	/^int main() {$/;"	f
 main	test1/test0.c	/^int main() {$/;"	f
 main	test2/test0.c	/^int main() {$/;"	f
@@ -550,9 +584,9 @@ phoff	boot/boot.h	/^	unsigned int   phoff;$/;"	m	struct:ELFHeader
 phoff	include/management.h	/^	unsigned int   phoff;$/;"	m	struct:ELFHeader
 pid	include/hal.h	/^	pid_t pid;$/;"	m	struct:Device
 pid	include/process.h	/^	pid_t pid;$/;"	m	struct:PCB
+pid_pool	src/kernel/process/schedule.c	/^uint8_t pid_pool[MAXPCB_NUM];$/;"	v
 pid_t	include/types.h	/^typedef          int   pid_t;$/;"	t
 pm	src/kernel/management/pm.c	/^static void pm(void){$/;"	f	file:
-pnum	src/kernel/process/schedule.c	/^pid_t pnum = 0;$/;"	v
 pos	src/kernel/drivers/tty/tty.h	/^	int size, pos;$/;"	m	struct:Console
 present	include/x86/memory.h	/^		uint32_t present             : 1;$/;"	m	struct:PageDirectoryEntry::__anon4
 present	include/x86/memory.h	/^		uint32_t present             : 1;$/;"	m	struct:PageTableEntry::__anon5
@@ -567,6 +601,8 @@ privilege_level	include/x86/memory.h	/^	uint32_t privilege_level  : 2;$/;"	m	str
 protect_enable	include/x86/cpu.h	/^		uint32_t protect_enable      : 1;$/;"	m	struct:CR0::__anon6
 putc	src/kernel/drivers/tty/console.c	/^putc(Console *c, char ch) {$/;"	f	file:
 puts	fork/syscall.c	/^int puts(char *buf){$/;"	f
+puts	fork_exec_exit/syscall.c	/^int puts(char *buf){$/;"	f
+puts	puts_exit/syscall.c	/^int puts(char *buf){$/;"	f
 puts	test3/syscall.c	/^int puts(char *buf){$/;"	f
 puts	test_exec/syscall.c	/^int puts(char *buf){$/;"	f
 puts	test_fork/syscall.c	/^int puts(char *buf){$/;"	f
@@ -641,6 +677,8 @@ strcpy_from_kernel	src/lib/kcpy.c	/^void strcpy_from_kernel(PCB* pcb, char* dest
 strcpy_to_kernel	src/lib/kcpy.c	/^void strcpy_to_kernel(PCB* pcb, char* dest, char* src){$/;"	f
 strlen	src/lib/string.c	/^size_t strlen(const char *str) {$/;"	f
 syscall	fork/syscall.c	/^syscall(int id, ...) {$/;"	f
+syscall	fork_exec_exit/syscall.c	/^syscall(int id, ...) {$/;"	f
+syscall	puts_exit/syscall.c	/^syscall(int id, ...) {$/;"	f
 syscall	test3/syscall.c	/^syscall(int id, ...) {$/;"	f
 syscall	test_exec/syscall.c	/^syscall(int id, ...) {$/;"	f
 syscall	test_fork/syscall.c	/^syscall(int id, ...) {$/;"	f
@@ -700,6 +738,8 @@ write_idtr	include/x86/cpu.h	/^write_idtr(void *addr, uint32_t size) {$/;"	f
 write_protect	include/x86/cpu.h	/^		uint32_t write_protect       : 1; $/;"	m	struct:CR0::__anon6
 write_tr	include/x86/cpu.h	/^write_tr(uint16_t selector) {$/;"	f
 x	fork/test0.c	/^volatile int x = 0;$/;"	v
+x	fork_exec_exit/test0.c	/^volatile int x = 0;$/;"	v
+x	puts_exit/test0.c	/^volatile int x = 0;$/;"	v
 x	test1/test0.c	/^volatile int x = 0;$/;"	v
 x	test2/test0.c	/^volatile int x = 0;$/;"	v
 x	test3/test0.c	/^volatile int x = 0;$/;"	v

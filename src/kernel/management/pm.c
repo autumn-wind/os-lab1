@@ -111,17 +111,19 @@ uint32_t get_args_phy_addr(Msg *m, pid_t old, uint32_t addr){
 }
 
 void reclaim_resources(PCB *p){
+	lock();
 	ListHead *ptr, *temp;
 	for(ptr = p->mail.next; ptr != &p->mail; ptr = temp){
 		temp = ptr->next;
 		list_del(ptr);
 		list_add_before(&msg_pool, ptr);
 	}
+	unlock();
 }
 
 static void pm(void){
 	create_user_process(0, get_pcb(), 0);
-	create_user_process(3, get_pcb(), 0);
+	/*create_user_process(3, get_pcb(), 0);*/
 	Msg m;
 	while(1){
 		receive(ANY, &m);
@@ -170,6 +172,17 @@ static void pm(void){
 			reclaim_resources(p);
 			create_user_process(file, p, buf_for_args);
 			
+		}else if(m.type == EXIT_PROCESS){
+			lock();
+			pid_t pid = m.src;
+			PCB *p = fetch_pcb(pid);
+			reclaim_resources(p);
+			list_del(&p->list);
+			list_add_before(&pcb_pool, &p->list);
+			p->pid = -1;
+			pid_pool[pid] = 0;
+
+			unlock();
 		}else{
 			assert(0);
 		}

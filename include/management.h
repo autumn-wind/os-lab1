@@ -8,6 +8,7 @@
 #define COPY_FATHER_PAGE -7
 #define EXEC_PROCESS -8
 #define GET_ARGS_PHY_ADDR -9
+#define EXIT_PROCESS -10
 
 size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
 

@@ -2,8 +2,8 @@
 
 PCB idle, pcb[MAXPCB_NUM], *current = &idle;
 ListHead ready, msg_pool, pcb_pool;
-pid_t pnum = 0;
 Msg msgs[MAXMSG_NUM];
+uint8_t pid_pool[MAXPCB_NUM];
 
 void
 schedule(void) {

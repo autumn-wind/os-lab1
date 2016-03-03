@@ -76,7 +76,7 @@ extern void strcpy_from_kernel(PCB* pcb, char* dest, char* src);
 
 extern PCB pcb[MAXPCB_NUM], idle, *current;
 extern ListHead ready, msg_pool, pcb_pool;
-extern pid_t pnum;
 extern Msg msgs[MAXMSG_NUM];
+extern uint8_t pid_pool[MAXPCB_NUM];
  
 #endif

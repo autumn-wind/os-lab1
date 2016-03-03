@@ -16,6 +16,7 @@
 #define SYS_puts 0
 #define SYS_fork 1
 #define SYS_exec 2
+#define SYS_exit 3
 
 struct IRQ_t {
 	void (*routine)(void);
@@ -40,7 +41,6 @@ void do_syscall(TrapFrame *tf) {
 			m.src = current->pid;
 			m.type = FORK_PROCESS;
 			m.buf = tf;
-			m.dest = PM;
 			send(PM, &m);
 			receive(PM, &m);
 			tf->eax = m.ret;
@@ -50,11 +50,16 @@ void do_syscall(TrapFrame *tf) {
 			m.type = EXEC_PROCESS;
 			m.req_pid = tf->ebx;
 			m.offset = tf->ecx;
-			m.dest = PM;
 			send(PM, &m);
 			receive(PM, &m);
 			break;
-		
+		case SYS_exit:
+			m.src = current->pid;
+			m.type = EXIT_PROCESS;
+			send(PM, &m);
+			receive(PM, &m);
+			break;
+
 		/*case SYS_read:*/
 			/*...*/
 			/*send(FM, m);*/

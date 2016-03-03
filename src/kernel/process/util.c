@@ -25,7 +25,14 @@ PCB* get_pcb(){
 	ListHead *l = pcb_pool.next;
 	list_del(l);
 	PCB *p = list_entry(l, PCB, list);
-	p->pid = pnum++;
+	int i;
+	for(i = 0; i < MAXPCB_NUM; ++i){
+		if(pid_pool[i] == 0){
+			p->pid = i;
+			pid_pool[i] = 1;
+			break;
+		}
+	}
 	unlock();
 	return p;
 }
@@ -80,6 +87,7 @@ init_proc() {
 	/*wakeup(create_kthread(read_file));*/
 	list_init(&pcb_pool);
 	for(i = 0; i < MAXPCB_NUM; ++i){
+		pid_pool[i] = 0;
 		pcb[i].pid = -1;
 		list_add_before(&pcb_pool, &pcb[i].list);
 	}
