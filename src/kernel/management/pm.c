@@ -139,7 +139,8 @@ static void pm(void){
 			share_kernel_page(&m2, current->pid, child_pid);
 			child->cr3.val = 0;
 			child->cr3.page_directory_base = (child_pid * PD_SIZE) >> 12;
-			off_t offset = (uint32_t)((PCB *)0 + 1) * (child_pid - father_pid);
+			/*off_t offset = (uint32_t)((PCB *)0 + 1) * (child_pid - father_pid);   //wrong for pcb_pool!!!!*/
+			off_t offset = (uint32_t)fetch_pcb(child_pid) - (uint32_t)fetch_pcb(father_pid);
 			TrapFrame *ptf = (TrapFrame *)((char *)ftf + offset);
 			uint32_t stack_len = (uint32_t)(father->kstack) + KSTACK_SIZE - (uint32_t)ftf;
 			copy_mem((char *)ptf, (char *)ftf, stack_len);

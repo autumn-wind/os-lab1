@@ -1,5 +1,5 @@
 *.[oad]
-a.out
+*.out
 *.swp
 *.SKEL
 *.ans
@@ -7,3 +7,6 @@ a.out
 *.txt
 /boot/bootblock
 /kernel
+test0
+tags
+cscope*
