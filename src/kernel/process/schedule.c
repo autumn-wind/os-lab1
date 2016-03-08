@@ -1,4 +1,5 @@
 #include "kernel.h"
+inline void set_tss_esp0(uint32_t esp);
 
 PCB idle, pcb[MAXPCB_NUM], *current = &idle;
 ListHead ready, msg_pool, pcb_pool;
@@ -15,6 +16,9 @@ schedule(void) {
 		list_add_before(&idle.list, &current->list);
 	}
 	current = list_entry(ready.next, PCB, list);
+	/*printk("current->tf: %x\n", current->tf);*/
+	set_tss_esp0((uint32_t)current->tf + (uint32_t)( (TrapFrame *)0 + 1 ));
+	/*set_tss_esp0((uint32_t)current->tf);*/
 	assert(current != &idle);
 	write_cr3(&current->cr3);
 }

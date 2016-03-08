@@ -9,6 +9,8 @@
 #define EXEC_PROCESS -8
 #define GET_ARGS_PHY_ADDR -9
 #define EXIT_PROCESS -10
+#define GET_PAGE_DIR -11
+#define GET_STACK_PAGE -12
 
 size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
 

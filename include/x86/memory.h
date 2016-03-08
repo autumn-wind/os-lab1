@@ -114,7 +114,7 @@ typedef struct TrapFrame {
 	int32_t irq;										// #irq
 	uint32_t error_code;								// error code
 	uint32_t eip, cs, eflags;							// execution state saved by hardware
-	uint32_t ret, args;
+	//uint32_t ret, args;
 	uint32_t esp, ss;									// only uses when DPL = 3
 } TrapFrame;
 

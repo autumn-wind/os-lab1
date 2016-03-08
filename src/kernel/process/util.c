@@ -202,6 +202,8 @@ void copy_msg(Msg *d, Msg *s){
 	d->buf = s->buf;
 	d->offset = s->offset;
 	d->len = s->len;
+	d->filesz = s->filesz;
+	d->phoff = s->phoff;
 	/*d->list = s->list;*/
 }
 

@@ -1,16 +1,14 @@
 #include "syscall.h"
 
-char buf[] = "Aloha!!";
 volatile int x = 0;
+char buf[] = "Aloha!!\n";
 
 int main() {
 	while(1) {
 		if(x % 10000000 == 0) {
-			int n = fork();
-			if(n){
-				exec(1, buf);
-			}
+			puts(buf);
 		}
+ 
 		x ++;
 	}
 	return 0;

@@ -41,13 +41,15 @@ typedef struct Message {
 		int ret;
 	};
 	union {
-		int i[5];
+		int i[7];
 		struct {
 			pid_t req_pid;
 			int dev_id;
 			void *buf;
 			off_t offset;
 			size_t len;
+			size_t filesz;
+			off_t phoff;
 		};
 	};
 	ListHead list;

@@ -44,6 +44,7 @@ void do_syscall(TrapFrame *tf) {
 			send(PM, &m);
 			receive(PM, &m);
 			tf->eax = m.ret;
+			/*printk("child pid: %d\n", m.ret);*/
 			break;
 		case SYS_exec:
 			m.src = current->pid;
@@ -90,7 +91,7 @@ add_irq_handle(int irq, void (*func)(void) ) {
 void schedule();
 
 void irq_handle(TrapFrame *tf) {
-		/*printk("pid: %d\tirq: %d\teflags: %x\tcs: %x\teip: %x\n", current->pid, tf->irq, tf->eflags, tf->cs, tf->eip);*/
+	/*printk("current->tf: %x\tTrapFrame tf: %x\terror_code: %x\n", current->tf, tf, tf->error_code);printk("pid: %d\tirq: %d\teflags: %x\tcs: %x\teip: %x\tebx:%x\n\n", current->pid, tf->irq, tf->eflags, tf->cs, tf->eip, tf->ebx);*/
 	int irq = tf->irq;
 
 	if (irq < 0) {

@@ -11,6 +11,7 @@ void init_proc(void);
 void welcome(void);
 void init_driver();
 void init_management();
+void init_mem();
 
 void os_init_cont(void);
 
@@ -47,6 +48,8 @@ os_init_cont(void) {
 
 	/* Initialize the intel 8259 PIC. */
 	init_intr();
+
+	init_mem();
 
 	/* Initialize processes. You should fill this. */
 	init_proc();
