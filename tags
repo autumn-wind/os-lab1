@@ -13,6 +13,7 @@ ASFLAGS	fork_without_args/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	puts_exit/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	puts_with_args/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	puts_without_args/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
+ASFLAGS	shell_process/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test0/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test1/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
 ASFLAGS	test2/Makefile	/^ASFLAGS = -m32 -MD -I.\/include$/;"	m
@@ -26,6 +27,7 @@ CC	fork_without_args/Makefile	/^CC      = gcc$/;"	m
 CC	puts_exit/Makefile	/^CC      = gcc$/;"	m
 CC	puts_with_args/Makefile	/^CC      = gcc$/;"	m
 CC	puts_without_args/Makefile	/^CC      = gcc$/;"	m
+CC	shell_process/Makefile	/^CC      = gcc$/;"	m
 CC	test0/Makefile	/^CC      = gcc$/;"	m
 CC	test1/Makefile	/^CC      = gcc$/;"	m
 CC	test2/Makefile	/^CC      = gcc$/;"	m
@@ -37,6 +39,7 @@ CFILES	fork_without_args/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	puts_exit/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	puts_with_args/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	puts_without_args/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
+CFILES	shell_process/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test0/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test1/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
 CFILES	test2/Makefile	/^CFILES  = $(shell find . -name "*.c")$/;"	m
@@ -48,6 +51,7 @@ CFLAGS	fork_without_args/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werr
 CFLAGS	puts_exit/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	puts_with_args/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	puts_without_args/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
+CFLAGS	shell_process/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test0/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test1/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
 CFLAGS	test2/Makefile	/^CFLAGS  = -m32 -static -ggdb -MD -Wall -Werror -I.\/include -O2 \\$/;"	m
@@ -132,6 +136,7 @@ LD	fork_without_args/Makefile	/^LD      = ld$/;"	m
 LD	puts_exit/Makefile	/^LD      = ld$/;"	m
 LD	puts_with_args/Makefile	/^LD      = ld$/;"	m
 LD	puts_without_args/Makefile	/^LD      = ld$/;"	m
+LD	shell_process/Makefile	/^LD      = ld$/;"	m
 LD	test0/Makefile	/^LD      = ld$/;"	m
 LD	test1/Makefile	/^LD      = ld$/;"	m
 LD	test2/Makefile	/^LD      = ld$/;"	m
@@ -143,6 +148,7 @@ LDFLAGS	fork_without_args/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	puts_exit/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	puts_with_args/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	puts_without_args/Makefile	/^LDFLAGS = -melf_i386$/;"	m
+LDFLAGS	shell_process/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test0/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test1/Makefile	/^LDFLAGS = -melf_i386$/;"	m
 LDFLAGS	test2/Makefile	/^LDFLAGS = -melf_i386$/;"	m
@@ -181,6 +187,7 @@ OBJS	fork_without_args/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	
 OBJS	puts_exit/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	puts_with_args/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	puts_without_args/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
+OBJS	shell_process/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test0/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test1/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
 OBJS	test2/Makefile	/^OBJS    = $(CFILES:.c=.o) $(SFILES:.S=.o)$/;"	m
@@ -236,22 +243,35 @@ SFILES	fork_without_args/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	puts_exit/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	puts_with_args/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	puts_without_args/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
+SFILES	shell_process/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test0/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test1/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SFILES	test2/Makefile	/^SFILES  = $(shell find . -name "*.S")$/;"	m
 SHARE_KERNEL_PAGE	include/management.h	5;"	d
 SYS_exec	exec_file1/syscall.c	3;"	d	file:
 SYS_exec	fork_exec_exit/syscall.c	3;"	d	file:
+SYS_exec	fork_with_args/syscall.c	3;"	d	file:
 SYS_exec	puts_exit/syscall.c	3;"	d	file:
+SYS_exec	puts_with_args/syscall.c	3;"	d	file:
+SYS_exec	shell_process/syscall.c	3;"	d	file:
 SYS_exec	src/kernel/irq/irq_handle.c	18;"	d	file:
+SYS_exit	fork_with_args/syscall.c	4;"	d	file:
 SYS_exit	puts_exit/syscall.c	4;"	d	file:
+SYS_exit	puts_with_args/syscall.c	4;"	d	file:
+SYS_exit	shell_process/syscall.c	4;"	d	file:
 SYS_exit	src/kernel/irq/irq_handle.c	19;"	d	file:
 SYS_fork	exec_file1/syscall.c	2;"	d	file:
 SYS_fork	fork_exec_exit/syscall.c	2;"	d	file:
 SYS_fork	fork_with_args/syscall.c	2;"	d	file:
 SYS_fork	fork_without_args/syscall.c	2;"	d	file:
 SYS_fork	puts_exit/syscall.c	2;"	d	file:
+SYS_fork	puts_with_args/syscall.c	2;"	d	file:
+SYS_fork	shell_process/syscall.c	2;"	d	file:
 SYS_fork	src/kernel/irq/irq_handle.c	17;"	d	file:
+SYS_gets	fork_with_args/syscall.c	5;"	d	file:
+SYS_gets	puts_with_args/syscall.c	5;"	d	file:
+SYS_gets	shell_process/syscall.c	5;"	d	file:
+SYS_gets	src/kernel/irq/irq_handle.c	20;"	d	file:
 SYS_puts	exec_file1/syscall.c	1;"	d	file:
 SYS_puts	fork_exec_exit/syscall.c	1;"	d	file:
 SYS_puts	fork_with_args/syscall.c	1;"	d	file:
@@ -259,7 +279,12 @@ SYS_puts	fork_without_args/syscall.c	1;"	d	file:
 SYS_puts	puts_exit/syscall.c	1;"	d	file:
 SYS_puts	puts_with_args/syscall.c	1;"	d	file:
 SYS_puts	puts_without_args/syscall.c	1;"	d	file:
+SYS_puts	shell_process/syscall.c	1;"	d	file:
 SYS_puts	src/kernel/irq/irq_handle.c	16;"	d	file:
+SYS_waitpid	fork_with_args/syscall.c	6;"	d	file:
+SYS_waitpid	puts_with_args/syscall.c	6;"	d	file:
+SYS_waitpid	shell_process/syscall.c	6;"	d	file:
+SYS_waitpid	src/kernel/irq/irq_handle.c	21;"	d	file:
 SectorCache	src/kernel/drivers/ide/cache.c	/^struct SectorCache {$/;"	s	file:
 SegDesc	include/x86/memory.h	/^} SegDesc;$/;"	t	typeref:struct:SegmentDescriptor
 SegmentDescriptor	include/x86/memory.h	/^typedef struct SegmentDescriptor {$/;"	s
@@ -276,6 +301,7 @@ TrapFrame	include/x86/memory.h	/^typedef struct TrapFrame {$/;"	s
 TrapFrame	include/x86/memory.h	/^} TrapFrame;$/;"	t	typeref:struct:TrapFrame
 USER_STACK	include/memory.h	22;"	d
 V	src/kernel/process/util.c	/^void V(Sem *s){$/;"	f
+WAIT_PID	include/management.h	14;"	d
 WRITEBACK_TIME	src/kernel/drivers/ide/ide.c	6;"	d	file:
 __ASSERT_H__	include/assert.h	2;"	d
 __COMMON_H__	include/common.h	2;"	d
@@ -317,12 +343,13 @@ base_31_24	include/x86/memory.h	/^	uint32_t base_31_24          : 8;$/;"	m	struc
 block	include/process.h	/^	ListHead block;		\/* blocking queue *\/$/;"	m	struct:Semaphore
 bool	include/types.h	/^typedef unsigned char  bool;$/;"	t
 bootmain	boot/main.c	/^bootmain(void) {$/;"	f
-buf	exec_file1/test0.c	/^char buf[] = "Aloha!!";$/;"	v
+buf	exec_file1/test0.c	/^char buf[] = "Hello World!!";$/;"	v
 buf	fork_exec_exit/test0.c	/^char buf[] = "Aloha!!";$/;"	v
 buf	include/process.h	/^			void *buf;$/;"	m	struct:Message::__anon2::__anon3
 buf	puts_exit/test0.c	/^char buf[] = "Aloha!!";$/;"	v
 buf	puts_without_args/test0.c	/^char buf[] = "Aloha!!\\n";$/;"	v
-buf_for_args	src/kernel/management/pm.c	/^char buf_for_args[PAGE_SIZE];$/;"	v
+buf	src/kernel/irq/irq_handle.c	/^static char buf[PAGE_SIZE];$/;"	v	file:
+buf_for_args	src/kernel/management/pm.c	/^static char buf_for_args[PAGE_SIZE];$/;"	v	file:
 cache	src/kernel/drivers/ide/cache.c	/^static struct SectorCache cache[NR_SEC_CACHE];$/;"	v	typeref:struct:SectorCache	file:
 cache_disable	include/x86/cpu.h	/^		uint32_t cache_disable       : 1;$/;"	m	struct:CR0::__anon6
 cache_fetch	src/kernel/drivers/ide/cache.c	/^cache_fetch(uint32_t sector) {$/;"	f	file:
@@ -332,6 +359,7 @@ caps	src/kernel/drivers/tty/keyboard.c	/^static int caps, ctrl, alt, shft;$/;"	v
 cbuf	src/kernel/drivers/tty/tty.h	/^	char cbuf[CBUF_SZ + 1];$/;"	m	struct:Console
 clean_process_addr	src/kernel/management/pm.c	/^void clean_process_addr(Msg *m, pid_t src, uint32_t old_page_dir){$/;"	f
 cli	include/x86/cpu.h	/^cli(void) {$/;"	f
+cmd	shell_process/test0.c	/^char cmd[1024];$/;"	v
 consl_accept	src/kernel/drivers/tty/console.c	/^consl_accept(Console *c, char ch) {$/;"	f
 consl_feed	src/kernel/drivers/tty/console.c	/^consl_feed(Console *c, int key) {$/;"	f
 consl_sync	src/kernel/drivers/tty/console.c	/^consl_sync(Console *c) {$/;"	f
@@ -398,10 +426,16 @@ esp	include/x86/memory.h	/^	uint32_t esp, ss;									\/\/ only uses when DPL = 
 esp0	include/x86/memory.h	/^	uint32_t esp0;$/;"	m	struct:TSS
 exec	exec_file1/syscall.c	/^int exec(int file, char *args){$/;"	f
 exec	fork_exec_exit/syscall.c	/^int exec(int file, char *args){$/;"	f
+exec	fork_with_args/syscall.c	/^int exec(int file, char *args){$/;"	f
 exec	puts_exit/syscall.c	/^int exec(int file, char *args){$/;"	f
+exec	puts_with_args/syscall.c	/^int exec(int file, char *args){$/;"	f
+exec	shell_process/syscall.c	/^int exec(int file, char *args){$/;"	f
 exec_cmd	test.sh	/^function exec_cmd() {$/;"	f
 exec_cmdfile	test.sh	/^function exec_cmdfile() {$/;"	f
+exit	fork_with_args/syscall.c	/^int exit(){$/;"	f
 exit	puts_exit/syscall.c	/^int exit(){$/;"	f
+exit	puts_with_args/syscall.c	/^int exit(){$/;"	f
+exit	shell_process/syscall.c	/^int exit(){$/;"	f
 extension_type	include/x86/cpu.h	/^		uint32_t extension_type      : 1;$/;"	m	struct:CR0::__anon6
 f	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 false	include/const.h	5;"	d
@@ -420,6 +454,8 @@ fork	fork_exec_exit/syscall.c	/^int fork(){$/;"	f
 fork	fork_with_args/syscall.c	/^int fork(){$/;"	f
 fork	fork_without_args/syscall.c	/^int fork(){$/;"	f
 fork	puts_exit/syscall.c	/^int fork(){$/;"	f
+fork	puts_with_args/syscall.c	/^int fork(){$/;"	f
+fork	shell_process/syscall.c	/^int fork(){$/;"	f
 free	src/kernel/drivers/hal.c	/^static ListHead free, devices;$/;"	v	file:
 fs	include/x86/memory.h	/^	uint32_t gs, fs, es, ds;							\/\/ data segment registers$/;"	m	struct:TrapFrame
 gdt	boot/start.S	/^gdt:$/;"	l
@@ -437,6 +473,9 @@ get_page_dir	src/kernel/management/pm.c	/^uint32_t get_page_dir(Msg *m, pid_t sr
 get_pcb	src/kernel/process/util.c	/^PCB* get_pcb(){$/;"	f
 get_time	src/kernel/drivers/timer/timer.c	/^get_time(Time *tm) {$/;"	f
 get_user_stack	src/kernel/management/pm.c	/^uint32_t get_user_stack(Msg *m, pid_t src, uint32_t page_dir){$/;"	f
+gets	fork_with_args/syscall.c	/^int gets(char *buf){$/;"	f
+gets	puts_with_args/syscall.c	/^int gets(char *buf){$/;"	f
+gets	shell_process/syscall.c	/^int gets(char *buf){$/;"	f
 getty	src/kernel/drivers/tty/getty.c	/^getty(void) {$/;"	f
 global	include/x86/memory.h	/^		uint32_t global              : 1;$/;"	m	struct:PageTableEntry::__anon5
 granularity	include/x86/memory.h	/^	uint32_t granularity         : 1;$/;"	m	struct:SegmentDescriptor
@@ -522,13 +561,14 @@ magic	boot/boot.h	/^	unsigned int   magic;$/;"	m	struct:ELFHeader
 magic	include/management.h	/^	unsigned int   magic;$/;"	m	struct:ELFHeader
 mail	include/process.h	/^	ListHead mail;$/;"	m	struct:PCB
 mail_num	include/process.h	/^	Sem mail_num;$/;"	m	struct:PCB
-main	exec_file1/test0.c	/^int main() {$/;"	f
+main	exec_file1/test0.c	/^int main(char *args) {$/;"	f
 main	fork_exec_exit/test0.c	/^int main() {$/;"	f
 main	fork_with_args/test0.c	/^int main(char *args) {$/;"	f
 main	fork_without_args/test0.c	/^int main() {$/;"	f
 main	puts_exit/test0.c	/^int main(char *args) {$/;"	f
 main	puts_with_args/test0.c	/^int main(char *args) {$/;"	f
 main	puts_without_args/test0.c	/^int main() {$/;"	f
+main	shell_process/test0.c	/^int main() {$/;"	f
 main	test0/test0.c	/^int main() {$/;"	f
 main	test1/test0.c	/^int main() {$/;"	f
 main	test2/test0.c	/^int main() {$/;"	f
@@ -594,6 +634,7 @@ page_write_through	include/x86/memory.h	/^		uint32_t page_write_through  : 1;$/;
 page_write_through	include/x86/memory.h	/^		uint32_t page_write_through  : 1;$/;"	m	struct:PageTableEntry::__anon5
 paging	include/x86/cpu.h	/^		uint32_t paging              : 1;$/;"	m	struct:CR0::__anon6
 panic	include/assert.h	8;"	d
+parse	shell_process/test0.c	/^int parse(char *buf){$/;"	f
 pcb	src/kernel/process/schedule.c	/^PCB idle, pcb[MAXPCB_NUM], *current = &idle;$/;"	v
 pcb_pool	src/kernel/process/schedule.c	/^ListHead ready, msg_pool, pcb_pool;$/;"	v
 phentsize	boot/boot.h	/^	unsigned short phentsize;$/;"	m	struct:ELFHeader
@@ -628,12 +669,14 @@ puts	fork_without_args/syscall.c	/^int puts(char *buf){$/;"	f
 puts	puts_exit/syscall.c	/^int puts(char *buf){$/;"	f
 puts	puts_with_args/syscall.c	/^int puts(char *buf){$/;"	f
 puts	puts_without_args/syscall.c	/^int puts(char *buf){$/;"	f
+puts	shell_process/syscall.c	/^int puts(char *buf){$/;"	f
 r	src/kernel/drivers/tty/tty.h	/^	int i, f, r;$/;"	m	struct:Console
 ram_driver_thread	src/kernel/drivers/ram.c	/^ram_driver_thread(void){$/;"	f	file:
 read_byte	src/kernel/drivers/ide/cache.c	/^read_byte(uint32_t offset) {$/;"	f
 read_cr0	include/x86/cpu.h	/^read_cr0() {$/;"	f
 read_eflags	include/x86/cpu.h	/^read_eflags(void) {$/;"	f
 read_file	src/kernel/process/util.c	/^void read_file(){$/;"	f
+read_line	shell_process/test0.c	/^void read_line(char *buf){$/;"	f
 read_mbr	src/kernel/process/util.c	/^void read_mbr(){$/;"	f
 read_ram	src/kernel/process/util.c	/^void read_ram(){$/;"	f
 read_ram_request	src/kernel/drivers/ram.c	/^static void read_ram_request(Msg *m){$/;"	f	file:
@@ -704,6 +747,7 @@ syscall	fork_without_args/syscall.c	/^syscall(int id, ...) {$/;"	f
 syscall	puts_exit/syscall.c	/^syscall(int id, ...) {$/;"	f
 syscall	puts_with_args/syscall.c	/^syscall(int id, ...) {$/;"	f
 syscall	puts_without_args/syscall.c	/^syscall(int id, ...) {$/;"	f
+syscall	shell_process/syscall.c	/^syscall(int id, ...) {$/;"	f
 system	include/x86/memory.h	/^	uint32_t system           : 1;$/;"	m	struct:GateDescriptor
 task_switched	include/x86/cpu.h	/^		uint32_t task_switched       : 1;$/;"	m	struct:CR0::__anon6
 tf	include/process.h	/^	void *tf;$/;"	m	struct:PCB
@@ -713,7 +757,7 @@ token	include/process.h	/^	int token;$/;"	m	struct:Semaphore
 true	include/const.h	4;"	d
 tsc	src/kernel/drivers/tty/banner.c	/^static int tsc = 0;$/;"	v	file:
 tss	src/kernel/memory/kvm.c	/^static TSS tss; $/;"	v	file:
-tty_idx	src/kernel/drivers/tty/getty.c	/^static int tty_idx = 1;$/;"	v	file:
+tty_idx	src/kernel/drivers/tty/getty.c	/^static int tty_idx = 2;$/;"	v	file:
 ttyd	src/kernel/drivers/tty/tty.c	/^ttyd(void) {$/;"	f	file:
 ttynames	src/kernel/drivers/tty/console.c	/^static const char *ttynames[NR_TTY] = {"tty1", "tty2", "tty3", "tty4"};$/;"	v	file:
 ttys	src/kernel/drivers/tty/console.c	/^Console ttys[NR_TTY];$/;"	v
@@ -749,6 +793,9 @@ vmem	src/kernel/drivers/tty/console.c	/^static uint16_t *vmem = (void*)pa_to_va(
 w	src/kernel/drivers/tty/tty.h	/^	int w, h, wh;$/;"	m	struct:Console
 wait_intr	include/x86/cpu.h	/^wait_intr() {$/;"	f
 waitdisk	boot/main.c	/^waitdisk(void) {$/;"	f
+waitpid	fork_with_args/syscall.c	/^int waitpid(int pid){$/;"	f
+waitpid	puts_with_args/syscall.c	/^int waitpid(int pid){$/;"	f
+waitpid	shell_process/syscall.c	/^int waitpid(int pid){$/;"	f
 wakeup	src/kernel/process/util.c	/^void wakeup(PCB *p){$/;"	f
 welcome	src/kernel/main.c	/^welcome(void) {$/;"	f
 wh	src/kernel/drivers/tty/tty.h	/^	int w, h, wh;$/;"	m	struct:Console

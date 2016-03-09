@@ -17,6 +17,8 @@
 #define SYS_fork 1
 #define SYS_exec 2
 #define SYS_exit 3
+#define SYS_gets 4
+#define SYS_waitpid 5
 
 struct IRQ_t {
 	void (*routine)(void);
@@ -28,14 +30,18 @@ void do_syscall(TrapFrame *tf);
 static struct IRQ_t handle_pool[NR_IRQ_HANDLE];
 static struct IRQ_t *handles[NR_HARD_INTR];
 static int handle_count = 0;
+static char buf[PAGE_SIZE];
 
 void do_syscall(TrapFrame *tf) {
 	int id = tf->eax; // system call id
 	Msg m;
+	int n, i;
+	pid_t wait_id;
+	char *c;
  
 	switch (id) {
 		case SYS_puts:
-			printk("%scurrent process: %d\n\n", tf->ebx, current->pid);
+			printk("%s\ncurrent process: %d\n\n", tf->ebx, current->pid);
 			break;
 		case SYS_fork:
 			m.src = current->pid;
@@ -60,19 +66,30 @@ void do_syscall(TrapFrame *tf) {
 			send(PM, &m);
 			receive(PM, &m);
 			break;
-
-		/*case SYS_read:*/
-			/*...*/
-			/*send(FM, m);*/
-			/*receive(FM, m);*/
-			/*int nread = m.ret;*/
-			/*tf->eax = nread;   // return value is stored in eax*/
-			/*break;*/
-		/*case SYS_write:*/
-			/*...*/
-			/*tf->eax = nwrite;*/
-			/*break;*/
-		/*...*/
+		case SYS_gets:
+			n = dev_read("tty1", current->pid, buf, 0, PAGE_SIZE);
+			c = (char *)( tf->ebx );
+			for(i = 0; i < n; ++ i){
+				c[i] = buf[i];
+			}
+			c[n] = '\0';
+			tf->eax = n;
+			break;
+		case SYS_waitpid:
+			wait_id = tf->ebx;
+			lock();
+			if(pid_pool[wait_id] == 1){
+				m.src = current->pid;
+				m.type = WAIT_PID;
+				m.req_pid = wait_id;
+				send(PM, &m);
+				receive(PM, &m);
+				tf->eax = 1;
+			}else{
+				tf->eax = 0;
+			}
+			unlock();
+			break;
 	}
 }
 

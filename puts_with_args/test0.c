@@ -5,10 +5,10 @@ int main(char *args) {
 	while(1) {
 		if(x % 10000000 == 0) {
 			puts(args);
-			puts("Hello World!\n");
 		}
  
 		x ++;
+		exit();
 	}
 	return 0;
 }

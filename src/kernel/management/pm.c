@@ -1,6 +1,6 @@
 #include "kernel.h"
 
-char buf_for_args[PAGE_SIZE];
+static char buf_for_args[PAGE_SIZE];
 
 static void pm(void);
 TrapFrame* init_pcb(PCB *p, void *fun);
@@ -147,7 +147,14 @@ void reclaim_resources(PCB *p){
 }
 
 static void pm(void){
-	create_user_process(0, get_pcb(), 0);
+	uint8_t wait_matrix[MAXPCB_NUM][MAXPCB_NUM];
+	int i, j;
+	for(i = 0; i < MAXPCB_NUM; ++ i){
+		for(j = 0; j < MAXPCB_NUM; ++ j){
+			wait_matrix[i][j] = 0;
+		}
+	}
+	create_user_process(2, get_pcb(), 0);
 	/*create_user_process(3, get_pcb(), 0);*/
 	Msg m;
 	while(1){
@@ -180,7 +187,7 @@ static void pm(void){
 			child->tf = ptf;
 			ptf->eax = 0;
 			wakeup(child);
-			int dest = m.src;
+			pid_t dest = m.src;
 			m.src = current->pid;
 			m.ret = child_pid;
 			send(dest, &m);
@@ -217,6 +224,21 @@ static void pm(void){
 			p->pid = -1;
 			pid_pool[pid] = 0;
 
+			pid_t i;
+			for(i = 0; i < MAXPCB_NUM; ++ i){
+				if(i != pid && wait_matrix[pid][i] == 1){
+					m2.src = current->pid;
+					pid_t dest = i;
+					send(dest, &m2);
+					wait_matrix[pid][i] = 0;
+				}
+			}
+			unlock();
+		}else if(m.type == WAIT_PID){
+			pid_t waiting_process = m.src;
+			pid_t waited_process = m.req_pid;
+			lock();
+			wait_matrix[waited_process][waiting_process] = 1;
 			unlock();
 		}else{
 			assert(0);
@@ -226,7 +248,7 @@ static void pm(void){
 
 TrapFrame* init_pcb(PCB *p, void *fun){
 	TrapFrame *frame = (TrapFrame *)(p->kstack + KSTACK_SIZE) - 1; 
-	frame->ebp = 0x08048000;
+	frame->ebp = 0;
 	frame->ds = 0x23;
 	frame->es = 0x23;
 	frame->fs = 0x23;

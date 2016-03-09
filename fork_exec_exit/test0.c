@@ -7,7 +7,7 @@ int main() {
 	while(1) {
 		if(x % 10000000 == 0) {
 			int n = fork();
-			if(n){
+			if(!n){
 				exec(1, buf);
 			}
 		}

@@ -2,7 +2,7 @@
 #include "tty.h"
 #include "hal.h"
 
-static int tty_idx = 1;
+static int tty_idx = 2;
 
 void
 getty(void) {
@@ -33,7 +33,7 @@ getty(void) {
 void
 init_getty(void) {
 	int i;
-	for(i = 0; i < NR_TTY; i ++) {
+	for(i = 1; i < NR_TTY; i ++) {
 		wakeup(create_kthread(getty));
 	}
 }

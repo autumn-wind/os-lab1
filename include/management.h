@@ -11,6 +11,7 @@
 #define EXIT_PROCESS -10
 #define GET_PAGE_DIR -11
 #define GET_STACK_PAGE -12
+#define WAIT_PID	-13
 
 size_t do_read(int file_name, uint8_t *buf, off_t offset, size_t len);
 

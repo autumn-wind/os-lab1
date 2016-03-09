@@ -8,6 +8,7 @@ int main(char *args) {
 			puts(args);
 			if(n){
 				puts("Parent process is running.\n");
+				exit();
 			}else{
 				puts("Child process is running.\n");
 			}
