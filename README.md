@@ -5,13 +5,9 @@ NJU CS 2012级基础班操作系统实验 - 计算机系统基础
 os-lab1
 
 1.What
-
 implement a tiny, but with necessary functions, operating system
-
 – called Nanos, named by jyy
-
 – with a kenel, 3 drivers, 3 servers, 18 system calls
-
 from the view of bottom-up in a “terrible” development environment
 
 2.Five labs
